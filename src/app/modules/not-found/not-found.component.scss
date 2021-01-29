@@ -1,0 +1,31 @@
+.page-not-found{
+    position: relative;
+    height: 100vh;
+    .container{
+        width: 100%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
+    h1{
+        font-size: 6rem;
+        font-weight: bold;
+    }
+    h3{font-size: 2rem;line-height: normal;margin-bottom: 20px;font-weight: 600;}
+    h4{font-size: 1rem;margin-bottom: 40px;}
+}
+.back_btn{
+    padding: 10px 20px;
+    background: #e81f62;
+    border: 0;
+    font-size: 18px;
+    border-radius: 3px;
+    color: #fff;
+}
+
+.row.align-item-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

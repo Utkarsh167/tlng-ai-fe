@@ -1,0 +1,1155 @@
+<!-- <div class="parentWrapper">
+   
+    <div class="white_wrapper">
+        <div class="flex_row_sub">
+
+                
+
+            <div class="flex_col_sm_6" style="background-color: #F8F8F8;">
+
+                <div class="flex_row_sub container-fluid">
+
+                                <div class="flex_col_sm_3">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Building</mat-label>
+                                        <mat-select class="form-control" [(value)]="selectedBuilding"
+                                            (selectionChange)="getFloors($event)" placeholder="Mode">
+                                            <mat-option *ngFor="let building of locationsData; let i = index" value="{{i}}">
+                                                {{building.name}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                    <div class="flex_col_sm_2">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Floor</mat-label>
+                            <mat-select name="floor" class="form-control" [(value)]="seletedFloor"
+                                (selectionChange)="getMapData($event)" placeholder="Floor">
+                                <mat-option *ngFor="let floor of floorsData; let i = index" value="{{i}}">
+                                    {{floor.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="flex_col_sm_2">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Status</mat-label>
+                            <mat-select name="status" class="form-control" [(value)]="selectedStatus" (selectionChange)="statusFilter($event)"
+                                placeholder="Status" [ngClass]="selected">
+                                <mat-option *ngFor="let each of status" [value]="each.value">
+                                    {{each.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                </div>
+
+                <div class="flex_row_sub">
+                    <div id="imageContainer" class="container-fluid image_overflow_dash" (click)="openMapDialog()">
+                        <div *ngIf="snapShotData" id="img_container_dash" style="width: 666px;">
+                            <img src="{{IMAGE_SRC}}" width="{{imageSize.width}}" height="{{imageSize.height}}" />
+                            <div *ngFor="let each of scopeMapData; let i = index;">
+                                <div *ngIf="snapShotData[i].occupied && !withImage" class="pointer_red tooltip_dash"
+                                    [ngStyle]="{'left': (each.point.x-8)+'px', 'top': (each.point.y-6)+'px', 'background-color': snapShotData[i].color}">
+                                    <span class="tooltiptext_dash">
+                                        <div><span>Spot:&nbsp;</span> <span>{{snapShotData[i].spot_id}}</span></div>
+                                        <div><span>Status:&nbsp;</span>
+                                            <span *ngIf="snapShotData[i].occupied">Occupied</span>
+                                            <span *ngIf="!snapShotData[i].occupied">Available</span>
+
+                                        </div>
+
+                                        <div><span>Camera:&nbsp;</span> <span>{{snapShotData[i].camera_id}}</span></div>
+                                        <div><span>Duration:&nbsp;</span>
+                                            <span>{{snapShotData[i].duration | secondsToHours}}</span></div>
+                                        <div><span>Since:&nbsp;</span>
+                                            <span>{{(snapShotData[i].event_start) * 1000 | date:'fullDate'}}</span>
+                                        </div>
+
+                                    </span>
+                                </div>
+
+                                <div *ngIf="snapShotData[i].occupied && withImage" class="pointer_red tooltip_dash"
+                                    [ngStyle]="{'left': (each.center.x-8)+'px', 'top': (each.center.y-6)+'px', 'background-color': snapShotData[i].color}">
+                                    <span class="tooltiptext_dash">
+                                        <div><span>Spot:&nbsp;</span> <span>{{snapShotData[i].spot_id}}</span></div>
+                                        <div><span>Status:&nbsp;</span>
+                                            <span *ngIf="snapShotData[i].occupied">Occupied</span>
+                                            <span *ngIf="!snapShotData[i].occupied">Available</span>
+                                        </div>
+
+                                        <div><span>Camera:&nbsp;</span> <span>{{snapShotData[i].camera_id}}</span></div>
+                                        <div><span>Duration:&nbsp;</span>
+                                            <span>{{snapShotData[i].duration | secondsToHours}}</span></div>
+                                        <div><span>Since:&nbsp;</span>
+                                            <span>{{(snapShotData[i].event_start) * 1000 | date:'fullDate'}}</span>
+                                        </div>
+
+
+                                    </span>
+                                </div>
+
+                                <div *ngIf="!snapShotData[i].occupied && !withImage" class="pointer_green tooltip_dash"
+                                    [ngStyle]="{'left': (each.point.x-8)+'px', 'top': (each.point.y-6)+'px', 'background-color': snapShotData[i].color}">
+
+                                    <span class="tooltiptext_dash">
+                                        <div><span>Spot:&nbsp;</span> <span>{{snapShotData[i].spot_id}}</span></div>
+                                        <div><span>Status:&nbsp;</span>
+                                            <span *ngIf="snapShotData[i].occupied">Occupied</span>
+                                            <span *ngIf="!snapShotData[i].occupied">Available</span>
+                                        </div>
+                                        <div><span>Camera:&nbsp;</span> <span>{{snapShotData[i].camera_id}}</span></div>
+                                    </span>
+                                </div>
+
+                                <div *ngIf="!snapShotData[i].occupied && withImage" class="pointer_green tooltip_dash"
+                                    [ngStyle]="{'left': (each.center.x-8)+'px', 'top': (each.center.y-6)+'px', 'background-color': snapShotData[i].color}">
+
+                                    <span class="tooltiptext_dash">
+                                        <div><span>Spot:&nbsp;</span> <span>{{snapShotData[i].spot_id}}</span></div>
+                                        <div><span>Status:&nbsp;</span>
+                                            <span *ngIf="snapShotData[i].occupied">Occupied</span>
+                                            <span *ngIf="!snapShotData[i].occupied">Available</span>
+                                        </div>
+                                        <div><span>Camera:&nbsp;</span> <span>{{snapShotData[i].camera_id}}</span></div>
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="flex_row_sub margin_top_20">
+                    <div class="flex_col_sm_2" *ngFor="let each of durationColors">
+                        <div class="pointer_colors" [ngStyle]="{'background-color': each.color}"></div>
+                        <div *ngIf="each.end == 0">Available</div>
+                        <div *ngIf="each.end == 300">0-5 min</div>
+                        <div *ngIf="each.end == 900">5-15 min</div>
+                        <div *ngIf="each.end == 3600">15 min-1 hour</div>
+                        <div *ngIf="each.end == 10800">1 hour-3 hour</div>
+                        <div *ngIf="each.start == 10800">> 3 hour</div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex_col_sm_6" style="background-color: #F8F8F8;">
+                    <h1 style="padding: 10px; font-size: 25px; margin-left: 5 px;">{{locationsData[selectedBuilding].name}}</h1>
+                <div class="flex_row_sub">
+
+                    <div class="flex_col_sm_10">
+
+                        <mat-card style="padding: 3%;">
+                                <mat-card-header>
+                                        <mat-card-title>OVERALL FLOORS DATA</mat-card-title>
+                                      </mat-card-header>
+                                      <mat-divider style="position: relative !important;"></mat-divider>
+                            <mat-card-content>
+                            <div class="flex_row_sub image_overflow_dash" *ngIf="overallOccupiedCount.length != 0">
+
+                                <div *ngFor="let each of floorsData; let i = index" class="flex_col_sm_4">
+                                    <div class="flex_row_sub">
+                                        <h5 class="text-center">{{each.name}} ({{overallOccupiedCount[i]}}/{{overallTotalCount[i]}})</h5>
+                                    </div>
+                                    <div class="flex_row_sub">
+                                        <span class="text-center">
+                                            <circle-progress
+                                            [percent]="(overallOccupiedCount[i]*100)/overallTotalCount[i]"
+                                            [radius]="50" [outerStrokeWidth]="10" [innerStrokeWidth]="8"
+                                            [outerStrokeColor]="'#4882c2'" [innerStrokeColor]="'#e7e8ea'"
+                                            [animation]="true" [animationDuration]="300"
+                                            [showTitle]="true" [showUnits]="true" >
+                                        </circle-progress>
+                                        </span>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </mat-card-content>
+                        </mat-card>
+
+                    </div>
+                </div>
+
+                <div class="flex_row_sub">
+
+                    <div class="flex_col_sm_10">
+                        <mat-card>
+                            <div class="flex_row_sub">
+
+                                <div class="flex_col_sm_6">
+                                    <div class="flex_row_sub">
+
+                                        <span class="text-center">
+                                            <mat-icon><b>person_add_alt_1</b></mat-icon>
+                                        </span>
+                                    </div>
+                                    <div class="flex_row_sub">
+                                        <span class="text-center"
+                                            *ngIf="manualEntriesCount"><b>{{manualEntriesCount}}</b> Manual
+                                            Entries</span>
+                                        <span class="text-center" *ngIf="!manualEntriesCount"><b>0</b> Manual
+                                            Entries</span>
+
+                                    </div>
+
+
+                                </div>
+                                <div class="flex_col_sm_6">
+                                    <div class="flex_row_sub">
+                                        <span class="text-center" *ngIf="guestCount"> {{guestCount}} Guests</span>
+                                        <span class="text-center" *ngIf="!guestCount"> 0 Guests</span>
+
+                                    </div>
+                                    <div class="flex_row_sub">
+                                        <span class="text-center" *ngIf="employeeCount">{{employeeCount}}
+                                            Employees</span>
+                                        <span class="text-center" *ngIf="!employeeCount">0 Employees</span>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </mat-card>
+                    </div>
+                </div>
+
+                <div class="row">       
+                        <div class="col-12 col-lg-6 col-xl">
+                          <div class="card">
+                            <div class="card-body">
+                              <div class="row align-items-center">
+                                <div class="col">
+                                  <h6 class="card-title text-uppercase text-muted mb-2">
+                                    Responses
+                                  </h6>
+                                  <span class="h2 mb-0">
+                                    {{noOfResponses}}                             </span>
+                                  <span class="badge badge-soft-success mt-n1">
+                                    +3.5%
+                                  </span>
+                                </div>
+                                <div class="col-auto">
+                                  <span class="h2 fe fe-message-square text-muted mb-0"></span>
+                                </div>
+                              </div> 
+                            </div>
+                          </div>
+                        </div>
+    
+                        <div class="col-12 col-lg-6 col-xl">
+                         
+                          <div class="card">
+                            <div class="card-body">
+                              <div class="row align-items-center">
+                                <div class="col">
+                                 
+                                  <h6 class="card-title text-uppercase text-muted mb-2">
+                                    Respondents
+                                  </h6>
+                                 
+                                  <span class="h2 mb-0">
+                                    {{noOfRespondents}}                             </span>
+                                 
+                                  <span class="badge badge-soft-success mt-n1">
+                                    +3.5%
+                                  </span>
+                                </div>
+                                <div class="col-auto">
+                                  
+                                  <span class="h2 fe fe-users text-muted mb-0"></span>
+                                </div>
+                              </div> 
+                            </div>
+                          </div>
+                        </div>
+    
+                        <div class="col-12 col-lg-6 col-xl">
+                          
+                          <div class="card">
+                            <div class="card-body">
+                              <div class="row align-items-center">
+                                <div class="col">
+                                  
+                                  <h6 class="card-title text-uppercase text-muted mb-2">
+                                    Areas
+                                  </h6>
+                                 
+                                  <span class="h2 mb-0">
+                                    {{noOfAreas}}                              </span>
+                                 
+                                  <span class="badge badge-soft-success mt-n1">
+                                    +3.5%
+                                  </span>
+                                </div>
+                                <div class="col-auto">
+                                
+                                  <span class="h2 fe fe-home text-muted mb-0"></span>
+                                </div>
+                              </div> 
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                <div class="flex_row_sub">
+
+                    <div class="flex_col_sm_10">
+                        <mat-card style="padding: 3%;">
+                            <mat-card-header>
+                                <mat-icon><b>schedule</b></mat-icon>
+                                <mat-card-title>
+                                    Occupancy Variation
+                                </mat-card-title>
+                            </mat-card-header>
+                            <mat-divider style="position: relative !important;"></mat-divider>
+                            <mat-card-content>
+                                    <div class="flex_row_sub" *ngIf="dataWeekly.length != 0">
+                                            <div class="flex_col_sm_6">
+                                                <div class="flex_row_sub" style="font-size: 16px;">Maximum at
+                                                    {{dataWeekly[dataWeekly.length-1].timestamp*1000 | date:'mediumTime'}}</div>
+            
+                                                <div class="flex_row_sub">
+            
+                                                    <progress-bar class="progress_bar"
+                                                        [progress]="dataWeekly[dataWeekly.length-1].avg_occupancy"
+                                                        [color-degraded]="{'0': '#488aff',  '40': '#f9cec3', '80': '#fd8c8e'}">
+                                                    </progress-bar>
+            
+                                                </div>
+                                                <div class="flex_row_sub" style="font-size: 16px;">Minimum at
+                                                    {{dataWeekly[0].timestamp*1000 | date:'mediumTime'}}</div>
+            
+                                                <div class="flex_row_sub">
+            
+                                                    <progress-bar class="progress_bar" [progress]="dataWeekly[0].avg_occupancy"
+                                                    [color-degraded]="{'0': '#488aff',  '40': '#f9cec3', '80': '#fd8c8e'}">
+                                                    </progress-bar>
+                                                </div>
+                                            </div>
+                                        </div>
+                            </mat-card-content>
+                            
+                           
+                        </mat-card>
+                    </div>
+                </div>
+
+                <div class="flex_row_sub">
+                    <div class="flex_col_sm_6">
+                        <mat-card>
+                            <div class="flex_row_sub">
+
+                                <div class="flex_col_sm_6">
+                                    <div class="flex_row_sub">
+
+                                        <span class="text-center">
+                                            <mat-icon><b>directions_car</b></mat-icon>
+                                        </span>
+                                    </div>
+                                    <div class="flex_row_sub"><span class="text-center"><b>Most Occupied Spot</b></span>
+                                    </div>
+
+
+                                </div>
+                                <div class="flex_col_sm_6 vertical-container-card">
+                                    <div class="flex_row_sub vertical-center"><span class="text-center"
+                                            style="font-size: 32px;">
+                                            {{mostOccupiedResult}}</span></div>
+
+                                </div>
+                            </div>
+                        </mat-card>
+                    </div>
+                    <div class="flex_col_sm_6">
+                        <mat-card>
+                            <div class="flex_row_sub">
+
+                                <div class="flex_col_sm_6">
+                                    <div class="flex_row_sub">
+
+                                        <span class="text-center">
+                                            <mat-icon><b>directions_car</b></mat-icon>
+                                        </span>
+                                    </div>
+                                    <div class="flex_row_sub"><span class="text-center"><b>Least Occupied
+                                                Spot</b></span>
+                                    </div>
+
+
+                                </div>
+                                <div class="flex_col_sm_6 vertical-container-card">
+                                    <div class="flex_row_sub vertical-center"><span class="text-center"
+                                            style="font-size: 32px;">
+                                            {{leastOccupiedResult}}</span></div>
+
+                                </div>
+                            </div>
+                        </mat-card>
+                    </div>
+                </div>
+                
+
+
+            </div>
+        </div>
+
+        <div class="flex_row_sub">
+
+            <div class="flex_col_sm_6">
+                <mat-card style="padding: 3%;">
+                    <mat-card-header>
+                            <mat-card-title>Occupancy Variation</mat-card-title>  
+                            <mat-icon style="margin-left: auto; cursor: pointer;" (click)="downloadOccupancyData()">cloud_download</mat-icon>  
+                    </mat-card-header>
+
+                  
+                    <mat-card-content>
+                            <div class="col-md-6" [chart]="occupancyChart"></div>
+                    </mat-card-content>
+                </mat-card>
+                    
+            </div>
+
+            <div class="flex_col_sm_6">
+                    <mat-card style="padding: 3%;">
+                            <mat-card-header>
+                                    <mat-card-title>In Out Variation</mat-card-title> 
+                            <mat-icon style="margin-left: auto; cursor: pointer;" (click)="downloadInflowOutflowData()">cloud_download</mat-icon>  
+                            </mat-card-header>
+        
+                           
+                            <mat-card-content>
+                                    <div class="col-md-6" [chart]="inOutChart" ></div>
+                                </mat-card-content>
+                        </mat-card>
+                    
+                  
+            </div>
+
+        
+
+        
+            
+
+        </div>
+        <div class="flex_row">
+            <div class="flex_col_sm_10">
+                <mat-card>
+                    <mat-card-header>
+                        <mat-card-title>
+                                Manual Entries (Today)
+                        </mat-card-title>
+                    </mat-card-header>
+
+                    <mat-card-content>
+                            <table mat-table [dataSource]="datas" matSort (matSortChange)="sortData($event)"
+                            class="mat-elevation-z8">
+                            <ng-container matColumnDef="position">
+                                <th mat-header-cell *matHeaderCellDef>No.</th>
+                                <td mat-cell *matCellDef="let element; let i = index">
+                                    {{ getSerialNumber(i + 1) }}
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="numPlate">
+                                <th mat-header-cell *matHeaderCellDef>No. Plate</th>
+                                <td mat-cell *matCellDef="let element">
+                                    <span
+                                        *ngIf="element.vehicleId">{{ element.vehicleDetails.regNo | checkNull }}</span>
+                                    <span *ngIf="!element.vehicleId">{{ element.vehicleInfo.regNo | checkNull }}</span>
+
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="inTime">
+                                <th mat-header-cell *matHeaderCellDef>In Time</th>
+                                <td mat-cell *matCellDef="let element">
+
+                                    {{ element.inTime | date: 'short' }}
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="userType">
+                                <th mat-header-cell *matHeaderCellDef>Entry Type</th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.entryType | checkNull }}
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="userName">
+                                <th mat-header-cell *matHeaderCellDef>User Name</th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.name | checkNull }}
+                                </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                        </table>
+                        <div class="white_wrapper" *ngIf="total === 0">
+                                <h2 class="not-found">No Data Found</h2>
+                            </div>
+                            <div class="white_wrapper" *ngIf="datas.data.length">
+                                <mat-paginator [length]="total" [pageIndex]="page - 1" [pageSize]="pageSize"
+                                    [pageSizeOptions]="pageOptions" (page)="changePage($event)">
+                                </mat-paginator>
+                            </div>
+                    </mat-card-content>
+                </mat-card>
+                
+            </div>
+        </div>
+
+</div>
+
+</div> -->
+<div class="main-content complete-align">
+  <div class="row">
+    <div class="col-12 col-lg-6 col-xl">
+      <label  style="font-size: 25px !important;font-weight: 100 !important;">
+        DashBoard
+      </label>
+  </div>
+      <div class="col-sm-4 col-md-6 col-lg-4 col-xl-4 text-right">
+        <h4 style="margin-bottom: 0 !important; margin-top: 8px;">{{currentTimestamp * 1000 | date: 'MMM d, y, h:mm a'}}</h4>
+        </div>
+  </div>
+<div class="row" style="margin-top: 2%;">
+    <div class="col-12 col-lg-6 col-xl">
+      <div class="card">
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="col">
+  
+              <!-- Title -->
+              <h3 class="card-title  text-muted mb-3">
+                <b>Total Buildings</b>
+              </h3>
+              
+              <!-- Heading -->
+              <span class="h3 mb-0">
+                {{cardData.building}}
+              </span>
+  
+            </div>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-lg-6 col-xl">
+      <div class="card">
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="col">
+  
+              <!-- Title -->
+              <h3 class="card-title  text-muted mb-3">
+                <b>Total Floors</b>
+              </h3>
+              
+              <!-- Heading -->
+              <span class="h3 mb-0">
+                {{cardData.floors}}
+              </span>
+  
+            </div>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-6 col-xl">
+      <div class="card">
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="col">
+  
+              <!-- Title -->
+              <h3 class="card-title  text-muted mb-3">
+                <b>Total Spots</b>
+              </h3>
+              
+              <!-- Heading -->
+              <span class="h3 mb-0">
+                <!-- {{cardData.spots}} -->
+                <!-- 95 -->
+                6
+              </span>
+  
+            </div>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-6 col-xl">
+      <div class="card">
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="col">
+  
+              <!-- Title -->
+              <h3 class="card-title  text-muted mb-3">
+                <b>Total Employees</b>
+              </h3>
+              
+              <!-- Heading -->
+              <span class="h3 mb-0">
+                {{cardData.employees}}
+              </span>
+  
+            </div>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-lg-6 col-xl">
+      <div class="card">
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="col">
+  
+              <!-- Title -->
+              <h3 class="card-title  text-muted mb-3">
+                <b>Total Vehicles</b>
+              </h3>
+              
+              <!-- Heading -->
+              <span class="h3 mb-0">
+                {{cardData.vehicles}}
+              </span>
+  
+            </div>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-lg-6 col-xl">
+      <div class="card">
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="col">
+  
+              <!-- Title -->
+              <h3 class="card-title  text-muted mb-3">
+                <b>Total Entries</b>
+              </h3>
+              
+              <!-- Heading -->
+              <span class="h3 mb-0">
+                {{cardData.entryLog}}
+              </span>
+  
+            </div>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+   
+
+</div>
+<div class="row">
+    <div class="col-12 col-lg-6 col-xl">
+        <div class="mb-2">
+            <label style="margin-bottom: 0;">STATUS</label>
+          <select name="status" class="form-control" [(ngModel)]="selectedStatus" (change)="statusFilter($event.target.value)" data-toggle="select" data-options='{"minimum-results-for-search": -1}' [ngClass]="selected">
+            <option *ngFor="let each of status" [value]="each.value">
+              {{each.viewValue}}
+            </option>
+          </select>
+        </div>
+      </div>
+    <div class="col-12 col-lg-6 col-xl"></div>
+    <div class="col-12 col-lg-6 col-xl"></div>
+  <div class="col-12 col-lg-6 col-xl">
+    <div class="mb-2">
+      <label style="margin-bottom: 0;">BUILDING</label>
+      <select [(ngModel)]="selectedBuilding" (change)="getFloors($event.target.value)" class="form-control" data-toggle="select" data-options='{"minimum-results-for-search": -1}'>
+        <option *ngFor="let building of locationsData; let i = index" value="{{i}}">
+          {{building.name}}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="col-12 col-lg-6 col-xl">
+    <div class="mb-2">
+        <label style="margin-bottom: 0;">FLOOR</label>
+      <select name="floor" class="form-control" [(ngModel)]="seletedFloor" (change)="getMapData($event.target.value)" data-toggle="select" data-options='{"minimum-results-for-search": -1}'>
+        <option *ngFor="let floor of floorsData; let i = index" value="{{i}}">
+          {{floor.name}}
+        </option>
+      </select>
+    </div>
+  </div>
+ 
+ 
+  <div class="col-12 col-lg-6 col-xl"></div>
+</div>
+<div class="row" style="margin-top: 2%;">
+  <div class="col-12 col-lg-6 col-xl-6" >
+
+   <div class="card">
+    
+    <div class="card-body">
+      <div class="row">
+          <div class="col-12 col-lg-6 col-xl">
+              <h3 class="card-title mb-4">
+                <b>Floor Map</b>
+              </h3>
+                </div>
+
+                <!-- <div class="col-12 col-lg-6 col-xl" style="padding-left: 45%;">
+                    <div class="mb-2">
+                        <label style="margin-bottom: 0;">STATUS</label>
+                      <select name="status" class="form-control" [(ngModel)]="selectedStatus" (change)="statusFilter($event.target.value)" data-toggle="select" data-options='{"minimum-results-for-search": -1}' [ngClass]="selected">
+                        <option *ngFor="let each of status" [value]="each.value">
+                          {{each.viewValue}}
+                        </option>
+                      </select>
+                    </div>
+                  </div> -->
+      </div>
+      
+      
+      <!-- Changing from /5*2 to nothing  -->
+      <div style="margin-top: 5px;" id="imageContainer"(click)="openMapDialog()">
+        <div *ngIf="snapShotData" id="img_container_dash" style="width: 666px;">
+            <img src="{{IMAGE_SRC}}" width="{{imageSize.width}}" height="{{imageSize.height}}" />
+            <div *ngFor="let each of scopeMapData; let i = index;">
+                <div *ngIf="snapShotData[i].occupied && !withImage" class="pointer_red tooltip_dash"
+                    [ngStyle]="{'left': ((each.point.x)-8)+'px', 'top': ((each.point.y)-6)+'px', 'background-color': snapShotData[i].color}">
+                    <span class="tooltiptext_dash">
+                        <div><span>Spot:&nbsp;</span> <span>{{snapShotData[i].spot_id}}</span></div>
+                        <div><span>Status:&nbsp;</span>
+                            <span *ngIf="snapShotData[i].occupied">Occupied</span>
+                            <span *ngIf="!snapShotData[i].occupied">Available</span>
+  
+                        </div>
+  
+                        <div><span>Camera:&nbsp;</span> <span>{{snapShotData[i].camera_id}}</span></div>
+                        <div><span>Duration:&nbsp;</span>
+                            <span>{{snapShotData[i].duration | secondsToHours}}</span></div>
+                        <div><span>Since:&nbsp;</span>
+                            <span>{{(snapShotData[i].event_start) * 1000 | date:'fullDate'}}</span>
+                        </div>
+  
+                    </span>
+                </div>
+  
+                <div *ngIf="snapShotData[i].occupied && withImage" class="pointer_red tooltip_dash"
+                    [ngStyle]="{'left': (each.center.x-8)+'px', 'top': (each.center.y-6)+'px', 'background-color': snapShotData[i].color}">
+                    <span class="tooltiptext_dash">
+                        <div><span>Spot:&nbsp;</span> <span>{{snapShotData[i].spot_id}}</span></div>
+                        <div><span>Status:&nbsp;</span>
+                            <span *ngIf="snapShotData[i].occupied">Occupied</span>
+                            <span *ngIf="!snapShotData[i].occupied">Available</span>
+                        </div>
+  
+                        <div><span>Camera:&nbsp;</span> <span>{{snapShotData[i].camera_id}}</span></div>
+                        <div><span>Duration:&nbsp;</span>
+                            <span>{{snapShotData[i].duration | secondsToHours}}</span></div>
+                        <div><span>Since:&nbsp;</span>
+                            <span>{{(snapShotData[i].event_start) * 1000 | date:'fullDate'}}</span>
+                        </div>
+  
+  
+                    </span>
+                </div>
+  
+                <div *ngIf="!snapShotData[i].occupied && !withImage" class="pointer_green tooltip_dash"
+                    [ngStyle]="{'left': ((each.point.x)-8)+'px', 'top': ((each.point.y)-6)+'px', 'background-color': snapShotData[i].color}">
+                    <!-- [ngStyle]="{'left': (each.point.x-8)+'px', 'top': (each.point.y-6)+'px', 'background-color': snapShotData[i].color}"> -->
+  
+                    <span class="tooltiptext_dash">
+                        <div><span>Spot:&nbsp;</span> <span>{{snapShotData[i].spot_id}}</span></div>
+                        <div><span>Status:&nbsp;</span>
+                            <span *ngIf="snapShotData[i].occupied">Occupied</span>
+                            <span *ngIf="!snapShotData[i].occupied">Available</span>
+                        </div>
+                        <div><span>Camera:&nbsp;</span> <span>{{snapShotData[i].camera_id}}</span></div>
+                    </span>
+                </div>
+  
+                <div *ngIf="!snapShotData[i].occupied && withImage" class="pointer_green tooltip_dash"
+                    [ngStyle]="{'left': (each.center.x-8)+'px', 'top': (each.center.y-6)+'px', 'background-color': snapShotData[i].color}">
+  
+                    <span class="tooltiptext_dash">
+                        <div><span>Spot:&nbsp;</span> <span>{{snapShotData[i].spot_id}}</span></div>
+                        <div><span>Status:&nbsp;</span>
+                            <span *ngIf="snapShotData[i].occupied">Occupied</span>
+                            <span *ngIf="!snapShotData[i].occupied">Available</span>
+                        </div>
+                        <div><span>Camera:&nbsp;</span> <span>{{snapShotData[i].camera_id}}</span></div>
+                    </span>
+                </div>
+            </div>
+  
+        </div>
+  
+    </div>
+    </div>
+
+    <div class="flex_row_sub margin_top_20">
+      <div class="flex_col_sm_2" *ngFor="let each of durationColors">
+        <div class="pointer_colors" [ngStyle]="{'background-color': each.color}"></div>
+        <div *ngIf="each.end == 0">Available</div>
+        <div *ngIf="each.end == 300">0-5 min</div>
+        <div *ngIf="each.end == 900">5-15 min</div>
+        <div *ngIf="each.end == 3600">15 min-1 hour</div>
+        <div *ngIf="each.end == 10800">1 hour-3 hour</div>
+        <div *ngIf="each.start == 10800">> 3 hour</div>
+
+      </div>
+    </div>
+   </div>
+  
+  </div>
+  <div  class="col-12 col-lg-6 col-xl-6" >
+    <h3 class="card-title mb-4">
+      <b>Real Time Parking Status</b>
+    </h3>
+    <div class="row">
+      <div class="col-12 col-lg-6 col-xl-6">
+        
+        <div class="card">
+        
+          <div class="card-body">
+              <h3 class="card-title  text-muted mb-3">
+                  <b>Availability Status</b>
+                </h3>
+            <!-- <h3 class="card-title mb-4">
+              <b>Real Time Parking Status</b>
+            </h3> -->
+            <div class="row"> 
+              <div class="col-3 col-lg-6 col-xl" style="padding: 2%;">
+                <div class="row" style="margin-left: 14%;">
+                  <div class="greenCircle">{{totalAvailableSpots}}</div>
+                  
+                </div>
+                <div class="row" style="margin-top: 14%; margin-left: 22%;">
+                  <div><b>{{ availablePercentage }}%</b></div>
+                </div>
+              </div>
+              <div class="col-3 col-lg-6 col-xl" style="padding: 2%;">
+                <div class="row" style="margin-left: 14%;">
+                  <div class="redCircle" >{{occupiedSlots}}</div>
+                </div>
+                <div class="row" style="margin-top: 14%; margin-left: 22%;">
+                  <div><b>{{ occupiedPercentage}}%</b></div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="row" style="margin-top: 3%;">
+              <div class="col-6 col-lg-6 col-xl-6">
+                  
+                <div class="row">
+                  <div class="col-2 col-lg-6 col-xl-3">
+                    <div class="greenCircleLegend"></div>
+                  </div>
+                  <div class="col-6 col-lg-6 col-xl-9">
+                    <span>Available</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 col-lg-6 col-xl-6">
+                <div class="row">
+                  <div class="col-2 col-lg-6 col-xl-3">
+                    <div class="redCircleLegend"></div>
+                  </div>
+                  <div class="col-6 col-lg-6 col-xl-9">
+                    <span >Occupied</span>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-lg-6 col-xl-6">
+        <div class="row">
+          <div class="col-6 col-lg-6 col-xl">
+            <div class="card">
+              <div class="card-body">
+                <div class="row align-items-center">
+                  <div class="col">
+        
+                    <!-- Title -->
+                    <h3 class="card-title  text-muted mb-3">
+                      <b>Total Spots</b>
+                    </h3>
+                    
+                    <!-- Heading -->
+                    <span class="h3 mb-0">
+                      {{totalSpots}}
+                    </span>
+        
+                  </div>
+                </div>
+        
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-lg-6 col-xl">
+            <div class="card">
+              <div class="card-body">
+                <div class="row align-items-center">
+                  <div class="col">
+        
+                    <!-- Title -->
+                    <h3 class="card-title  text-muted mb-3">
+                      <b>Avail. Spots</b>
+                    </h3>
+                    
+                    <!-- Heading -->
+                    <span class="h3 mb-0">
+                      {{totalAvailableSpots}}
+                    </span>
+        
+                  </div>
+                </div>
+        
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" >
+          <div class="col-6 col-lg-6 col-xl">
+            <div class="card">
+              <div class="card-body">
+                <div class="row align-items-center">
+                  <div class="col">
+        
+                    <!-- Title -->
+                    <h3 class="card-title  text-muted mb-3">
+                      <b>Visitors</b>
+                    </h3>
+                    
+                    <!-- Heading -->
+                    <span class="h3 mb-0">
+                      {{guestCountNew}}
+                    </span>
+        
+                  </div>
+                </div>
+        
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-lg-6 col-xl">
+            <div class="card">
+              <div class="card-body">
+                <div class="row align-items-center">
+                  <div class="col">
+        
+                    <!-- Title -->
+                    <h3 class="card-title  text-muted mb-3">
+                      <b>Employees</b>
+                    </h3>
+                    
+                    <!-- Heading -->
+                    <span class="h3 mb-0">
+                      {{employeeCountNew}}
+                    </span>
+        
+                  </div>
+                </div>
+        
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-lg-6 col-xl">
+        <div class="card">
+        
+          <div class="card-body">
+            <h3 class="card-title  text-muted mb-3">
+              <b>Floor Wise Occupany</b> ({{locationsData[selectedBuilding]?locationsData[selectedBuilding].name:'-'}})
+            </h3>
+            <div *ngFor="let chart of progressChart"  class="col-12 col-lg-6 col-xl">
+              <div [chart]="chart">
+
+              </div>
+            </div>
+            <!-- <div class="row" style="margin-top: 3%; margin-left: 3%;">
+              <div class="col-6 col-lg-6 col-xl-6">
+                <div class="row">
+                  <div class="col-6 col-lg-6 col-xl-3">
+                    <div class="redCircleLegend"></div>
+                  </div>
+                  <div class="col-6 col-lg-6 col-xl-9">
+                    <span >Occupied</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 col-lg-6 col-xl-6">
+                <div class="row">
+                  <div class="col-6 col-lg-6 col-xl-3">
+                    <div class="greenCircleLegend"></div>
+                  </div>
+                  <div class="col-6 col-lg-6 col-xl-9">
+                    <span>Available</span>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+    
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="col-1 col-lg-6 col-xl">
+
+  </div> -->
+</div>
+<div class="row" style="margin-top: 2%;"> 
+  <div class="col-12 col-lg-6 col-xl" >
+    <div class="card">
+      <h3 class="card-title card-body">
+        <b>Real Time Entry Log</b> &nbsp; &nbsp;
+        <u><a href="#/admin/entry-log/List">View all</a></u>
+      </h3>
+      <div>
+        <table style="width: 100% !important" mat-table [dataSource]="datas" matSort (matSortChange)="sortData($event)"
+          >
+          <ng-container matColumnDef="position">
+            <th mat-header-cell *matHeaderCellDef>#</th>
+            <td mat-cell *matCellDef="let element;let i=index"> {{getSerialNumber(i+1)}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="numPlate">
+            <th mat-header-cell *matHeaderCellDef>LICENSE PLATE</th>
+            <td mat-cell *matCellDef="let element">
+                <span *ngIf="element.vehicleId"
+          class=" td-text-wrap td-color-font"
+         >
+         <!-- [routerLink]="['DRIVER' | absolutePath, element._id]" -->
+              {{ element.vehicleDetails.regNo | checkNull | uppercase}}
+              </span>
+              <span *ngIf="!element.vehicleId"
+          class="view_details td-text-wrap td-color-font"
+          >
+          <!-- [routerLink]="['DRIVER' | absolutePath, element._id]" -->
+              {{ element.vehicleInfo.regNo | checkNull | uppercase }}
+              </span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="userName">
+            <th mat-header-cell *matHeaderCellDef>NAME</th>
+            <td mat-cell *matCellDef="let element">
+                <span *ngIf="element.vehicleId" class="td-color-font">{{ element.name | checkNull }}</span>
+                <span *ngIf="!element.vehicleId" class="td-color-font">{{ element.vehicleInfo.name | checkNull }}</span>
+            </td>
+          </ng-container>  
+
+
+          <ng-container matColumnDef="userType">
+            <th mat-header-cell *matHeaderCellDef>USER TYPE</th>
+            <td mat-cell *matCellDef="let element" class="td-color-font">
+              {{ element.userType | checkNull | titlecase }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="inTime">
+            <th mat-header-cell *matHeaderCellDef>IN TIME</th>
+            <td mat-cell *matCellDef="let element" class="td-color-font">
+
+              {{ element.inTime | date: 'short' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="outTime">
+            <th mat-header-cell *matHeaderCellDef>OUT TIME</th>
+            <td mat-cell *matCellDef="let element" class="td-color-font">
+
+              {{ element.outTime | date: 'short' | checkNull }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="type">
+            <th mat-header-cell *matHeaderCellDef>VEHICLE TYPE</th>
+            <td mat-cell *matCellDef="let element">
+                <span *ngIf="element.vehicleId" class="td-color-font">{{ element.vehicleDetails.vehicleType | checkNull | titlecase }}</span>
+                <span *ngIf="!element.vehicleId" class="td-color-font">{{ element.vehicleInfo.vehicleType | checkNull | titlecase }}</span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="modal">
+            <th mat-header-cell *matHeaderCellDef>MODEL NAME</th>
+            <td mat-cell *matCellDef="let element">
+             <span *ngIf="element.vehicleId" class="td-color-font"> {{ element.vehicleDetails.modal | checkNull | titlecase }}</span>
+             <span *ngIf="!element.vehicleId" class="td-color-font"> {{ element.vehicleInfo.modal | checkNull | titlecase }}</span>
+
+            </td>
+          </ng-container>
+          
+          <ng-container matColumnDef="entryType">
+            <th mat-header-cell *matHeaderCellDef>ENTRY TYPE</th>
+            <td mat-cell *matCellDef="let element" class="td-color-font">
+              {{ element.entryType | checkNull | titlecase }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="companyLocationName">
+            <th mat-header-cell *matHeaderCellDef>COMPANY LOCATION</th>
+            <td mat-cell *matCellDef="let element" class="td-color-font">
+              {{ element.companyLocationName | checkNull }}
+            </td>
+          </ng-container> 
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>STATUS</th>
+            <td mat-cell *matCellDef="let element">
+              <!-- <span *ngIf="element.vehicleDetails && element.status == 'unblocked'" class="td-color-font">Whitelisted</span> -->
+              <!-- <span *ngIf="element.vehicleDetails && element..status == 'blocked'" class="td-color-font">Blocked</span> -->
+              <span *ngIf="element.status" class="td-color-font">{{element.status}}</span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="event">
+            <th mat-header-cell *matHeaderCellDef>Event Image</th>
+            <td mat-cell *matCellDef="let element">
+              <img (click)="openImageModal(element.eventImageURL,element)" width="50" height="50" src= {{element.eventImageURL}}/>
+            </td>
+          </ng-container> 
+          <ng-container matColumnDef="ocr">
+            <th mat-header-cell *matHeaderCellDef>OCR Image</th>
+            <td mat-cell *matCellDef="let element">
+              <img (click)="openImageModal(element.ocrImageURL,element)" width="50" height="50" src= {{element.ocrImageURL}}/>
+            </td>
+          </ng-container> 
+           
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+    <div style="margin-top: 2%;" *ngIf="total === 0">
+      <h2 class="not-found">No Data Found</h2>
+  </div>
+  <!-- <div *ngIf="datas.data.length">
+      <mat-paginator [length]="total" [pageIndex]="page - 1" [pageSize]="pageSize"
+          [pageSizeOptions]="pageOptions" (page)="changePage($event)">
+      </mat-paginator>
+  </div> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>

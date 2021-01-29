@@ -1,0 +1,143 @@
+<!-- <div class="parentWrapper">
+    <div class="white_wrapper">
+        <div class="flex_row">
+            <ul class="breadcrumb">
+                <li>
+                    <a href="javascript:void(0)" [routerLink]="'SUBADMIN_LIST' | absolutePath">Sub Admin</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0)" class="active">Archived</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="white_wrapper">
+        <table mat-table [dataSource]="subAdmins" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8">
+
+            <ng-container matColumnDef="position">
+                <th mat-header-cell *matHeaderCellDef> S.No. </th>
+                <td mat-cell *matCellDef="let element;let i=index"> {{getSerialNumber(i+1)}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> Full Name </th>
+                <td mat-cell *matCellDef="let element"><span>{{element.name |checkNull}}</span> </td>
+            </ng-container>
+
+            <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef> Email ID </th>
+                <td mat-cell *matCellDef="let element"> {{element.email |checkNull}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="registeredon">
+                <th mat-header-cell *matHeaderCellDef>
+                    <span [ngClass]="((isFilterApplied) && (filterForm.value.fromDate || filterForm.value.toDate))?'appliedFilter':''">Created
+                        On </span>
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.created |customDate |checkNull}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="roles">
+                <th mat-header-cell *matHeaderCellDef> Number of roles </th>
+                <td mat-cell *matCellDef="let element"> {{element.totalCount || 0}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef>
+                    <span [ngClass]="((isFilterApplied) && (filterForm.value.status))?'appliedFilter':''">Status
+                    </span>
+                </th>
+                <td mat-cell *matCellDef="let element">{{element?.status |status|titlecase|checkNull}}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+    <div class="white_wrapper" *ngIf="total===0">
+        <h2 class="not-found">No Data Found</h2>
+    </div>
+    <div class="white_wrapper" *ngIf="subAdmins.data.length">
+        <mat-paginator [length]="total" [pageIndex]="page-1" [pageSize]="pageSize" [pageSizeOptions]="pageOptions" (page)="changePage($event)">
+        </mat-paginator>
+    </div>
+</div> -->
+<div class="main-content complete-align">
+    <div class="row">
+        <div class="col-12 col-lg-6 col-xl">
+          <ul class="breadcrumb">
+            <li>
+              <a href="#/admin/dashboard">Home</a>
+            </li>
+            <li>
+              <a href="#/admin/sub-admin/list">Sub Admin</a>
+            </li>
+            <li>
+              <a href="javascript:void(0)" class="active">archived</a>
+            </li>
+          </ul>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 2%">
+        <div class="col-12 col-lg-6 col-xl">
+            <label  style="font-size: 25px !important;font-weight: 100 !important;">
+              Archived Sub Admin
+            </label>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 2%">
+        <div class="col-12 col-lg-6 col-xl">
+            <table mat-table [dataSource]="subAdmins" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8">
+
+                <ng-container matColumnDef="position">
+                    <th mat-header-cell *matHeaderCellDef> # </th>
+                    <td mat-cell *matCellDef="let element;let i=index"> {{getSerialNumber(i+1)}}</td>
+                </ng-container>
+    
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef> NAME </th>
+                    <td mat-cell *matCellDef="let element"><span class="td-text-wrap">{{element.name |checkNull}}</span> </td>
+                </ng-container>
+    
+                <ng-container matColumnDef="email">
+                    <th mat-header-cell *matHeaderCellDef> EMAIL </th>
+                    <td mat-cell *matCellDef="let element"> {{element.email |checkNull}} </td>
+                </ng-container>
+    
+                <ng-container matColumnDef="registeredon">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <span [ngClass]="((isFilterApplied) && (filterForm.value.fromDate || filterForm.value.toDate))?'appliedFilter':''">REGISTRATION DATE
+                            </span>
+                    </th>
+                    <td mat-cell *matCellDef="let element"> {{element.created |customDate |checkNull}} </td>
+                </ng-container>
+    
+                <ng-container matColumnDef="roles">
+                    <th mat-header-cell *matHeaderCellDef> ROLES </th>
+                    <td mat-cell *matCellDef="let element"> {{element.totalCount || 0}} </td>
+                </ng-container>
+    
+                <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <span [ngClass]="((isFilterApplied) && (filterForm.value.status))?'appliedFilter':''">STATUS
+                        </span>
+                    </th>
+                    <td mat-cell *matCellDef="let element">{{element?.status |status|titlecase|checkNull}}</td>
+                </ng-container>
+    
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        <div class="white_wrapper" *ngIf="total === 0">
+          <h2 class="not-found">No Employee Found</h2>
+        </div>
+        <div class="white_wrapper" *ngIf="subAdmins.data.length">
+          <mat-paginator [length]="total" [pageIndex]="page - 1" [pageSize]="pageSize" [pageSizeOptions]="pageOptions"
+            (page)="changePage($event)">
+          </mat-paginator>
+        </div>
+      </div>
+    </div>
+</div>

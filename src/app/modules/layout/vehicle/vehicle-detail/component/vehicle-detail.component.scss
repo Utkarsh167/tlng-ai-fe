@@ -1,0 +1,103 @@
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th,
+td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.form_filed_wrapper_details {
+    margin-bottom: 50px;
+}
+
+.sm_img_preview {
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.sm_img_preview img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.flex_row {
+    display: flex;
+    margin: 0 -10px;
+    align-items: center;
+    &.aggrement {
+        flex-wrap: wrap;
+        a {
+            color: #006CB8;
+        }
+    }
+}
+
+.breadcrumb {
+    width: 100%;
+    padding: 5px 15px;
+    li {
+        display: inline-block;
+        a {
+            color: #006CB8;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 400;
+            outline: none;
+            &:before {
+                padding: 0 5px;
+                color: #B7BEC1;
+                content: "/ ";
+            }
+            &:after {
+                content: "/\00a0";
+                padding: 0 2px;
+                color: #A2ABAE;
+            }
+            &.active {
+                color: rgb(38, 44, 45);
+                cursor: default;
+                &:after {
+                    display: none;
+                }
+            }
+        }
+        &:first-child,
+        &:last-child {
+            a {
+                &:before,
+                &:after {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+.btn_wrapper{
+    li{
+        flex-flow: row;
+        button{
+            margin:0 15px;
+        }
+    }
+}
+
+button.mat-raised-button{
+    box-shadow:none !important;
+    border: 1px solid #0069FF !important;
+    min-width:104px !important;
+}
+// Added medical_cab_symbol_option style - Shivakumar
+.medical_cab_symbol_option {
+    font-size: 20px;
+    color: red;
+}

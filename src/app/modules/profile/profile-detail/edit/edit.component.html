@@ -1,0 +1,102 @@
+<div class="custom_container">
+    <div class="white_wrapper">
+        <h2 class="heading">Edit Profile </h2>
+        <form [formGroup]="editProfileForm" #form="ngForm" class="classCategoryForm" (submit)="submitForm()">
+            <div class="form_wrapper">
+                <div class="flex_row">
+                    <div class="flex_col_sm_5">
+                        <div class="form_filed_wrapper_details">
+                            <label class="form_label">Name</label>
+                            <mat-form-field class="inputfield">
+                                <input matInput appNospace maxlength="50" number formControlName="name" readonly>
+                                <mat-error>{{
+                                    getControl("name") | validate: "name"
+                                  }}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="flex_col_sm_5">
+                        <div class="form_filed_wrapper_details">
+                            <label class="form_label">Email</label>
+                            <mat-form-field class="inputfield">
+                                <input matInput number formControlName="email" readonly>
+                                <mat-error>{{getControl('email')|validate:'Email'}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    
+                </div>
+                <div class="flex_row">
+                     
+                    <div class="flex_col_sm_10">
+                        <div class="form_filed_wrapper_details">
+                            <label class="form_label">Address</label>
+
+                            <mat-form-field>
+                                <!-- placeholder="Search Location" -->
+                                <input matInput autocorrect="off"
+                                    formControlName="address" autocapitalize="off" spellcheck="off" type="text"
+                                    class="textbox" #search id="search" name="search" readonly>
+                                <!-- <mat-icon matPrefix>search</mat-icon> -->
+                                <mat-error>{{getControl('address')|validate:'Name'}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex_row">
+                    <div class="flex_col_sm_5">
+                        <div class="form_filed_wrapper_details">
+                            <label class="form_label">Booking Spot Cutoff</label>
+                            <mat-form-field class="inputfield">
+                                <input matInput number type="number" formControlName="booking_status_cutoff" placeholder="Minutes">
+                                <mat-error>{{getControl('booking_status_cutoff')|validate:'Booking Spot Cutoff'}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                <div class="flex_col_sm_5">
+                    <div class="form_filed_wrapper_details">
+                        <label class="form_label">Geofence Cutoff</label>
+                        <mat-form-field class="inputfield">
+                            <input matInput number type="number" formControlName="geofence_cutoff" placeholder="Meter" >
+                            <mat-error>{{getControl('geofence_cutoff')|validate:'Geofence Cutoff'}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+                
+            <div class="flex_row">
+                <div class="flex_col_sm_5">
+                    <div class="form_filed_wrapper_details">
+                        <label class="form_label">Duration</label>
+                        <mat-form-field class="inputfield">
+                            <input matInput number type="number" formControlName="duration" placeholder="Hours">
+                            <mat-error>{{getControl('duration')|validate:'Duration'}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+        </div>
+
+            
+
+
+                <div class="flex_row">
+                    <div class="flex_col_sm_10">
+                        <div class="form_filed_wrapper_details text-center">
+                            <ul class="btn_wrapper">
+                                
+                                <li routerLink="/admin/profile"><button type="button" class="mt-30"
+                                        mat-raised-button>Cancel</button>
+                                </li>
+                                <li><button color="primary" class="mt-30" mat-raised-button>Update</button></li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

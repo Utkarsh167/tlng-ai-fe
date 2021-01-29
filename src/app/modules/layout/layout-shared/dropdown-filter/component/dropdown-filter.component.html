@@ -1,0 +1,21 @@
+<!-- <h4>
+  {{dropdown.label}}
+  &nbsp;
+</h4> -->
+<!-- <mat-form-field style="margin-top: 20px;">
+  <mat-select [placeholder]="dropdown.label" [formControl]="dropdown.control">
+    <mat-option [value]="''">All</mat-option>
+    <mat-option *ngFor="let item of dropdown.list" [value]="item.value">{{
+      item.viewValue
+    }}</mat-option>
+  </mat-select>
+</mat-form-field> -->
+<div class="col-12 col-lg-6 col-xl-12">
+  <select [(ngModel)]="selected" [formControl]="dropdown.control" class="form-control" data-toggle="select" data-options='{"minimum-results-for-search": -1}'>
+    <option hidden value="" disabled selected>Select</option>
+    <option [value]="''">All </option>
+    <option *ngFor="let item of dropdown.list" [value] = "item.value">{{
+      item.viewValue}}
+    </option>
+  </select>
+</div>

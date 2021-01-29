@@ -1,0 +1,85 @@
+<div class="custom_container">
+    <div class="white_wrapper">
+        <h2 class="heading" *ngIf="!subAdminId">Add new Sub Admin</h2>
+        <h2 class="heading" *ngIf="subAdminId">Edit Sub Admin</h2>
+        <div class="flex_row">
+            <ul class="breadcrumb">
+                <li>
+                    <a routerLink="/admin/sub-admin/list">Sub Admin</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0)" class="active">{{subAdminId? 'Edit' : 'Add'}}</a>
+                </li>
+            </ul>
+        </div>
+        <form action="" [formGroup]="subadminForm" (ngSubmit)="submitForm()">
+            <div class="form_wrapper">
+                <label class="form_label">Add Admin Details</label>
+                <div class="flex_row">
+                    <div class="flex_col_sm_5">
+                        <div class="form_filed_wrapper">
+                            <label class="form_label">Name</label>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Enter Name</mat-label>
+                                <input formControlName="name" appNospace matInput>
+                                <mat-error>{{getControl('name')|validate:'Name'}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="flex_col_sm_5">
+                        <div class="form_filed_wrapper">
+                            <label class="form_label">Email</label>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Enter Email</mat-label>
+                                <input formControlName="email" [readonly]="subAdminId" matInput>
+                                <mat-error>{{getControl('email')|validate:'Email'}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex_row">
+                    <div class="flex_col_sm_5">
+                        <div class="form_filed_wrapper">
+                            <label class="form_label">Company Location</label>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Company Location</mat-label>
+                                <mat-select formControlName="companyLocationName" placeholder="Building">
+                                    <mat-option *ngFor="let building of locationsData; let i = index" [value]="building.name">
+                                        {{building.name}}</mat-option>
+                                </mat-select>
+                                <mat-error>{{getControl('companyLocationName')|validate:'Location'}}</mat-error>
+
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <label class="form_label">Admin Roles</label>
+                <div class="flex_row">
+                    <div class="flex_col_sm_10 roles">
+                        <div class="form_filed_wrapper" *ngFor="let permission of allPermission; let i= index;">
+                            <mat-checkbox [checked]="permission.checked"
+                                (change)="selectPermission($event.checked,permission.moduleKey)" class="mat-primary">
+                                {{permission.moduleName}}</mat-checkbox>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex_row">
+                    <div class="flex_col_sm_10">
+                        <div class="form_filed_wrapper text-center">
+
+                            <ul class="btn_wrapper">
+                                <li> <button mat-raised-button type="button"
+                                        [routerLink]="'SUBADMIN_LIST'|absolutePath">Cancel</button>
+                                </li>
+                                <li> <button mat-raised-button color="primary">{{subAdminId?'Update':'Add'}}</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

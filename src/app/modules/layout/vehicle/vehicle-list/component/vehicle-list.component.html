@@ -1,0 +1,460 @@
+<!-- <div class="main-content complete-align">
+
+  <div class="flex_row">
+    <div class="flex_col_sm_5 rowFilterBox">
+
+    <ul class="breadcrumb">
+      <li>
+        <a href="javascript:void(0)">Home</a>
+      </li>
+      <li>
+        <a href="javascript:void(0)" class="active">Vehicle</a>
+      </li>
+      <li>
+        <a href="javascript:void(0)" class="active">list</a>
+      </li>
+    </ul>
+    </div>
+  </div>
+
+  <div class="flex_row">
+    <div class="flex_col_sm_5 rowFilterBox">
+
+    <div class="col-12 col-lg-6 col-xl">
+        <span style="font-size: 25px; font-weight: 100;">
+          Vehicle
+        </span>
+    </div>
+</div>
+  </div>
+</div>
+
+  
+  <div class="flex_row ">
+    <div class="flex_col_sm_5 rowFilterBox">
+
+    <ul class="btn_wrapper text-right">
+      <li>
+        <button
+          mat-raised-button
+          (click)="showFilter = !showFilter"
+          class="action_menu"
+        >
+          <mat-icon>filter_list</mat-icon> Filter
+        </button>
+      </li>
+
+      <li>
+        <button
+          mat-raised-button
+          (click)="downloadVehicle()"
+          class="action_menu"
+        >
+          <mat-icon>cloud_download</mat-icon> Download Report
+        </button>
+      </li>
+    </ul>
+    </div>
+  </div>
+  <div class="flex_row ">
+    <div class="flex_col_sm_5 rowFilterBox">
+      
+      <app-search-filter
+        [placeholder]="'Search by registration no. '"
+        (setSearch)="setSearch($event)"
+      >
+      </app-search-filter>
+
+      <ul class="archieveData">
+        <li [routerLink]="'ARCHIVED_CAB' | absolutePath">
+          <a>Blacklisted</a>
+        </li>
+      </ul>
+    </div>
+  
+  </div>
+
+  <div
+  class="white_wrapper filter_wrapper"
+  [class.filter_wrapper_show]="showFilter"
+>
+  <div class="flex_row">
+    <div class="flex_col_sm_4">
+      <app-date-filter [dateObject]="filterObject.registrationDate">
+      </app-date-filter>
+    </div>
+    <div style="margin-left: 20px;" class="flex_col_sm_2">
+      <app-dropdown-filter
+        [dropdown]="filterObject.vehicleType"
+      ></app-dropdown-filter>
+    </div>
+    <div class="flex_col_sm_2">
+      <app-dropdown-filter
+        [dropdown]="filterObject.compLocationName"
+      ></app-dropdown-filter>
+    </div>
+   
+  </div>
+  <div class="flex_row">
+    <div class="flex_col_sm_10 text-center">
+      <ul class="btn_wrapper">
+        <li>
+          <button
+            filter_btn
+            mat-stroked-button
+            [disabled]="disable()"
+            (click)="resetFilter()">
+            Reset
+          </button>
+        </li>
+
+        <li>
+          <button
+            filter_btn
+            mat-raised-button
+            color="primary"
+            [disabled]="disable()"
+            (click)="filter()"
+          >
+            Filter
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="white_wrapper">
+  <table
+      mat-table
+      [dataSource]="cabs"
+      matSort
+      (matSortChange)="sortData($event)"
+      class="mat-elevation-z8"
+    >
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef>#</th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        {{ getSerialNumber(i + 1) }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="model">
+      <th mat-sort-header mat-header-cell *matHeaderCellDef>MODEL NAME</th>
+      <td mat-cell *matCellDef="let element">
+
+        <span>
+          {{ element.modal | checkNull | titlecase }}
+        </span>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="regNo">
+      <th  mat-header-cell *matHeaderCellDef>LICENSE PLATE</th>
+      <td mat-cell *matCellDef="let element">
+        
+          {{ element.regNo | checkNull }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="userName">
+      <th mat-sort-header mat-header-cell *matHeaderCellDef>USER NAME</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.name | checkNull | titlecase }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="userId">
+      <th mat-header-cell *matHeaderCellDef>USER ID</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.employeeId | checkNull | titlecase }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="companyLocationName">
+      <th mat-header-cell *matHeaderCellDef>COMPANY LOCATION</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.companyLocationName | checkNull }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="vehicleType">
+      <th mat-header-cell *matHeaderCellDef>VEHICLE TYPE</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.vehicleType | checkNull | titlecase }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="created">
+      <th mat-sort-header mat-header-cell *matHeaderCellDef>
+        <span
+          [ngClass]="
+            isFilterApplied && filterForm.value.fromDate ? 'appliedFilter' : ''
+          "
+          >REGISTRATION DATE
+        </span>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.created | customDate }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef>ACTION</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-button [matMenuTriggerFor]="menu" class="btn-more-menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" xPosition="before">
+          <button
+            mat-menu-item
+            [routerLink]="['EDIT_CAB' | absolutePath, element._id]"
+          >
+            <mat-icon matTooltip="Edit">edit</mat-icon> Edit
+          </button>
+          <button
+            mat-menu-item
+            [ngClass]="element.status === 'blocked' ? 'ban' : 'noban'"
+            (click)="
+              changeStatus(
+                element.status === 'blocked' ? 'unblocked' : 'blocked',
+                element._id,
+                element.assigned?.length
+              )
+            "
+          >
+            <mat-icon
+              matTooltip="{{
+                element.status === 'blocked' ? 'Unblock' : 'Block'
+              }}"
+            >
+              {{ element.status === "blocked" ? "block" : "block" }}</mat-icon
+            >
+            {{ element.status === "blocked" ? "Whitelist" : "Blacklist" }}
+          </button>
+        </mat-menu>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <div class="white_wrapper" *ngIf="total === 0">
+    <h2 class="not-found">No Vehicle Found</h2>
+  </div>
+  <div class="white_wrapper" *ngIf="cabs.data.length">
+    <mat-paginator
+      [length]="total"
+      [pageIndex]="page - 1"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="pageOptions"
+      (page)="changePage($event)">
+    </mat-paginator>
+  </div>
+</div> -->
+<div class="main-content complete-align">
+  <div class="row">
+    <div class="col-12 col-lg-6 col-xl">
+      <ul class="breadcrumb">
+        <li>
+          <a href="#/admin/dashboard">Home</a>
+        </li>
+        <li>
+          <a href="javascript:void(0)" class="active">Vehicle</a>
+        </li>
+        <li>
+          <a href="javascript:void(0)" class="active">List</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="row" style="margin-top: 5px">
+    <div class="col-12 col-lg-6 col-xl">
+        <label  style="font-size: 25px !important;font-weight: 100 !important;">
+          Vehicle
+        </label>
+    </div>
+  </div>
+  <div class="row" style="margin-top: 10px">
+      <div  class="col-12 col-lg-6 col-xl-1">
+          <button mat-raised-button [routerLink]="'ARCHIVED_VEHICLE' | absolutePath" class="action_menu">
+            Blocked
+          </button>
+        </div>
+    <div  class="col-12 col-lg-6 col-xl-2" style="margin-left: 10px;">
+      <button  color="primary" class="action_menu" (click)="downloadVehicle()">
+        <mat-icon>cloud_download</mat-icon>   Download Report
+      </button>
+    </div>
+    
+  </div>
+  <div class="row" style="margin-top: 20px">
+    <div class="col-12 col-lg-6 col-xl">
+
+      <div _ngcontent-vmx-c9="" class="white-card" style="padding-top: 2%;">
+        <div class="row">
+          <div class="col-12 col-lg-6 col-xl-4">
+            <app-date-filter [dateObject]="filterObject.registrationDate">
+            </app-date-filter>
+          </div>
+          <div class="col-12 col-lg-6 col-xl-2">
+            <app-dropdown-filter [dropdown]="filterObject.compLocationName"></app-dropdown-filter>
+          </div>
+          <div class="col-12 col-lg-6 col-xl-2">
+                <app-dropdown-filter
+                [dropdown]="filterObject.vehicleType"
+              ></app-dropdown-filter>
+          </div>
+          <div  class="col-12 col-lg-6 col-xl-1">
+            <button style="margin-left: 15%;" filter_btn mat-stroked-button [disabled]="disable()" (click)="resetFilter()">
+              Reset
+            </button>
+          </div>
+          <div  class="col-12 col-lg-6 col-xl-1">
+            <button filter_btn mat-raised-button color="primary" [disabled]="disable()" (click)="filter()">
+              Filter
+            </button>
+          </div>
+          <div class="col-12 col-lg-6 col-xl-2">
+            <div _ngcontent-vmx-c9=""  style=" padding-right: 4%">
+              <div _ngcontent-vmx-c9="" class="table_search-box" >
+                <div class="row">
+                  <div class="col-xl-8">
+                    <input _ngcontent-vmx-c9="" style="width: 100% !important;" class="table_search-input" id="workersearch" #searchInput (keyup)="setSearch(searchInput.value)"  placeholder="Search" type="text">
+                  </div>
+                  <div class="col-xl-4">
+                    <img _ngcontent-vmx-c9="" alt="search" class="table_search-icon " src="assets/images/search-24.png">
+                  </div>
+                </div>
+                
+              </div>   
+            </div> 
+          </div>
+
+        </div>
+        <table
+        mat-table
+        [dataSource]="cabs"
+        matSort
+        (matSortChange)="sortData($event)"
+        class="mat-elevation-z8"
+      >
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef>#</th>
+        <td mat-cell *matCellDef="let element; let i = index">
+          {{ getSerialNumber(i + 1) }}
+        </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="model">
+        <th mat-sort-header mat-header-cell *matHeaderCellDef>MODEL NAME</th>
+        <td mat-cell *matCellDef="let element">
+  
+          <span class = "td-text-wrap">
+            {{ element.modal | checkNull | titlecase }}
+          </span>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="regNo">
+        <th  mat-header-cell *matHeaderCellDef>LICENSE PLATE</th>
+        <td mat-cell *matCellDef="let element">
+          
+            {{ element.regNo | checkNull }}
+        </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="userName">
+        <th mat-sort-header mat-header-cell *matHeaderCellDef>NAME</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.name | checkNull | titlecase }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="userId">
+        <th mat-header-cell *matHeaderCellDef>EMPLOYEE ID</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.employeeId | checkNull | titlecase }}
+        </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="companyLocationName">
+        <th mat-header-cell *matHeaderCellDef>COMPANY LOCATION</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.companyLocationName | checkNull }}
+        </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="vehicleType">
+        <th mat-header-cell *matHeaderCellDef>VEHICLE TYPE</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.vehicleType | checkNull | titlecase }}
+        </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="created">
+        <th mat-sort-header mat-header-cell *matHeaderCellDef>
+          <span
+            [ngClass]="
+              isFilterApplied && filterForm.value.fromDate ? 'appliedFilter' : ''
+            "
+            >REGISTRATION DATE
+          </span>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.created | customDate }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>ACTION</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-button [matMenuTriggerFor]="menu" class="btn-more-menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu" xPosition="before">
+            <button
+              mat-menu-item
+              [routerLink]="['EDIT_VEHICLE' | absolutePath, element._id]"
+            >
+              <mat-icon matTooltip="Edit">edit</mat-icon> Edit
+            </button>
+            <button
+              mat-menu-item
+              [ngClass]="element.status === 'blocked' ? 'ban' : 'noban'"
+              (click)="
+                changeStatus(
+                  element.status === 'blocked' ? 'unblocked' : 'blocked',
+                  element._id,
+                  element.assigned?.length
+                )
+              "
+            >
+              <mat-icon
+                matTooltip="{{
+                  element.status === 'blocked' ? 'Unblock' : 'Block'
+                }}"
+              >
+                {{ element.status === "blocked" ? "block" : "block" }}</mat-icon
+              >
+              {{ element.status === "blocked" ? "un-block" : "block" }}
+            </button>
+          </mat-menu>
+        </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+      </div>
+  
+    <div class="white_wrapper" *ngIf="total === 0">
+      <h2 class="not-found">No Vehicle Found</h2>
+    </div>
+    <div class="white_wrapper" *ngIf="cabs.data.length">
+      <mat-paginator
+        [length]="total"
+        [pageIndex]="page - 1"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="pageOptions"
+        (page)="changePage($event)">
+      </mat-paginator>
+    </div>
+  </div>
+  </div>
+</div>

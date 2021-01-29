@@ -1,0 +1,260 @@
+.flex_row {
+  display: flex;
+  margin: 0 -10px;
+  align-items: center;
+}
+
+.flex_row_sub {
+  display: flex;
+  margin: 0 -10px;
+  align-items: top;
+  padding: 10px;
+}
+.flex_row_sub_test {
+  display: flex;
+  margin: 0 -10px;
+  align-items: center;
+  padding: 10px;
+}
+
+.flex_row {
+  height: 100vh;
+}
+.tab-table {
+  margin: 20px 0 0 0;
+}
+
+#img_container_dash {
+  position:relative;
+  // text-align:center;
+  // border:1px solid red;
+  overflow: auto;
+  margin-left: 0px;
+}
+
+
+:host ::ng-deep {
+  .btn_wrapper {
+      li {
+          &:first-child {
+              margin-top: 0;
+          }
+      }
+  }
+}
+
+::ng-deep .mat-form-field-flex > .mat-form-field-infix { padding: 0.4em 0px !important;}
+::ng-deep .mat-form-field-label-wrapper { top: -1.5em; }
+
+::ng-deep .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+  transform: translateY(-1.1em) scale(.75);
+  width: 133.33333%;
+}
+
+.pointer_green {
+  position: absolute; 
+  width: 15px;
+  height: 15px;
+  border-radius: 10px; 
+  color: black; 
+  cursor: pointer; 
+  background: rgb(134, 188, 36); 
+  display: block; 
+}
+
+.pointer_red {
+  position: absolute; 
+  width: 15px;
+  height: 15px;
+  border-radius: 10px; 
+  color: black; 
+  cursor: pointer; 
+  background: red; 
+  display: block; 
+}
+
+.pointer_green_status {
+  width: 15px;
+  height: 15px;
+  border-radius: 10px; 
+  color: black; 
+  cursor: pointer; 
+  background: rgb(134, 188, 36); 
+  display: block; 
+}
+
+.pointer_red_status {
+  width: 15px;
+  height: 15px;
+  border-radius: 10px; 
+  color: black; 
+  cursor: pointer; 
+  background: red; 
+  display: block; 
+}
+
+.pointer_colors {
+  width: 15px;
+  height: 15px;
+  border-radius: 10px; 
+  color: black; 
+  border: 2px solid black;
+  // cursor: pointer; 
+  background: rgb(134, 188, 36); 
+  display: block; 
+}
+
+.margin_top_20 {
+  margin-top: 20px;
+}
+
+.alignRight {
+  margin-left: auto;
+  // margin-top: 10px;
+}
+
+.alignLeft {
+  margin-right: auto;
+  // margin-top: 10px;
+}
+
+.flex {
+  display: flex;
+}
+
+.image_overflow {
+  overflow: auto;
+  cursor: pointer;
+}
+
+mat-slider {
+  width: 200px;
+}
+
+.tooltip-realtime {
+  position: absolute;
+  display: inline-block;
+  border: 2px solid black;
+}
+
+.tooltip-realtime .tooltiptext-realtime {
+  visibility: hidden;
+  width: 230px;
+  background-color: #555;
+  color: #fff;
+  text-align: left;
+  border-radius: 6px;
+  padding: 10px 10px;
+  position: absolute;
+  z-index: 1;
+  font-size: 12px;
+  bottom: 125%;
+  left: 0%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.toolti-realtimep .tooltiptext-realtime::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 45%;
+  margin-left: -5px;
+  font-size: 12px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.tooltip-realtime:hover .tooltiptext-realtime {
+  visibility: visible;
+  opacity: 1;
+}
+.complete-align{
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.text-muted{
+  color: rgb(122, 120, 120) !important;
+}
+.col-2{
+  padding-left: 0 !important;
+}
+@media (min-width: 1200px)
+  {.col-xl {
+      flex-basis: 0;
+      flex-grow: 1;
+      max-width: 50%; 
+  }
+}
+
+.dot-white {
+  height: 25px;
+  width: 25px;
+  background-color: white;
+  border-radius: 50%;
+  display: inline-block;
+  margin: 0 9px -4px 0px;
+  border: 2px solid black;
+}
+
+.dot-orange{
+  background: #FFA500;
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  display: inline-block;
+  margin: 0 9px -4px 0px;
+  border: 2px solid black; 
+  }
+
+  .dot-blue{
+    background: #77b5fe;
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0 9px -4px 0px;
+    border: 2px solid black; 
+    }
+
+  .dot-purple{
+    background: #E129CD;;
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0 9px -4px 0px;
+    border: 2px solid black; 
+    }
+
+  .dot-green{
+    background: #66CD00;
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0 9px -4px 0px;
+    border: 2px solid black; 
+    }
+
+  .dot-red{
+    background: #FF0004;;
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0 9px -4px 0px;
+    border: 2px solid black; 
+    }
+
+
+
+
+.new_block {
+  text-align: justify;
+  text-align-last: justify;
+  width:100%;
+  height: 100%;
+}

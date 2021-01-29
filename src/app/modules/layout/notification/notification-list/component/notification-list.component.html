@@ -1,0 +1,143 @@
+<!-- <div class="parentWrapper">
+    <div class="white_wrapper">
+        <div class="flex_row">
+            <div class="flex_col_sm_3">
+                <app-search-filter [placeholder]="'Search by notification title'">
+                </app-search-filter>
+            </div>
+            <div class="flex_col_sm_7">
+                <ul class="btn_wrapper text-right">
+                    <li>
+                        <div class="btn filter-count">Total notifications:<span>{{total || 0}}</span> </div>
+                    </li>
+                    <li> <button mat-raised-button (click)="showFilter=!showFilter" color="primary">
+                            <mat-icon>filter_list</mat-icon> Filter
+                        </button> </li>
+                </ul>
+            </div>
+        </div>
+        <div class="flex_row">
+            <ul class="breadcrumb">
+                <li>
+                    <a href="javascript:void(0)">Notification</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0)" class="active">List</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="white_wrapper filter_wrapper" [class.filter_wrapper_show]="showFilter">
+        <div class="flex_row">
+            <div class="flex_col_sm_6">
+                <app-date-filter [dateObject]="filterObject.registrationDate">
+                </app-date-filter>
+            </div>
+        </div>
+
+
+        <div class="flex_row">
+            <div class="flex_col_sm_10 text-center">
+
+                <ul class="btn_wrapper">
+                    <li> <button filter_btn mat-stroked-button [disabled]="disable()" (click)="resetFilter()">
+                            Reset
+                        </button>
+                    </li>
+
+                    <li>
+
+                        <button filter_btn mat-raised-button color="primary" [disabled]="disable()" (click)="filter()">
+                            Filter
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="white_wrapper">
+        <table mat-table [dataSource]="noti" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8">
+            <ng-container matColumnDef="position">
+                <th mat-header-cell *matHeaderCellDef> No. </th>
+                <td mat-cell *matCellDef="let element;let i=index"> {{getSerialNumber(i+1)}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="title">
+                <th mat-header-cell *matHeaderCellDef>Notification Title</th>
+                <td mat-cell *matCellDef="let element">
+                    {{element.title|checkNull}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="message">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef>Message</th>
+                <td mat-cell *matCellDef="let element" matTooltip="{{element.message}}">
+                    {{element.message|checkNull}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef>Created Date</th>
+                <td mat-cell *matCellDef="let element"> {{element.created|customDate}} </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="image">
+                <th mat-header-cell *matHeaderCellDef>Image</th>
+                <td mat-cell *matCellDef="let element">
+                    <span>
+                        <img [src]="element.image" style="height:50px;width:50px">
+                    </span>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+    <div class="white_wrapper" *ngIf="total===0">
+        <h2 class="not-found">No Notification Found</h2>
+    </div>
+    <div class="white_wrapper" *ngIf="noti.data.length">
+        <mat-paginator [length]="total" [pageIndex]="page-1" [pageSize]="pageSize" [pageSizeOptions]="pageOptions" (page)="changePage($event)">
+        </mat-paginator>
+    </div>
+</div> -->
+<div class="main-content complete-align">
+    <div class="row">
+        <div class="col-12 col-lg-6 col-xl">
+          <ul class="breadcrumb">
+            <li>
+              <a href="#/admin/dashboard">Home</a>
+            </li>
+            <li>
+              <a href="javascript:void(0)" class="active">Web Notification</a>
+            </li>
+            <li>
+              <a href="javascript:void(0)" class="active">list</a>
+            </li>
+          </ul>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 2%">
+        <div class="col-12 col-lg-6 col-xl">
+            <label  style="font-size: 25px !important;font-weight: 100 !important;">
+              Web Notifications
+            </label>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 2%">
+        <div class="col-12 col-lg-6 col-xl-9">
+          <div class="row">
+            <div class="col-12 col-lg-6 col-xl-2" >
+              <li>
+                <button mat-raised-button [routerLink]="'ADD_EMPLOYEE' | absolutePath" class="action_menu">
+                  Add Notifications
+                </button>
+              </li>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>

@@ -1,0 +1,7 @@
+<input [formControl]="data.control" [matAutocomplete]="auto" matInput>
+<mat-hint>{{data.hint}}</mat-hint>
+<mat-autocomplete (optionSelected)="selectResult($event)" #auto="matAutocomplete">
+  <mat-option *ngFor="let item of list" [value]="item">
+    {{item[data.key||'name']}}
+  </mat-option>
+</mat-autocomplete>

@@ -1,0 +1,99 @@
+mat-radio-button {
+    margin: 0 43px 0 0;
+}
+
+.flex_row {
+    display: flex;
+    margin: 0 -10px;
+    align-items: center;
+}
+
+.breadcrumb {
+    width: 100%;
+    padding: 5px 15px;
+    li {
+        display: inline-block;
+        a {
+            color: #006CB8;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 400;
+            outline: none;
+            &:before {
+                padding: 0 5px;
+                color: #B7BEC1;
+                content: "/ ";
+            }
+            &:after {
+                content: "/\00a0";
+                padding: 0 2px;
+                color: #A2ABAE;
+            }
+            &.active {
+                color: rgb(38, 44, 45);
+                cursor: default;
+                &:before {
+                    padding: 0 5px;
+                    color: #B7BEC1;
+                    content: "/ ";
+                }
+                &:after {
+                    display: none;
+                }
+            }
+        }
+        &:first-child {
+            a {
+                &:before,
+                &:after {
+                    display: none;
+                }
+            }
+        }
+        &:last-child {
+            a {
+                &:after {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+.sm-td-img {
+    width: 32px;
+    height: 32px;
+    margin: 0;
+}
+
+:host ::ng-deep{
+    .mat-form-field-invalid{
+            textarea{
+                &::-webkit-input-placeholder{
+                    color:#f00;
+                }
+                &:-moz-placeholder{
+                    color:#f00;
+                }
+                &::-moz-placeholder{
+                    color:#f00;
+                }
+                &:-ms-input-placeholder {
+                    color: #f00;  
+                }
+                &::placeholder {
+                    color: #f00;  
+                }
+            }
+    }
+    
+}
+
+// .mat-form-field-invalid .mat-input-element, .mat-warn .mat-input-element
+
+button.mat-raised-button{
+    box-shadow:none !important;
+    border: 1px solid #0069FF !important;
+    min-width:104px !important;
+}

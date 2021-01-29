@@ -1,0 +1,86 @@
+<div  class="flex_row_sub">
+    
+    <div class="flex_col_sm_12">
+        <div class="flex">
+
+          <div class="alignRight">
+            <mat-icon style="cursor: pointer; color: red;" (click)="onNoClick()">clear</mat-icon>
+          </div>
+        </div>
+</div>
+
+</div>
+
+<div class="flex_row_sub text-center justify-content-center">
+
+    <div id="imageContainer" class="container-fluid">
+
+      <!-- width: 1290px; height: 912px; -->
+      <pinch-zoom>
+
+      <div id="img_container">
+        <img src="{{IMAGE_SRC}}" width="{{imageSize.width}}" height="{{imageSize.height}}" />
+        <div *ngFor="let each of scopeMapData; let i = index;">
+
+          <div *ngIf="snapShotData[i].occupied && !withImage" class="pointer_red tooltip_dialog"
+            [ngStyle]="{'left': (each.point.x-8)+'px', 'top': (each.point.y-6)+'px', 'background-color': snapShotData[i].color}">
+            <span class="tooltiptext_dialog">
+              <div><span>Spot:&nbsp;</span> <span>{{snapShotData[i].spot_id}}</span></div>
+              <div><span>Status:&nbsp;</span>
+                 <span *ngIf="snapShotData[i].occupied">Occupied</span>
+                 <span *ngIf="!snapShotData[i].occupied">Available</span>
+
+                </div>
+
+              <div><span>Camera:&nbsp;</span> <span>{{snapShotData[i].camera_id}}</span></div>
+              <div><span>Duration:&nbsp;</span> <span>{{snapShotData[i].duration | secondsToHours}}</span></div>
+              
+              </span>
+          </div>
+
+          <div *ngIf="snapShotData[i].occupied && withImage" class="pointer_red tooltip_dialog"
+            [ngStyle]="{'left': (each.center.x-8)+'px', 'top': (each.center.y-6)+'px', 'background-color': snapShotData[i].color}">
+            <span class="tooltiptext_dialog">
+              <div><span>Spot:&nbsp;</span> <span>{{snapShotData[i].spot_id}}</span></div>
+              <div><span>Status:&nbsp;</span>
+                 <span *ngIf="snapShotData[i].occupied">Occupied</span>
+                 <span *ngIf="!snapShotData[i].occupied">Available</span>
+
+                </div>
+
+              <div><span>Camera:&nbsp;</span> <span>{{snapShotData[i].camera_id}}</span></div>
+              <div><span>Duration:&nbsp;</span> <span>{{snapShotData[i].duration | secondsToHours}}</span></div>
+              
+              </span>
+          </div>
+
+          <div *ngIf="!snapShotData[i].occupied && !withImage" class="pointer_green tooltip_dialog"
+            [ngStyle]="{'left': (each.point.x-8)+'px', 'top': (each.point.y-6)+'px', 'background-color': snapShotData[i].color}">
+         
+            <span class="tooltiptext_dialog">
+              <div><span>Spot:&nbsp;</span> <span>{{snapShotData[i].spot_id}}</span></div>
+              <div><span>Status:&nbsp;</span> 
+                <span *ngIf="snapShotData[i].occupied">Occupied</span>
+                <span *ngIf="!snapShotData[i].occupied">Available</span>
+              </div>
+              <div><span>Camera:&nbsp;</span> <span>{{snapShotData[i].camera_id}}</span></div>
+              </span>
+           </div>
+
+           <div *ngIf="!snapShotData[i].occupied && withImage" class="pointer_green tooltip_dialog"
+            [ngStyle]="{'left': (each.center.x-8)+'px', 'top': (each.center.y-6)+'px', 'background-color': snapShotData[i].color}">
+         
+            <span class="tooltiptext_dialog">
+              <div><span>Spot:&nbsp;</span> <span>{{snapShotData[i].spot_id}}</span></div>
+              <div><span>Status:&nbsp;</span> 
+                <span *ngIf="snapShotData[i].occupied">Occupied</span>
+                <span *ngIf="!snapShotData[i].occupied">Available</span>
+              </div>
+              <div><span>Camera:&nbsp;</span> <span>{{snapShotData[i].camera_id}}</span></div>
+              </span>
+           </div>
+        </div>
+      </div>
+</pinch-zoom>
+    </div>
+  </div>

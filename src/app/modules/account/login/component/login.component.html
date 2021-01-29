@@ -1,0 +1,30 @@
+<!-- <h1 class="form_heading">Login</h1> -->
+<form [formGroup]="loginForm" (ngSubmit)="login()">
+  <div >
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email">
+      <mat-error>{{getControl('email')|validate:'Email'}}</mat-error>
+    </mat-form-field>
+  </div>
+  <div class="text-right">
+      <a [routerLink]="'FORGOT_PASSWORD'|absolutePath" class="form-text small text-muted">
+          Forgot password?
+        </a>
+    <!-- <a class="forgot" >Forgot Password</a> -->
+  </div>
+  <div >
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput formControlName="password" [type]="hide ? 'password' :'text'">
+      <mat-error>{{getControl('password')|validate:'Password'}}</mat-error>
+      <mat-icon matSuffix (click)="hide = !hide">
+        {{hide ? 'visibility_off' :'visibility'}}
+      </mat-icon>
+    </mat-form-field>
+  </div>
+ 
+  <div class="form_filed_wrapper text-center">
+    <button class="btn btn-lg btn-block btn-primary mb-3">Login</button>
+  </div>
+</form>

@@ -1,0 +1,174 @@
+<div class="custom_container">
+    <div class="white_wrapper">
+        <h2 class="heading">{{cabId?'Edit':'Add'}} Vehicle</h2>
+        <div class="flex_row">
+            <ul class="breadcrumb">
+                <!-- <li>
+                    <a href="javascript:void(0)">Home</a>
+                </li> -->
+                <li>
+                    <a routerLink="/admin/vehicle/list">Vehicle /&nbsp;</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0)" class="active">{{cabId?'Edit':'Add'}}</a>
+                </li>
+            </ul>
+        </div>
+        <form [formGroup]="cabForm" #form="ngForm" (ngSubmit)="addCab()">
+            <div class="form_wrapper">
+               
+                <div>
+
+                    <div class="flex_row sectionHeader">
+
+                        <div class="flex_col_sm_5">
+                            <div>
+                                <h3>Employee Details</h3>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="flex_row">
+                        <div *ngIf="cabId" class="flex_col_sm_5">
+                            <div class="form_filed_wrapper">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Employee ID</mat-label>
+                                    <input formControlName="employeeId" matInput>
+                                    <mat-error>{{getControl('employeeId')|validate:'Model Name'}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div *ngIf="!cabId" class="flex_col_sm_5">
+                            <div class="form_filed_wrapper">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Employee ID</mat-label>
+                                <input type="text"
+                                placeholder="Search by Employee ID"
+                                aria-label="Number"
+                                matInput
+                                (ngModelChange)="searchEmp($event)"
+                                formControlName="employeeId"
+                                [matAutocomplete]="auto">
+                                <mat-error>{{getControl('employeeId')|validate:'Model Name'}}</mat-error>
+                                </mat-form-field>
+                                
+                         <mat-autocomplete #auto="matAutocomplete">
+                           <mat-option *ngFor="let option of employeeSearchData" [value]="option.employeeId">
+                             {{option.employeeId}}
+                           </mat-option>
+                         </mat-autocomplete>
+                      </div>
+                      </div>
+
+                    </div>
+
+
+
+
+                    <div class="flex_row sectionHeader">
+
+                        <div class="flex_col_sm_5">
+                            <div>
+                                <h3>Vehicle Details</h3>
+                            </div>
+                        </div>
+
+                        <div class="flex_col_sm_5 flex">
+
+                            <div class="alignRight">
+                                <button *ngIf="!cabId" mat-raised-button type="button" (click)="addVehicleDiv()">
+                                    <mat-icon>add</mat-icon> Add Vehicle
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+                    <div id="contentInside" *ngFor="let container of containers">
+                        <div class="flex">
+
+                            <div class="alignRight">
+                                    <mat-icon *ngIf="!cabId" style="color: red; cursor: pointer;" (click)="removeVehicleDiv(container)">clear</mat-icon>
+                            </div>
+
+                        </div>
+
+
+                        <div class="flex_row">
+                            <div class="flex_col_sm_5">
+                                <div class="form_filed_wrapper">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Model Name</mat-label>
+                                        <input name="vehicleName" value="" class="form-control" formControlName="vehicleName" matInput>
+                                        <mat-error>{{getControl('vehicleName')|validate:'Model Name'}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="flex_col_sm_5">
+                                <div class="form_filed_wrapper">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label name="labelHolder">Vehicle Type</mat-label>
+                                        <!-- Added  ngClass & ngModelChange - Shivakumar A -->
+                                        <mat-select name="type" class="form-control" formControlName="type{{container}}" (selectionChange)="type($event)" placeholder="Vehicle Type"
+                                            [ngClass]="selected">
+                                          
+                                            <mat-option *ngFor="let type of carType" [value]="type.value">
+                                                {{type.viewValue}}
+                                                <!-- Added Medical Cab Symbol - Shivakumar A
+                                                <img class="medical_cab_symbol_option"
+                                                    *ngIf="type.viewValue === medicalCabValue"
+                                                    src="assets/images/medicalCab.png" /> -->
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error>{{getControl('type')|validate:'Vehicle Type'}}
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="flex_row">
+
+                            <div class="flex_col_sm_5">
+                                <div class="form_filed_wrapper">
+
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Registration Number</mat-label>
+                                        <input  name="registrationNo" value="" class="form-control" formControlName="registrationNo" matInput>
+                                        <mat-error>{{getControl('registrationNo')|validate:'Registration Number'}}
+                                        </mat-error>
+                                        <mat-error *ngIf="isSubUniqueMsg">{{isSubUniqueMsg }}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div class="flex-row">
+                    <span class="alert-message">All fields are Mandatory</span>
+                </div>
+                <div class="flex_row">
+                    <div class="flex_col_sm_10">
+                        <div class="form_filed_wrapper text-center">
+                            <ul class="btn_wrapper">
+                                <li> <button mat-raised-button type="button" [routerLink]="'VEHICLE'|absolutePath">Cancel</button>
+                                </li>
+                                <li> <button mat-raised-button (click)="onAdd()" color="primary">{{cabId?'Update':'Add'}}</button> </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>

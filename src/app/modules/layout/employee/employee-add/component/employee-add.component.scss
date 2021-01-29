@@ -1,0 +1,166 @@
+mat-radio-button {
+    margin: 0 43px 0 0;
+}
+
+.flex_row {
+    display: flex;
+    margin: 0 -10px;
+    align-items: center;
+}
+
+.breadcrumb {
+    width: 100%;
+    // padding: 5px 15px;
+    li {
+        display: inline-block;
+        a {
+            color: #006CB8;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 400;
+            outline: none;
+            &:before {
+                padding: 0 5px;
+                color: #B7BEC1;
+                content: "/ ";
+            }
+            &:after {
+                content: "/\00a0";
+                padding: 0 2px;
+                color: #A2ABAE;
+            }
+            &.active {
+                color: rgb(38, 44, 45);
+                cursor: default;
+                &:after {
+                    display: none;
+                }
+            }
+        }
+        &:first-child {
+            a {
+                &:before,
+                &:after {
+                    display: none;
+                }
+            }
+        }
+        &:last-child {
+            a {
+                &:before,
+                &:after {
+                    display: none;
+                }
+            }
+        }
+    }
+    
+}
+.searchPanel {
+    position: absolute;
+    top: 20px;
+    right: 3px;
+    background: #fff;
+    width: 29px;
+    font-size: 23px;
+}
+
+.search {
+    position: relative;
+    .searchPanel {
+        position: absolute;
+        top: 26px;
+        right: 10px;
+    }
+}
+.form_filed_wrapper{
+    &.gender{
+        .mat-error{
+            font-size: 12px;
+            margin-top:5px;
+        }
+    }
+}
+.addrError{
+    position: absolute;
+    box-sizing: border-box;
+    width: 100%;
+    overflow: hidden;
+    bottom: 5px;
+    font-size: 75%;
+    margin-top: 0px;
+    padding: 0 15px;
+}
+
+:host ::ng-deep{
+    .mat-select{
+        &.mat-select-invalid{
+        .mat-select-placeholder{
+            color:#f00;
+        }
+    }
+    }
+    .mat-form-field-invalid{
+        input{
+            &::placeholder{
+                color:#f00;
+            }
+        }
+    }
+}
+button.mat-raised-button{
+    box-shadow:none !important;
+    border: 1px solid #0069FF !important;
+    min-width:104px !important;
+}
+:host ::ng-deep{
+    .disabled {
+        opacity: 0.5;
+        cursor: initial;
+        .mat-form-field-flex:hover{
+            .mat-form-field-outline-start,
+            .mat-form-field-outline-end,
+            .mat-form-field-outline-gap{
+                border-width: 1px !important;
+                border-color: #e0e0e0 !important;
+            }
+        }
+    }
+}
+
+.addVehicleHeader {
+    background-color: whitesmoke;
+    margin-bottom: 40px; 
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+}
+
+.alignRight {
+    margin-left: auto;
+}
+
+.flex {
+    display: flex;
+}
+.addVehicleBorder {
+    border-style: solid;
+    border-width: thin;
+    border-color: #000000;
+}
+.complete-align{
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .text-muted{
+    color: rgb(122, 120, 120) !important;
+  }
+  .col-2{
+    padding-left: 0 !important;
+  }
+  .view_details_dash {
+    color: #006CB8 !important;
+    cursor: pointer !important;
+}
+// ::ng-deep .mat-form-field-flex > .mat-form-field-infix { padding: 1em 0em 1em 0em !important;}

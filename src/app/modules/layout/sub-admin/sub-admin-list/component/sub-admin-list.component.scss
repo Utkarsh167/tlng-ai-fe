@@ -1,0 +1,203 @@
+.breadcrumb {
+    width: 18%;
+    // padding: 5px 15px;
+    li {
+        display: inline-block;
+        a {
+            color: #006CB8;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 400;
+            outline: none;
+            &:before {
+                padding: 0 5px;
+                color: #B7BEC1;
+                content: "/ ";
+            }
+            &:after {
+                content: "/\00a0";
+                padding: 0 2px;
+                color: #A2ABAE;
+            }
+            &.active {
+                color: rgb(38, 44, 45);
+                cursor: default;
+                &:after {
+                    display: none;
+                }
+            }
+        }
+        &:first-child {
+            a {
+                &:before,
+                &:after {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+.btn_wrapper {
+    li {
+        &:first-child {
+            margin-top: 0;
+        }
+    }
+}
+
+.filter-count {
+    cursor: default;
+    pointer-events: none;
+    color: #636F73;
+    font-size: 13px;
+    position: relative;
+    top: 13px;
+}
+// .mat-column-email 
+td.mat-cell, td.mat-footer-cell, th.mat-header-cell{
+    // min-width: 200px;
+    // width: 200px;
+    // changed to 100px - Shivakumar A
+    min-width: 100px;
+    width: 100px;
+}
+// archive sub-admins -- satyam
+.archieveData {
+    li {
+        margin-left: 10px;
+        a {
+            font-size: 14px;
+            font-weight: 400;
+            text-decoration: underline;
+            color: #006CB8;
+            font-family: "Segoe UI";
+            white-space: nowrap;
+            // satyam - cursor pointer
+            cursor: pointer;
+        }
+    }
+}
+// satyam - archiveButton placing
+.rowFilterBox {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+app-search-filter {
+    width: 60%;
+}
+:host ::ng-deep {
+    .searchWrapper {
+        width: 100% !important;
+    }
+}
+button{
+    &.action_menu{
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        cursor: pointer;
+        outline: 0;
+        min-width: 64px;
+        line-height: 36px;
+        padding: 0 16px;
+        border-radius: 4px;
+        overflow: visible;
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+        transition: background 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+        background-color: transparent;
+        color: #091e42;
+        border: 1px solid #0069FF;
+        // box-shadow: 2px 5px 4px -2px inset #b8b8b880;
+        display: flex;
+        align-items: center;
+        .mat-icon{
+            position: relative;
+            right:10px;
+        }
+    }
+}
+.table_search-input {
+    font-family: "avenir-medium";
+    font-size: 1rem;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    border: none;
+    color: #000;
+}
+
+.table_search-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid 
+    #e6ebf0;
+    padding: 0.5rem;
+}
+
+.table_wrapper {
+    padding: 2.4rem;
+}
+.white-card {
+    border-radius: 4px;
+    box-shadow: 0 4px 16px 0 
+rgba(0, 0, 0, 0.06);
+background-color:
+    #ffffff;
+}
+
+.table_search {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 0 1rem 0;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #CBD3CF ;
+    opacity: 1; /* Firefox */
+  }
+  
+  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #CBD3CF;
+  }
+  
+  ::-ms-input-placeholder { /* Microsoft Edge */
+    color: #CBD3CF;
+  }
+  .complete-align{
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .text-muted{
+    color: rgb(122, 120, 120) !important;
+  }
+  .col-2{
+    padding-left: 0 !important;
+  }
+  th {
+    font-family: 'avenir-medium';
+    color: black !important;
+    opacity: 36% !important;
+    font-size: 10px !important;
+}
+
+.td-color-font, td.span, span {
+    font-family: avenir-book !important;
+    color: black !important;
+    opacity: 88% !important;
+    font-size: 14px !important;
+}
+
+.action_menu{
+    background-color: white !important;
+    border: 1px solid #888 !important;
+}

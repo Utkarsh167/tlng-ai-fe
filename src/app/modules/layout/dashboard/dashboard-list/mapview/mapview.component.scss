@@ -1,0 +1,203 @@
+.flex_row {
+    display: flex;
+    margin: 0 -10px;
+    align-items: center;
+}
+
+.flex_row_sub {
+    display: flex;
+    margin: 0 -10px;
+    align-items: top;
+    padding: 10px;
+}
+.flex_row_sub_test {
+    display: flex;
+    margin: 0 -10px;
+    align-items: center;
+    padding: 10px;
+}
+
+.flex_row {
+    height: 100vh;
+}
+.tab-table {
+    margin: 20px 0 0 0;
+}
+
+#img_container {
+    position:relative;
+    text-align:center;
+    border:1px solid red;
+    overflow: auto;
+    margin-left: 1px;
+}
+
+
+:host ::ng-deep {
+    .btn_wrapper {
+        li {
+            &:first-child {
+                margin-top: 0;
+            }
+        }
+    }
+}
+
+::ng-deep .mat-form-field-flex > .mat-form-field-infix { padding: 0.4em 0px !important;}
+::ng-deep .mat-form-field-label-wrapper { top: -1.5em; }
+
+::ng-deep .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+    transform: translateY(-1.1em) scale(.75);
+    width: 133.33333%;
+}
+
+.pointer_green {
+    position: absolute; 
+    width: 15px;
+    height: 15px;
+    border-radius: 10px; 
+    color: black; 
+    cursor: pointer; 
+    background: rgb(134, 188, 36); 
+    display: block; 
+}
+
+.pointer_red {
+    position: absolute; 
+    width: 15px;
+    height: 15px;
+    border-radius: 10px; 
+    color: black; 
+    cursor: pointer; 
+    background: red; 
+    display: block; 
+}
+
+.pointer_green_status {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%; 
+    color: black; 
+    cursor: pointer; 
+    background: rgb(134, 188, 36); 
+    display: block; 
+}
+
+.pointer_red_status {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%; 
+    color: black;
+    cursor: pointer; 
+    background: red; 
+    display: block; 
+}
+
+.pointer_colors {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%; 
+    color: black; 
+    cursor: pointer; 
+    background: rgb(134, 188, 36); 
+    display: block; 
+}
+
+.margin_top_20 {
+    margin-top: 20px;
+}
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+  }
+  
+  .sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+  }
+  
+  .sidenav a:hover {
+    color: #f1f1f1;
+  }
+  
+  .sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+  }
+  
+  @media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+  }
+
+  .alignRight {
+    margin-left: auto;
+    width: 100%;
+}
+
+.flex {
+    display: flex;
+}
+
+.image_overflow {
+    overflow: auto;
+}
+
+mat-slider {
+    width: 200px;
+  }
+
+  .tooltip_dialog {
+    position: absolute;
+    display: inline-block;
+    border: 2px solid black;
+  }
+  
+  .tooltip_dialog .tooltiptext_dialog {
+    visibility: hidden;
+    width: 180px;
+    background-color: #555;
+    color: #fff;
+    text-align: left;
+    border-radius: 6px;
+    padding: 10px 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 0%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  .tooltip_dialog .tooltiptext_dialog::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 45%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+  }
+  
+  .tooltip_dialog:hover .tooltiptext_dialog {
+    visibility: visible;
+    opacity: 1;
+  }

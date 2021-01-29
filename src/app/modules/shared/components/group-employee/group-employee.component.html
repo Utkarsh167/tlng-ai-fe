@@ -1,0 +1,61 @@
+<div class="employee_detail">
+  <h4>Employee Details</h4>
+  <img src="./assets/images/cross.svg" class="cross" (click)="onNoClick()" />
+  <div class="employeeparentDtl">
+    <div class="employeeListDtl" *ngFor="let emp of data.employees | sortEmployee; let i=index">
+      
+      <!-- gender diffrentiate - Shivakumar A -->
+      <div class="countWrapper text-center"  *ngIf="emp.gender === maleValue" [ngStyle]="{'background-color': maleColor }"><span>{{i+1}}</span></div>
+      <div class="countWrapper text-center"  *ngIf="emp.gender === femaleValue" [ngStyle]="{'background-color': femaleColor }"><span>{{i+1}}</span></div> 
+      <div class="countWrapper text-center"  *ngIf="emp.gender === otherValue" [ngStyle]="{'background-color': otherColor }"><span>{{i+1}}</span></div> 
+      <div class="countWrapper text-center" *ngIf="emp.gender === undefined"><span>{{i+1}}</span></div> 
+
+      <div class="flex_row">
+        <div class="flex_col_sm_6">
+          <label for="">Emp Id</label>
+        </div>
+        <div class="flex_col_sm_6">
+          <p for="">{{ emp?.employeeId }}</p>
+        </div>
+      </div>
+      <div class="flex_row">
+        <div class="flex_col_sm_6">
+          <label for="">Name</label>
+        </div>
+        <div class="flex_col_sm_6">
+          <p for="">{{ emp?.name }}</p>
+        </div>
+      </div>
+      <div class="flex_row">
+        <div class="flex_col_sm_6">
+          <label for="">Address</label>
+        </div>
+        <div class="flex_col_sm_6">
+          <p for="">{{ emp?.address }}</p>
+        </div>
+      </div>
+      <div class="flex_row">
+        <div class="flex_col_sm_6">
+          <label for="">Pick Up Status</label>
+        </div>
+        <div class="flex_col_sm_6">
+          <p for="">{{ emp?.pickupStatus | employeeStatus }}</p>
+        </div>
+      </div>
+      <div class="flex_row">
+        <div class="flex_col_sm_6">
+          <label for="" *ngIf="data?.isLogin">Pickup Time</label>
+          <label for="" *ngIf="!data?.isLogin">Drop Time</label>
+        </div>
+        <div class="flex_col_sm_6">
+          <p for="" *ngIf="data?.isLogin">
+            {{ emp?.empPickupTime | shiftTime }}
+          </p>
+          <p for="" *ngIf="!data?.isLogin">
+            {{ emp?.empDropTime | shiftTime }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

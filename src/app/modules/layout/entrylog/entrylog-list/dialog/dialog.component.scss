@@ -1,0 +1,68 @@
+.header {
+    background-color: #0080ff;
+    height: 40px;
+    color: white;
+}
+
+.header_text {
+    padding-top: 10px;
+}
+
+.sub_header {
+    padding-top: 20px;
+    height: 40px;   
+}
+
+.line {
+    margin-top: 20px;
+    border: 0.5px solid gray;
+}
+
+.font_28px {
+    font-size: 28px;
+}
+
+.flex_row {
+    display: flex;
+    margin: 0 -10px;
+    align-items: center;
+}
+
+.alignRight {
+    margin-left: auto;
+}
+
+.flex {
+    display: flex;
+}
+
+.confirm_popup {
+    margin-top: 20px; 
+}
+
+.font_20px {
+    font-size: 20px;
+}
+
+.cancel {
+    font-size: 100px;
+    margin-right: 70px;
+    color: red;
+}
+
+.cancel_text {
+    font-size: 24px;
+    color: red;
+}
+
+.done_text {
+    font-size: 24px;
+    color: green;
+}
+
+.done {
+    font-size: 100px;
+    margin-right: 70px;
+    color: green;
+}
+

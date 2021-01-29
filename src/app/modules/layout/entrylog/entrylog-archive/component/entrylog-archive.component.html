@@ -1,0 +1,79 @@
+<div class="white_wrapper action">
+  <div class="flex_row">
+    <ul class="breadcrumb">
+      <li>
+        <a routerLink="/admin/entry-log/list">Entrylog</a>
+      </li>
+      <li>
+        <a href="javascript:void(0)" class="active">Archived</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="white_wrapper">
+  <table mat-table [dataSource]="drivers" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef> No. </th>
+      <td mat-cell *matCellDef="let element;let i=index"> {{getSerialNumber(i+1)}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="image">
+      <th mat-header-cell *matHeaderCellDef> Image </th>
+      <td mat-cell *matCellDef="let element">
+        <figure class="sm-td-img"><img [src]="element.profilePicture|customImage|async"></figure>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>Full Name </th>
+      <td mat-cell *matCellDef="let element">
+        {{element.name|checkNull}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="driverId">
+      <th mat-header-cell *matHeaderCellDef> Driver ID </th>
+      <td mat-cell *matCellDef="let element"> <span>{{element.driverId|checkNull}} </span></td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef> Email </th>
+      <td mat-cell *matCellDef="let element"> <span>{{element.email|checkNull}}</span> </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="mobileNo">
+      <th mat-header-cell *matHeaderCellDef> Contact Number </th>
+      <td mat-cell *matCellDef="let element"> {{element.mobileNo|checkNull}} </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="created">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef>
+        <span [ngClass]="(isFilterApplied && filterForm.value.fromDate)?'appliedFilter':''">Registration Date
+        </span></th>
+      <td mat-cell *matCellDef="let element"> {{element.created|customDate}} </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef> Status </th>
+      <td mat-cell *matCellDef="let element"> {{element.status|status|titlecase|checkNull}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <div class="white_wrapper" *ngIf="total===0">
+    <h2 class="not-found">No Data</h2>
+  </div>
+
+  <div class="white_wrapper" *ngIf="drivers.data.length">
+    <mat-paginator [length]="total" [pageIndex]="page-1" [pageSize]="pageSize" [pageSizeOptions]="pageOptions"
+      (page)="changePage($event)">
+    </mat-paginator>
+  </div>
+</div>

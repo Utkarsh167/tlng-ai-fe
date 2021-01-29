@@ -1,0 +1,65 @@
+<div class="custom_container">
+    <div class="white_wrapper">
+        <h2 class="heading">Profile</h2>
+        <div class="form_wrapper">
+            <div class="flex_row bg-btm">
+                <div class="flex_col_sm_5">
+                    <div class="form_filed_wrapper_details">
+                        <label class="form_label">Name</label>
+                        <span _ngcontent-dcb-c7="" class="show_label">{{profileData?.userData?.name |checkNull}}</span>
+                    </div>
+                </div>
+                <div class="flex_col_sm_5">
+                    <div class="form_filed_wrapper_details">
+                        <label class="form_label">Email</label>
+                        <span _ngcontent-dcb-c7="" class="show_label">{{profileData?.userData?.email |checkNull}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="flex_row bg-btm">
+                <div class="flex_col_sm_5">
+                    <div class="form_filed_wrapper_details">
+                        <label class="form_label">Address</label>
+                        <span _ngcontent-dcb-c7="" class="show_label">{{profileData?.companyData?.address |checkNull}}</span>
+                    </div>
+                </div>
+                <div class="flex_col_sm_5">
+                    <div class="form_filed_wrapper_details">
+                        <label class="form_label">Booking Status Cutoff</label>
+                        <span _ngcontent-dcb-c7="" class="show_label">{{profileData?.companyData?.config?.booking_status_cutoff |checkNull}} Minutes</span>
+                    </div>
+                    <!-- <div class="form_filed_wrapper_details">
+                        <label class="form_label">lat</label>
+                        <span _ngcontent-dcb-c7="" class="show_label">{{profileData?.companyAddress?.coordinates[1] |checkNull}}</span>
+                    </div> -->
+                </div>
+            </div>
+            <div class="flex_row">
+                <div class="flex_col_sm_5">
+                    <div class="form_filed_wrapper_details">
+                        <label class="form_label">Geofence Cutoff</label>
+                        <span _ngcontent-dcb-c7="" class="show_label">{{profileData?.companyData?.config?.geofence_cutoff |checkNull}} Meter</span>
+                    </div>
+                </div>
+                <div class="flex_col_sm_5">
+                    <div class="form_filed_wrapper_details">
+                        <label class="form_label">Duration</label>
+                        <span _ngcontent-dcb-c7="" class="show_label">{{profileData?.companyData?.config?.duration |checkNull}} Hours</span>
+                    </div>
+                </div>
+            </div>
+            
+
+
+            <div class="flex_row" *ngIf="adminRole==='super'">
+                <div class="flex_col_sm_10">
+                    <div class="form_filed_wrapper_details text-center">
+                        <ul class="btn_wrapper">
+                            <li> <button mat-raised-button [routerLink]="'./edit'" color="primary">Edit</button> </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

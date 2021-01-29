@@ -1,0 +1,86 @@
+  .form_filed_wrapper_details {
+      margin: 0 0 40px;
+  }
+
+  .flex_row {
+      display: flex;
+      margin: 0 -10px;
+      align-items: center;
+  }
+
+  .breadcrumb {
+      width: 100%;
+      padding: 5px 15px;
+      li {
+          display: inline-block;
+          a {
+              color: #006CB8;
+              text-decoration: none;
+              cursor: pointer;
+              font-size: 14px;
+              font-weight: 400;
+              outline: none;
+              &:before {
+                  padding: 0 5px;
+                  color: #B7BEC1;
+                  content: "/ ";
+              }
+              &:after {
+                  content: "/\00a0";
+                  padding: 0 2px;
+                  color: #A2ABAE;
+              }
+              &.active {
+                  color: rgb(38, 44, 45);
+                  cursor: default;
+                  &:after,
+                  &:before {
+                      display: none;
+                  }
+              }
+          }
+          &:first-child {
+              a {
+                  &:before,
+                  &:after {
+                      display: none;
+                  }
+              }
+          }
+      }
+  }
+  .btn_wrapper{
+      li{
+          flex-flow: row;
+          button{
+              margin:0 15px;
+          }
+      }
+  }
+
+  .addVehicleHeader {
+    background-color: whitesmoke;
+    margin-bottom: 40px; 
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+}
+
+.alignRight {
+    margin-left: auto;
+}
+
+.flex {
+    display: flex;
+}
+.addVehicleBorder {
+    border-style: solid;
+    border-width: thin;
+    border-color: #000000;
+}
+
+button.mat-raised-button{
+    box-shadow:none !important;
+    border: 1px solid #0069FF !important;
+    min-width:104px !important;
+}

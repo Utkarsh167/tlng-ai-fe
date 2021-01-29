@@ -1,0 +1,77 @@
+.flex_row {
+    display: flex;
+    margin: 0 -10px;
+    align-items: center;
+}
+
+.breadcrumb {
+    width: 100%;
+    padding: 5px 15px;
+    li {
+        display: inline-block;
+        a {
+            color: #006CB8;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 400;
+            outline: none;
+            &:before {
+                padding: 0 5px;
+                color: #B7BEC1;
+                content: "/ ";
+            }
+            &:after {
+                content: "/\00a0";
+                padding: 0 2px;
+                color: #A2ABAE;
+            }
+            &.active {
+                color: rgb(38, 44, 45);
+                cursor: default;
+                &:after {
+                    display: none;
+                }
+            }
+        }
+        &:first-child {
+            a {
+                &:before,
+                &:after {
+                    display: none;
+                }
+            }
+        }
+        &:last-child {
+            a {
+                &:before,
+                &:after {
+                    display: none;
+                }
+            }
+        }
+    }
+    
+}
+
+
+.white_wrapper {
+    &.action {
+        overflow: inherit !important;
+        position: relative;
+    }
+}
+
+th {
+    font-family: 'avenir-medium';
+    color: black !important;
+    opacity: 36% !important;
+    font-size: 10px !important;
+}
+
+.td-color-font, td, .td-text-wrap {
+    font-family: avenir-book !important;
+    color: black !important;
+    opacity: 88% !important;
+    font-size: 14px !important;
+}

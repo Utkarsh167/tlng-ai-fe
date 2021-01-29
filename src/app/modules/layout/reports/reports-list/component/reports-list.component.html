@@ -1,0 +1,1005 @@
+
+<!-- <div class="container"> -->
+  
+      <!-- <mat-spinner class="loader" diameter="20"></mat-spinner> -->
+          
+      <div class="main-content complete-align">
+        <div class="row">
+          <div class="col-12 col-lg-6 col-xl"  style="max-width: 100% !important;">
+            <span style="font-size: 25px; font-weight: 100;">
+            Reports 
+            </span>
+          </div>
+
+          <div class="col-auto justify-content-end d-flex text-right">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                      <i class="fa fa-calendar" aria-hidden="true"></i>
+                      <!-- <mat-icon>calendar_today</mat-icon> -->
+                    </span>
+                </div>
+          <input type="text"
+            ngxDaterangepickerMd
+            [(ngModel)]="selected"
+            [showCustomRangeLabel]="false"
+            [alwaysShowCalendars]="alwaysShowCalendars"
+            [ranges]="ranges"
+            [showClearButton]="false"
+            [showCancel]="true"
+            [linkedCalendars]="true"
+            [maxDate]="maxDate"
+            [minDate]="minDate"
+            (datesUpdated)="datesUpdated($event)"
+            [isInvalidDate] = "isInvalidDate"
+            [keepCalendarOpeningWithRange]="keepCalendarOpeningWithRange"
+            [showRangeLabelOnInput]="showRangeLabelOnInput"
+            class="form-control"
+            placeholder="Select please..."
+            [locale]="{applyLabel: 'ok', format: 'DD-MM-YYYY'}"
+            /> 
+            </div>
+            <!-- <i class="fa fa-caret-down"></i> -->
+        </div>
+        </div>
+      
+
+        <div class="row" style="margin-top: 2%;">
+          <div class="col-12 col-lg-6 col-xl">
+            <div class="mb-2">
+              <select [(ngModel)]="selectedBuilding" (change)="getFloors($event.target.value)" class="form-control" data-toggle="select" data-options='{"minimum-results-for-search": -1}'>
+              <option *ngFor="let building of locationsData; let i = index" value="{{i}}">
+              {{building.name}}
+              </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-12 col-lg-6 col-xl">
+            <div class="mb-2">
+              <select name="floor" class="form-control" [(ngModel)]="selectedFloor" (change)="getMapData($event.target.value)" data-toggle="select" data-options='{"minimum-results-for-search": -1}'>
+                <option *ngFor="let floor of floorsData; let i = index" value="{{i}}">
+                {{floor.name}}
+                </option>
+              </select>
+            </div>
+          </div>
+
+
+            <div class="col-12 col-lg-6 col-xl"></div>
+            <div class="col-12 col-lg-6 col-xl"></div>
+            <div class="col-12 col-lg-6 col-xl"></div>
+            <div class="col-12 col-lg-6 col-xl"></div>
+            <div class="col-12 col-lg-6 col-xl"></div>
+
+
+
+        </div>
+      
+      <div class="row" style="margin-top: 2%;">
+        <div  class="col-12 col-lg-6 col-xl">
+          <div  class="card">
+            <div class="card-body">
+              <h3 class="card-title mb-4">
+                <b *ngIf = "currentTab!=3">Floor Map</b>
+                <b *ngIf = "currentTab==3">ANPR In Out Charts</b>
+              </h3>
+              <div id="imageContainer"  >
+                  <div *ngIf = "currentTab!=3">
+
+                <div  id="img_container_dash">
+                  <img src="{{IMAGE_SRC}}"width="{{imageSize.width}}" height="{{imageSize.height}}" />
+                  <!-- <div *ngIf = "currentTab!=3"> -->
+
+                  <div *ngFor="let each of scopeMapData; let i = index;">
+                    <div *ngIf = "aggregateData.length>0" >
+
+                    <div *ngIf = "currentTab==0" class="pointer_red tooltip-realtime"
+                    [ngStyle]="{'left': (each.point.x-8)+'px', 'top': (each.point.y-6)+'px', 'background': aggregateData[i].color +''+ aggregateData[i].data/valueHund+')'}">
+                    
+                   
+                    <span class="tooltiptext-realtime">
+                      <div><span>Spot:&nbsp;</span><span>{{each.spot_id}}</span></div>
+                      <div><span *ngIf="aggregateData[i].name != 'Median Duration'">{{aggregateData[i].name}}:&nbsp;{{aggregateData[i].data}}</span>
+                      <span *ngIf="aggregateData[i].name == 'Median Duration'">{{aggregateData[i].name}}:&nbsp;{{aggregateData[i].data | secondsToHours}}</span>
+                       
+                        <div><span>Camera:&nbsp;</span><span>{{aggregateData[i].camera_id}}</span></div>
+                      </div>
+    
+                    </span>
+                  </div>
+
+                </div>
+
+                  <div *ngIf = "currentTab==1" class="pointer_red tooltip-realtime"
+                  [ngStyle]="{'left': (each.point.x-8)+'px', 'top': (each.point.y-6)+'px', 'background': aggregateData[i].color + aggregateData[i].data/maxTurnover.total_inflow+')'}">
+                  
+                  <span class="tooltiptext-realtime">
+                    <div><span>Spot:&nbsp;</span><span>{{each.spot_id}}</span></div>
+                    <div><span *ngIf="aggregateData[i].name != 'Median Duration'">{{aggregateData[i].name}}:&nbsp;{{aggregateData[i].data}}</span>
+                    <span *ngIf="aggregateData[i].name == 'Median Duration'">{{aggregateData[i].name}}:&nbsp;{{aggregateData[i].data | secondsToHours}}</span>
+                     
+                      <div><span>Camera:&nbsp;</span><span>{{aggregateData[i].camera_id}}</span></div>
+                    </div>
+  
+                
+                  </span>
+                </div>
+
+
+                <div *ngIf = "currentTab==2" class="pointer_red tooltip-realtime"
+                [ngStyle]="{'left': (each.point.x-8)+'px', 'top': (each.point.y-6)+'px', 'background': aggregateData[i].color + aggregateData[i].data/maxMedianDuration.median_duration+')'}">
+
+                <span class="tooltiptext-realtime">
+                  <div><span>Spot:&nbsp;</span><span>{{each.spot_id}}</span></div>
+                  <div><span *ngIf="aggregateData[i].name != 'Median Duration'">{{aggregateData[i].name}}:&nbsp;{{aggregateData[i].data}}</span>
+                  <span *ngIf="aggregateData[i].name == 'Median Duration'">{{aggregateData[i].name}}:&nbsp;{{aggregateData[i].data | secondsToHours}}</span>
+                   
+                    <div><span>Camera:&nbsp;</span><span>{{aggregateData[i].camera_id}}</span></div>
+                  </div>
+
+              
+                </span>
+              </div>
+
+                  </div>
+                  <!-- </div> -->
+                </div>
+                  </div>
+                  <div *ngIf = "currentTab==3">
+                      <div class="row col-12">
+                          <div class="col-12">
+      
+                          <div class="card">
+                              <div class="card-body">
+                                <div class="row col-12" style="display: flex;
+                                flex-direction: row;
+                                align-items: flex-start;
+                                width:100%">
+                                <div>
+                                    <h3 class="card-title">Incoming(ANPR)</h3>
+                                  </div>
+                                    <mat-icon style="margin-left: auto; cursor: pointer;float: right;" (click)="downloadOccupancyData('in_anpr_data')">cloud_download</mat-icon>      
+                                </div>
+                                <hr>
+                                <div [chart]="inEntryChart"></div>
+                              </div>
+                            
+                            </div>
+                            </div>
+                      </div>
+      
+                      <div class="row col-12">
+                        <div class="col-12">
+      
+                        <div class="card">
+                            <div class="card-body">
+                              <div class="row col-12" style="display: flex;
+                                flex-direction: row;
+                                align-items: flex-start;
+                                width:100%">
+                                <div>
+                                    <h3 class="card-title">Outgoing(ANPR)</h3>
+                                  </div>
+                                    <mat-icon style="margin-left: auto; cursor: pointer;float: right;" (click)="downloadOccupancyData('out_anpr_data')">cloud_download</mat-icon>      
+                                </div>
+                              <hr>
+                              <div [chart]="outEntryChart"></div>
+                            </div>
+                          </div>
+                          </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+            
+            
+            <div *ngIf="currentTab==0" style="text-align: center; padding-left: 5%;padding-right: 5%;">
+              <img src="assets/images/Gradient1.png" style="width: 100%;" />
+              
+              <div class="row col-12" style="padding: 0;margin-left: -5px;">
+              <div class="col-4" style="padding: 0; text-align: left;">0</div>
+              <div class="col-4" style="padding: 0;text-align: left;">33</div>
+              <div class="col-4" style="padding: 0;display:flex">
+                <div style="padding: 0;text-align: left;">
+                    66
+                </div>
+                <div style="padding: 0;text-align: right;flex:1;margin-right: -5px;">
+                    100
+                </div>
+              </div>
+           </div> 
+        </div>
+
+        <div *ngIf="currentTab==1" style="text-align: center; padding-left: 5%;padding-right: 5%;">
+          <img src="assets/images/Gradient2.png" style="width: 100%;" />
+          
+          <div class="row col-12" style="padding: 0;margin-left: -5px;">
+          <div class="col-4" style="padding: 0; text-align: left;">
+            <!-- {{maxTurnover.total_inflow/3 | number:'1.0-0'}} -->
+            0
+          </div>
+          <div class="col-4" style="padding: 0;text-align: left;">
+            {{maxTurnover.total_inflow/3 | number:'1.0-0'}}
+          </div>
+          <div class="col-4" style="padding: 0;display:flex">
+            <div style="padding: 0;text-align: left;">
+                {{maxTurnover.total_inflow/3*2 | number:'1.0-0'}}
+            </div>
+            <div style="padding: 0;text-align: right;flex:1;margin-right: -5px;">
+                {{maxTurnover.total_inflow}}
+            </div>
+          </div>
+       </div> 
+    </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6 col-xl">
+            <mat-tab-group mat-align-tabs="start" (selectedTabChange)="tabClick($event)">
+                <mat-tab label="OCCUPANCY">
+                  <div class="row col-12" style="margin-top: .5%;">
+                    <div class="col-12">
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="row align-items-center">
+                            <div class="col-12">
+                  
+                              <div style="display:flex; flex: 2;">
+                                <div style="flex: 1.7">
+                                  <h3 class="card-title  text-muted mb-3">
+                                    <span class="dot-white"></span>
+                                  <b>AVAILABILITY</b>
+                                    </h3>
+                                </div>
+                                
+                                  <div style="flex: .3">
+                                  <h3 class="card-title  text-muted mb-3">
+                                    <b>{{100 - avg_occupancy}}%</b>
+                                  </h3>
+                                  </div>
+                              </div>
+                              <!-- Title -->
+                              
+                  
+                            </div>
+                            <div class="col-12">
+                                <hr>
+                            </div>
+                            <div class="col-12">
+                  
+                              <div style="display:flex; flex: 2;">
+                                <div style="flex: 1.7">
+                                  <h3 class="card-title  text-muted mb-3">
+                                    <span class="dot-orange"></span>
+                                  <b>OCCUPANCY</b>
+                                    </h3>
+                                </div>
+                                  
+                                  <div style="flex: .3">
+                                  <h3 class="card-title  text-muted mb-3">
+                                    <b>{{avg_occupancy}}%</b>
+                                  </h3>
+                                  </div>
+                              </div>
+                              <!-- Title -->
+                              
+                  
+                            </div>
+                          </div>
+                  
+                        </div>
+                      </div>
+                    </div>
+                </div>
+
+                <div class="row col-12" style="margin-top: .5%;">
+                  <div class="col-12 col-lg-6 col-xl">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="row align-items-center">
+                          <div class="col">
+                
+                            <!-- Title -->
+                            <h3 class="card-title  text-muted mb-3">
+                              <b>OVERALL MIN. OCCUPANCY</b>
+                            </h3>
+                            
+                            <!-- Heading -->
+                            <span class="h3 mb-0">
+                              {{minOccupancy.avg_occupancy | number : '1.1-1'}}%
+                            </span>
+                
+                          </div>
+                        </div>
+                
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-lg-6 col-xl">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="row align-items-center">
+                          <div class="col">
+                
+                            <!-- Title -->
+                            <h3 class="card-title  text-muted mb-3">
+                              <b>OVERALL MAX. OCCUPANCY</b>
+                            </h3>
+                            
+                            <!-- Heading -->
+                            <span class="h3 mb-0">
+                              {{maxOccupancy.avg_occupancy | number : '1.1-1'}} %
+                            </span>
+                
+                          </div>
+                        </div>
+                
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row col-12" style="margin-top: .5%;">
+                  <div class="col-12 col-lg-6 col-xl">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="row align-items-center">
+                          <div class="col">
+                
+                            <!-- Title -->
+                            <h3 class="card-title  text-muted mb-3">
+                              <b>MIN. OCCUPANCY AT</b>
+                            </h3>
+                            
+                            <!-- Heading -->
+                            <span class="h3 mb-0">
+                              {{minOccupancy.timestamp * 1000 | date:'d-M-y h:mm a'}}
+                            </span>
+                
+                          </div>
+                        </div>
+                
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-lg-6 col-xl">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="row align-items-center">
+                          <div class="col">
+                
+                            <!-- Title -->
+                            <h3 class="card-title  text-muted mb-3">
+                              <b>MAX. OCCUPANCY AT</b>
+                            </h3>
+                            
+                            <!-- Heading -->
+                            <span class="h3 mb-0">
+                              {{maxOccupancy.timestamp * 1000 | date:'d-M-y h:mm a'}}
+                            </span>
+                
+                          </div>
+                        </div>
+                
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row col-12">
+                    <div class="col-12">
+
+                    <div class="card">
+                        <div class="card-body">
+                          <div class="row col-12" style="display: flex;
+                          flex-direction: row;
+                          align-items: flex-start;
+                          width:100%">
+                          <div>
+                            <h3 class="card-title">Occupancy Rate (%)</h3>
+                          </div>
+                              <mat-icon style="margin-left: auto; cursor: pointer;float: right;" (click)="downloadOccupancyData('occupancy')">cloud_download</mat-icon>      
+                          </div>
+                          
+                          <hr>
+                          <div style="padding: 0;" [chart]="occupancyChart"></div>
+                        </div>
+                      </div>
+                      </div>
+                </div>
+                </mat-tab>
+                <mat-tab  label="TURNOVER" >
+                  <div class="row col-12" style="margin-top: .5%;">
+                    <div class="col-12">
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="row align-items-center">
+                            <div class="col-12">
+                  
+                              <div style="display:flex; flex: 2;">
+                                <div style="flex: 1.7">
+                                  <h3 class="card-title  text-muted mb-3">
+                                    <span class="dot-white"></span>
+                                  <b>{{'MIN. TURNOVER (SPOT ' + minTurnover.spot_id+')'}}</b>
+                                    </h3>
+                                </div>
+                                
+                                  <div style="flex: .3">
+                                  <h3 class="card-title  text-muted mb-3">
+                                    <b>{{minTurnover.total_inflow}}</b>
+                                  </h3>
+                                  </div>
+                              </div>
+                              <!-- Title -->
+                              
+                  
+                            </div>
+                            <div class="col-12">
+                                <hr>
+                            </div>
+                            <div class="col-12">
+                  
+                              <div style="display:flex; flex: 2;">
+                                <div style="flex: 1.7">
+                                  <h3 class="card-title  text-muted mb-3">
+                                    <span class="dot-blue"></span>
+                                  <b>{{'MAX. TURNOVER (SPOT ' + maxTurnover.spot_id+')'}}</b>
+                                    </h3>
+                                </div>
+                                  
+                                  <div style="flex: .3">
+                                  <h3 class="card-title  text-muted mb-3">
+                                    <b>{{maxTurnover.total_inflow}}</b>
+                                  </h3>
+                                  </div>
+                              </div>
+                              <!-- Title -->
+                              
+                  
+                            </div>
+                          </div>
+                  
+                        </div>
+                      </div>
+                    </div>
+                </div>
+
+                <div class="row col-12" style="margin-top: .5%;">
+                  <div class="col-12 col-lg-6 col-xl">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="row align-items-center">
+                          <div class="col">
+                
+                            <!-- Title -->
+                            <h3 class="card-title  text-muted mb-3">
+                              <b>TOTAL No. OF VISITORS</b>
+                            </h3>
+                            
+                            <!-- Heading -->
+                            <span class="h3 mb-0">
+                                {{global_all.total_inflow}}
+                            </span>
+                
+                          </div>
+                        </div>
+                
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-lg-6 col-xl">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="row align-items-center">
+                          <div class="col">
+                
+                            <!-- Title -->
+                            <h3 class="card-title  text-muted mb-3">
+                              <b>AVERAGE TURNOVER</b>
+                            </h3>
+                            
+                            <!-- Heading -->
+                            <span class="h3 mb-0">
+                              {{averageTurnover | number : '1.0-0'}}
+                            </span>
+                
+                          </div>
+                        </div>
+                
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row col-12" style="margin-top: .5%;">
+                  <div class="col-12 col-lg-6 col-xl">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="row align-items-center">
+                          <div class="col">
+                
+                            <!-- Title -->
+                            <h3 class="card-title  text-muted mb-3">
+                              <b>PEAK HOUR</b>
+                            </h3>
+                            
+                            <!-- Heading -->
+                            <span class="h3 mb-0">
+                                {{global_all.peak_at * 1000 | date:'HH:mm d-M-y'}}
+                              <!-- 08:00 20-10-2020 -->
+                            </span>
+                
+                          </div>
+                        </div>
+                
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-lg-6 col-xl">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="row align-items-center">
+                          <div class="col">
+                
+                            <!-- Title -->
+                            <h3 class="card-title  text-muted mb-3">
+                              <b>LULL HOUR</b>
+                            </h3>
+                            
+                            <!-- Heading -->
+                            <span class="h3 mb-0">
+                                {{global_all.lull_at * 1000 | date:'HH:mm d-M-y'}}
+                              <!-- 01:30 21-10-2020 -->
+                            </span>
+                
+                          </div>
+                        </div>
+                
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row col-12">
+                    <div class="col-12">
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row col-12" style="display: flex;
+                          flex-direction: row;
+                          align-items: flex-start;
+                          width:100%">
+                          <div>
+                              <h3 class="card-title">INCOMING VEHICLES</h3>
+                            </div>
+                              <mat-icon style="margin-left: auto; cursor: pointer;float: right;" (click)="downloadOccupancyData('incoming_vehicles')">cloud_download</mat-icon>      
+                          </div>
+                          <hr>
+                          <div [chart]="inTurnoverChart"></div>
+                          <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                        </div>
+                      </div>
+                      </div>
+                  </div>
+
+                  <div class="row col-12">
+                    <div class="col-12">
+
+                    <div class="card">
+                        <div class="card-body">
+                          <div class="row col-12" style="display: flex;
+                          flex-direction: row;
+                          align-items: flex-start;
+                          width:100%">
+                          <div>
+                              <h3 class="card-title">OUTGOING VEHICLES</h3>
+                            </div>
+                              <mat-icon style="margin-left: auto; cursor: pointer;float: right;" (click)="downloadOccupancyData('outgoing_vehicles')">cloud_download</mat-icon>      
+                          </div>
+                          <hr>
+                          <div [chart]="outTurnoverChart"></div>
+                          <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                        </div>
+                      </div>
+                      </div>
+                  </div>
+                </mat-tab>
+                <mat-tab *ngIf = "false" label="DURATION">
+                    <div class="row col-12" style="margin-top: .5%;">
+                        <div class="col-12">
+                          <div class="card">
+                            <div class="card-body">
+                              <div class="row align-items-center">
+                                <div class="col-12">
+                      
+                                  <div style="display:flex; flex: 2;">
+                                    <div style="flex: 1.7">
+                                      <h3 class="card-title  text-muted mb-3">
+                                        <span class="dot-white"></span>
+                                        <b>{{'MIN. MEDIAN DURATION (SPOT ' + minMedianDuration.spot_id+')'}}</b>
+                                      <!-- <b>MIN MEDIAN DURATION (SPOT 35)</b> -->
+                                        </h3>
+                                    </div>
+                                    
+                                      <div style="flex: .3">
+                                      <h3 class="card-title  text-muted mb-3">
+                                          <!-- <b>{{timeConvert(minMedianDuration.median_duration)}}</b> -->
+                                          <b>{{minMedianDurationTime }}</b>
+
+                                        </h3>
+                                      </div>
+                                  </div>
+                                  <!-- Title -->
+                                  
+                      
+                                </div>
+                                <div class="col-12">
+                                    <hr>
+                                </div>
+                                <div class="col-12">
+                      
+                                  <div style="display:flex; flex: 2;">
+                                    <div style="flex: 1.7">
+                                      <h3 class="card-title  text-muted mb-3">
+                                        <span class="dot-purple"></span>
+                                        <b>{{'MAX. MEDIAN DURATION (SPOT ' + maxMedianDuration.spot_id+')'}}</b>
+                                        </h3>
+                                    </div>
+                                      
+                                      <div style="flex: .3">
+                                      <h3 class="card-title  text-muted mb-3">
+                                          <!-- <b>{{timeConvert(maxMedianDuration.median_duration)}}</b> -->
+                                          <b>{{maxMedianDurationTime }}</b>
+                                      </h3>
+                                      </div>
+                                  </div>
+                                  <!-- Title -->
+                                  
+                      
+                                </div>
+                              </div>
+                      
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+
+                    <div class="row col-12" style="margin-top: .5%;">
+                      <div class="col-12 col-lg-6 col-xl">
+                        <div class="card">
+                          <div class="card-body">
+                            <div class="row align-items-center">
+                              <div class="col">
+                    
+                                <!-- Title -->
+                                <h3 class="card-title  text-muted mb-3">
+                                  <b>MEDIAN VISIT DURATION</b>
+                                </h3>
+                                
+                                <!-- Heading -->
+                                <span class="h3 mb-0">
+                                  {{medianDuration}}
+                                </span>
+                    
+                              </div>
+                            </div>
+                    
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12 col-lg-6 col-xl">
+                        <div class="card">
+                          <div class="card-body">
+                            <div class="row align-items-center">
+                              <div class="col">
+                    
+                                <!-- Title -->
+                                <h3 class="card-title  text-muted mb-3">
+                                  <b>TOTAL VISIT DURATION</b>
+                                </h3>
+                                
+                                <!-- Heading -->
+                                <span class="h3 mb-0">
+                                  {{totalDuration}}
+                                </span>
+                    
+                              </div>
+                            </div>
+                    
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <div class="row col-12">
+                        <div class="col-12">
+
+                        <div class="card">
+                            <div class="card-body">
+                              <div class="row col-12" style="display: flex;
+                          flex-direction: row;
+                          align-items: flex-start;
+                          width:100%">
+                          <div>
+                              <h3 class="card-title">MEDIAN PARKING DURATION</h3>
+                            </div>
+                              <mat-icon style="margin-left: auto; cursor: pointer;float: right;" (click)="downloadOccupancyData('median_duration')">cloud_download</mat-icon>      
+                          </div>
+                              <hr>
+                              <div [chart]="medianDurationChart"></div>
+                              <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                            </div>
+                          </div>
+                          </div>
+                      <!-- <mat-card style="padding: 3%;">
+                        <mat-card-header>
+                            <mat-icon><b>schedule</b></mat-icon>
+                            <mat-card-title>
+                                Occupancy Variation
+                            </mat-card-title>
+                        </mat-card-header>
+                        <mat-divider style="position: relative !important;"></mat-divider>
+                        <mat-card-content>
+                                <div class="flex_row_sub" *ngIf="dataWeekly.length != 0">
+                                        <div class="flex_col_sm_6">
+                                            <div class="flex_row_sub" style="font-size: 16px;">Maximum at
+                                                {{dataWeekly[dataWeekly.length-1].timestamp*1000 | date:'mediumTime'}}</div>
+        
+                                            <div class="flex_row_sub">
+        
+                                                <progress-bar class="progress_bar"
+                                                    [progress]="dataWeekly[dataWeekly.length-1].avg_occupancy"
+                                                    [color-degraded]="{'0': '#488aff',  '40': '#f9cec3', '80': '#fd8c8e'}">
+                                                </progress-bar>
+        
+                                            </div>
+                                            <div class="flex_row_sub" style="font-size: 16px;">Minimum at
+                                                {{dataWeekly[0].timestamp*1000 | date:'mediumTime'}}</div>
+        
+                                            <div class="flex_row_sub">
+        
+                                                <progress-bar class="progress_bar" [progress]="dataWeekly[0].avg_occupancy"
+                                                [color-degraded]="{'0': '#488aff',  '40': '#f9cec3', '80': '#fd8c8e'}">
+                                                </progress-bar>
+                                            </div>
+                                        </div>
+                                    </div>
+                        </mat-card-content>
+                        
+                       
+                    </mat-card> -->
+                    </div>
+                </mat-tab>
+                <mat-tab *ngIf="false" label="ENTRY TURNOVER">
+                  <div class="row col-12" style="margin-top: .5%;">
+                    <div class="col-12">
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="row align-items-center">
+                            <div class="col-12">
+                  
+                              <div style="display:flex; flex: 2;">
+                                <div style="flex: 1.7">
+                                  <h3 class="card-title  text-muted mb-3">
+                                    <span class="dot-green"></span>
+                                  <b>ENTRIES IN COUNT</b>
+                                    </h3>
+                                </div>
+                                
+                                
+                                  <div style="flex: .3">
+                                  <h3 class="card-title  text-muted mb-3">
+                                    <b>{{inCount}}</b>
+                                  </h3>
+                                  </div>
+                              </div>
+                              <!-- Title -->
+                              
+                  
+                            </div>
+                            <div class="col-12">
+                                <hr>
+                            </div>
+                            <div class="col-12">
+                  
+                              <div style="display:flex; flex: 2;">
+                                <div style="flex: 1.7">
+                                  <h3 class="card-title  text-muted mb-3">
+                                    <span class="dot-red"></span>
+                                  <b>ENTRIES OUT COUNT</b>
+                                    </h3>
+                                </div>
+                                  
+                                  <div style="flex: .3">
+                                  <h3 class="card-title  text-muted mb-3">
+                                    <b>{{outCount}}</b>
+                                  </h3>
+                                  </div>
+                              </div>
+                              <!-- Title -->
+                              
+                  
+                            </div>
+
+                            <!-- <div class="col-12">
+                              <hr>
+                          </div>
+                          <div class="col-12">
+                
+                            <div style="display:flex; flex: 2;">
+                              <div style="flex: 1.7">
+                                <h3 class="card-title  text-muted mb-3">
+                                  <span class="dot-red"></span>
+                                <b>TOTAL ENTRIES COUNT</b>
+                                  </h3>
+                              </div>
+                                
+                                <div style="flex: .3">
+                                <h3 class="card-title  text-muted mb-3">
+                                  <b>34567</b>
+                                </h3>
+                                </div>
+                            </div>
+                            
+                          </div> -->
+                          </div>
+                  
+                        </div>
+                      </div>
+                    </div>
+                </div>
+
+                <div class="row col-12" style="margin-top: .5%;">
+                  <div class="col-12 col-lg-6 col-xl">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="row align-items-center">
+                          <div class="col">
+                
+                            <!-- Title -->
+                            <h3 class="card-title  text-muted mb-3">
+                              <b>{{'AUTOMATIC ENTRIES ('+autoEntryCount+')'}} </b>
+                            </h3>
+                            
+                            <!-- Heading -->
+                            <span class="h3 mb-0">
+                              {{autoEntryCountPer}}%
+                            </span>
+                
+                          </div>
+                        </div>
+                
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-lg-6 col-xl">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="row align-items-center">
+                          <div class="col">
+                
+                            <!-- Title -->
+                            <h3 class="card-title  text-muted mb-3">
+                              <b>{{'MANUAL ENTRIES ('+manEntryCount+')'}}</b>
+                            </h3>
+                            
+                            <!-- Heading -->
+                            <span class="h3 mb-0">
+                              {{manEntryCountPer}}%
+                            </span>
+                
+                          </div>
+                        </div>
+                
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row col-12" style="margin-top: .5%;">
+                  <div class="col-12 col-lg-6 col-xl">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="row align-items-center">
+                          <div class="col">
+                
+                            <!-- Title -->
+                            <h3 class="card-title  text-muted mb-3">
+                              <b>GUEST COUNT</b>
+                            </h3>
+                            
+                            <!-- Heading -->
+                            <span class="h3 mb-0">
+                              {{guestEntryCount}}
+                            </span>
+                
+                          </div>
+                        </div>
+                
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-lg-6 col-xl">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="row align-items-center">
+                          <div class="col">
+                
+                            <!-- Title -->
+                            <h3 class="card-title  text-muted mb-3">
+                              <b>EMPLOYEE COUNT</b>
+                            </h3>
+                            
+                            <!-- Heading -->
+                            <span class="h3 mb-0">
+                              {{empEntryCount}}
+                            </span>
+                
+                          </div>
+                        </div>
+                
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- <div class="row col-12">
+                    <div class="col-12">
+
+                    <div class="card">
+                        <div class="card-body">
+                          <div class="row col-12" style="display: flex;
+                          flex-direction: row;
+                          align-items: flex-start;
+                          width:100%">
+                          <div>
+                              <h3 class="card-title">INCOMING (anpr) VEHICLES</h3>
+                            </div>
+                              <mat-icon style="margin-left: auto; cursor: pointer;float: right;" (click)="downloadOccupancyData('in_anpr_data')">cloud_download</mat-icon>      
+                          </div>
+                          <hr>
+                          <div [chart]="inEntryChart"></div>
+                        </div>
+                      </div>
+                      </div>
+                </div>
+
+                <div class="row col-12">
+                  <div class="col-12">
+
+                  <div class="card">
+                      <div class="card-body">
+                        <div class="row col-12" style="display: flex;
+                          flex-direction: row;
+                          align-items: flex-start;
+                          width:100%">
+                          <div>
+                              <h3 class="card-title">OUTGOING (anpr) VEHICLES</h3>
+                            </div>
+                              <mat-icon style="margin-left: auto; cursor: pointer;float: right;" (click)="downloadOccupancyData('out_anpr_data')">cloud_download</mat-icon>      
+                          </div>
+                        <hr>
+                        <div [chart]="outEntryChart"></div>
+                      </div>
+                    </div>
+                    </div>
+              </div> -->
+                </mat-tab>
+            </mat-tab-group>
+              
+        </div>
+
+        <!-- <div class="row col-12">
+          <div class="col-12">
+
+          <div class="card">
+              <div class="card-body">
+                <h3 class="card-title">OUTGOING VEHICLES</h3>
+                <hr>
+                <div [chart]="outTurnoverChart"></div>
+              </div>
+            </div>
+            </div>
+        </div> -->
+      </div>
+    </div> 

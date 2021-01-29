@@ -1,0 +1,149 @@
+<div class="custom_container">
+  <div class="white_wrapper">
+    <h2 class="heading">Driver Detail</h2>
+    <div class="flex_row">
+      <ul class="breadcrumb">
+        <li>
+          <a href="javascript:void(0)">Home</a>
+        </li>
+        <li>
+          <a routerLink="/admin/entry-log/list">EntryLog</a>
+        </li>
+        <li>
+          <a href="javascript:void(0)" class="active">Detail</a>
+        </li>
+      </ul>
+    </div>
+    <div class="form_wrapper" *ngIf="driver">
+
+      <div class="flex_row">
+        <div class="flex_col_sm_3">
+          <div class="form_filed_wrapper_details">
+            <label class="form_label">No. Plate</label>
+            <span *ngIf="driver.vehicleId" class="show_label">{{ driver.vehicleData.regNo }}</span>
+            <span *ngIf="!driver.vehicleId" class="show_label">{{ driver.vehicleInfo.regNo }}</span>
+
+          </div>
+        </div>
+
+        <div class="flex_col_sm_3">
+          <div class="form_filed_wrapper_details">
+            <label class="form_label">Vehicle Type</label>
+            <span *ngIf="driver.vehicleId" class="show_label">{{ driver.vehicleData.vehicleType | checkNull }}</span>
+            <span *ngIf="!driver.vehicleId" class="show_label">{{ driver.vehicleInfo.vehicleType | checkNull}}</span>
+
+          </div>
+        </div>
+
+        <div class="flex_col_sm_3">
+          <div class="form_filed_wrapper_details">
+            <label class="form_label">Valid Till</label>
+            <span class="show_label">{{ driver.userData.guestValidity | date:'medium' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex_row">
+        <div class="flex_col_sm_3">
+          <div class="form_filed_wrapper_details">
+            <label class="form_label">Entry Type</label>
+            <span class="show_label">{{
+              driver.entryType | checkNull
+            }}</span>
+          </div>
+        </div>
+
+        
+        <div class="flex_col_sm_3">
+          <div class="form_filed_wrapper_details">
+            <label class="form_label">Model</label>
+            <span *ngIf="driver.vehicleId" class="show_label">{{ driver.vehicleData.modal | checkNull }}</span>
+            <span *ngIf="!driver.vehicleId" class="show_label">{{ driver.vehicleInfo.modal | checkNull }}</span>
+
+          </div>
+        </div>
+
+        <div class="flex_col_sm_3">
+          <div class="form_filed_wrapper_details">
+            <label class="form_label">Username</label>
+            <span *ngIf="driver.vehicleId" class="show_label">{{ driver.userData.name | checkNull }}</span>
+            <span *ngIf="!driver.vehicleId" class="show_label">{{ driver.vehicleInfo.name | checkNull }}</span>
+
+          </div>
+        </div>
+
+        <!-- <div class="flex_col_sm_3">
+          <div class="form_filed_wrapper_details">
+            <label class="form_label">Status</label>
+            <span class="show_label">{{
+              driver.vehicleData.status | status | titlecase | checkNull
+            }}</span>
+          </div>
+        </div> -->
+      </div>
+
+
+      <div class="flex_row" *ngIf="!driver.vehicleId">
+        <div class="flex_col_sm_3">
+          <div class="form_filed_wrapper_details">
+            <label class="form_label">Visitor ID</label>
+            <span class="show_label">{{
+              driver.vehicleInfo.visitorId | checkNull
+            }}</span>
+          </div>
+        </div>
+
+        
+        <div class="flex_col_sm_3">
+          <div class="form_filed_wrapper_details">
+            <label class="form_label">Visitor Type</label>
+            <span class="show_label">{{ driver.vehicleInfo.visitorIdType | checkNull }}</span>
+
+          </div>
+        </div>
+
+        <div class="flex_col_sm_3">
+          <div class="form_filed_wrapper_details">
+            <label class="form_label">Purpose Of Visit</label>
+            <span class="show_label">{{ driver.vehicleInfo.purposeOfVisit | checkNull }}</span>
+          </div>
+        </div>
+
+        
+      </div>
+
+
+
+      <div class="flex_row">
+        <div class="flex_col_sm_10">
+          <div class="form_filed_wrapper_details text-center">
+            <ul class="btn_wrapper">
+              <li>
+                <!-- <button mat-raised-button color="primary" (click)="changeStatus('deleted', driver._id)">Archive</button> -->
+                <!-- <button mat-raised-button color="primary"
+                                    (click)="
+                                    changeStatus(
+                                        driver.status === 'blocked' ? 'unblocked' : 'blocked',
+                                        driver._id
+                                    )
+                                    ">
+                                  
+                                    {{ driver.status === "blocked" ? "un-block" : "Block" }}
+                                  </button> -->
+                <button *ngIf="driver.vehicleId"  mat-raised-button [routerLink]="['EDIT_DRIVER' | absolutePath, driver?._id]" [color]="driver.entryType != 'manual' || driver.vehicleData.regNo || driver.vehicleData.vehicleType || driver.userData.guestValidity || driver.entryType || driver.vehicleData.modal || driver.userData.name ? 'secondary' : 'primary'"  [disabled]="driver.entryType != 'manual' || driver.vehicleData.regNo || driver.vehicleData.vehicleType || driver.userData.guestValidity || driver.entryType || driver.vehicleData.modal || driver.userData.name">
+                  Edit
+                </button>
+
+          
+
+                <button *ngIf="!driver.vehicleId" mat-raised-button [routerLink]="['EDIT_DRIVER' | absolutePath, driver?._id]" color="primary">
+                  Edit
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

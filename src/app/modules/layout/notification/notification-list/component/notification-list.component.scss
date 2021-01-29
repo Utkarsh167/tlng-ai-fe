@@ -1,0 +1,139 @@
+.breadcrumb {
+    width: 100%;
+    // padding: 5px 15px;
+    li {
+        display: inline-block;
+        a {
+            color: #006CB8;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 400;
+            outline: none;
+            &:before {
+                padding: 0 5px;
+                color: #B7BEC1;
+                content: "/ ";
+            }
+            &:after {
+                content: "/\00a0";
+                padding: 0 2px;
+                color: #A2ABAE;
+            }
+            &.active {
+                color: rgb(38, 44, 45);
+                cursor: default;
+                &:after {
+                    display: none;
+                }
+            }
+        }
+        &:first-child {
+            a {
+                &:before,
+                &:after {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+.btn_wrapper {
+    li {
+        &:first-child {
+            margin-top: 0;
+        }
+    }
+}
+
+.filter-count {
+    cursor: default;
+    pointer-events: none;
+    color: #636F73;
+    font-size: 13px;
+    position: relative;
+    top: 13px;
+}
+
+.mat-table img{
+    border: 1px solid #9ce4d4;
+}
+.table_search-input {
+    font-family: "avenir-medium";
+    font-size: 1rem;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    border: none;
+    color: #000;
+}
+
+.table_search-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid 
+    #e6ebf0;
+    padding: 0.5rem;
+}
+
+.table_wrapper {
+    padding: 2.4rem;
+}
+.white-card {
+    border-radius: 4px;
+    box-shadow: 0 4px 16px 0 
+rgba(0, 0, 0, 0.06);
+background-color:
+    #ffffff;
+}
+
+.table_search {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 0 1rem 0;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #CBD3CF ;
+    opacity: 1; /* Firefox */
+  }
+  
+  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #CBD3CF;
+  }
+  
+  ::-ms-input-placeholder { /* Microsoft Edge */
+    color: #CBD3CF;
+  }
+  .complete-align{
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .text-muted{
+    color: rgb(122, 120, 120) !important;
+  }
+  .col-2{
+    padding-left: 0 !important;
+  }
+  .view_details_dash {
+    color: #006CB8 !important;
+    cursor: pointer !important;
+}
+th {
+    font-family: 'avenir-medium';
+    color: black !important;
+    opacity: 36% !important;
+    font-size: 10px !important;
+}
+
+.td-color-font, td.span, span {
+    font-family: avenir-book !important;
+    color: black !important;
+    opacity: 88% !important;
+    font-size: 14px !important;
+}

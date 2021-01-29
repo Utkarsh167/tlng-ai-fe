@@ -1,0 +1,861 @@
+<!-- <div class="parentWrapper">
+
+  <div class="white_wrapper">
+
+
+    <div class="flex_row_sub">
+
+      <div class="flex_col_sm_6" style="background-color: #F8F8F8;">
+
+        <div class="flex_row_sub container-fluid">
+          <div class="flex_col_sm_3">
+            <h5>{{selectedTime * 1000 | date: 'medium'}}</h5>
+            <mat-slider (change)="sliderData($event)" [disabled]="sliderDisabled" role="slider"
+              [(ngModel)]="sliderValue" min="{{previousTimestamp}}" max="{{currentTimestamp}}"></mat-slider>
+
+            <div class="flex">
+              <div class="alignLeft">
+                <span>OLDEST</span>
+              </div>
+
+              <div class="alignRight">
+                <span>LATEST</span>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="flex_col_sm_3">
+            <mat-form-field appearance="outline">
+              <mat-label>Building</mat-label>
+              <mat-select class="form-control" [(value)]="selectedBuilding" (selectionChange)="getFloors($event)"
+                placeholder="Mode">
+                <mat-option *ngFor="let building of locationsData; let i = index" value="{{i}}">{{building.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="flex_col_sm_3">
+            <mat-form-field appearance="outline">
+              <mat-label>Floor</mat-label>
+              <mat-select name="floor" class="form-control" [(value)]="selectedFloor"
+                (selectionChange)="getMapData($event)" placeholder="Floor">
+                <mat-option *ngFor="let floor of floorsData; let i = index" value="{{i}}">
+                  {{floor.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+
+
+        </div>
+      </div>
+
+      <div class="flex_col_sm_6" style="background-color: #F8F8F8;">
+        <div class="flex_row_sub">
+
+          <div class="flex_col_sm_2 text-center">
+            <h6 *ngIf="VacantData">{{VacantData}}</h6>
+            <h6 *ngIf="!VacantData">0</h6>
+
+            <span>Available Slots</span>
+          </div>
+          <div class="flex_col_sm_2 text-center">
+            <h6 *ngIf="OccupiedData">{{OccupiedData}}</h6>
+            <h6 *ngIf="!OccupiedData">0</h6>
+            <span>Parked Cars</span>
+          </div>
+          <div class="flex_col_sm_2 text-center">
+            <h6>0</h6>
+            <span>Parked Bikes</span>
+          </div>
+          <div class="flex_col_sm_2 text-center">
+            <h6>0</h6>
+            <span>Visitors</span>
+          </div>
+          <div class="flex_col_sm_2 text-center">
+            <h6>0</h6>
+            <span>Wrong Parking</span>
+          </div>
+          <div class="flex_col_sm_2 text-center">
+            <h6 *ngIf="!MedianDuration">0</h6>
+            <h6 *ngIf="MedianDuration">{{MedianDuration | secondsToHours}}</h6>
+            <span>Long Duration</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    
+    <div class="flex_row_sub">
+      <div class="flex_col_sm_5" style="background-color: #F8F8F8;">
+
+
+        <div class="flex_row_sub container-fluid">
+          <div class="flex_col_sm_2">
+
+            <mat-form-field appearance="outline">
+              <mat-label>Zone</mat-label>
+              <mat-select name="zone" [disabled]="disableZone" class="form-control" [(value)]="selectedZone"
+                (selectionChange)="getZonesData($event)" placeholder="Zone" [ngClass]="selected">
+                <mat-option value="All">All</mat-option>
+                <mat-option *ngFor="let zone of zonesData; let i = index" value="{{i}}">{{zone.parqueryValue}}
+                </mat-option>
+
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="flex_col_sm_2">
+            <mat-form-field appearance="outline">
+              <mat-label>View</mat-label>
+              <mat-select name="view" class="form-control" [(value)]="selectedMap"
+                (selectionChange)="viewChange($event)" placeholder="View" [ngClass]="selected">
+                <mat-option *ngFor="let each of view; let i = index" value="{{i}}">
+                  {{each.viewValue}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="flex_col_sm_2" id="cameras" style="display: none;">
+            <mat-form-field appearance="outline">
+              <mat-label>Camera</mat-label>
+              <mat-select name="camera" class="form-control" [(value)]="selectedCamera"
+                (selectionChange)="cameraChange($event)" placeholder="Camera" [ngClass]="selected">
+                <mat-option *ngFor="let camera of cameras; let i = index" value="{{i}}">
+                  {{camera}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="flex_col_sm_2" id="status">
+            <mat-form-field appearance="outline">
+              <mat-label>Status</mat-label>
+              <mat-select name="duration" class="form-control" [(value)]="status_selected"
+                (selectionChange)="statusFilter($event)" placeholder="Duration" [ngClass]="selected">
+                <mat-option *ngFor="let each of status" value="{{each.value}}">
+                  {{each.viewValue}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="flex_col_sm_2" id="duration" style="display: none;">
+            <mat-form-field appearance="outline" [class.disabled]="true">
+              <mat-label>Duration</mat-label>
+              <mat-select name="duration" class="form-control" [(value)]="duration_selected"
+                (selectionChange)="durationFilter($event)" placeholder="Duration" [ngClass]="selected">
+                <mat-option *ngFor="let time of duration" value="{{time.value}}">
+                  {{time.viewValue}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+         
+        </div>
+
+        <div class="flex_row_sub">
+          <div id="imageContainer" class="container-fluid image_overflow" (click)="openMapDialog()">
+           
+            <div *ngIf="snapShotData" id="img_container">
+              <img src="{{IMAGE_SRC}}" width="{{imageSize.width}}" height="{{imageSize.height}}" />
+              <div *ngFor="let each of scopeMapData; let i = index;">
+                <div *ngIf="snapShotData[i].occupied && !withImage" class="pointer_red tooltip-realtime"
+                  [ngStyle]="{'left': (each.point.x-8)+'px', 'top': (each.point.y-6)+'px', 'background-color': snapShotData[i].color}">
+                  <span class="tooltiptext-realtime">
+                    <div><span>Spot:&nbsp;</span> <span>{{snapShotData[i].spot_id}}</span></div>
+                    <div><span>Status:&nbsp;</span>
+                      <span *ngIf="snapShotData[i].occupied">Occupied</span>
+                      <span *ngIf="!snapShotData[i].occupied">Available</span>
+
+                    </div>
+
+                    <div><span>Camera:&nbsp;</span> <span>{{snapShotData[i].camera_id}}</span></div>
+                    <div><span>Duration:&nbsp;</span> <span>{{snapShotData[i].duration | secondsToHours}}</span></div>
+                    <div><span>Since:&nbsp;</span>
+                      <span>{{(snapShotData[i].event_start) * 1000 | date:'fullDate'}}</span></div>
+
+                  </span>
+                </div>
+
+                <div *ngIf="snapShotData[i].occupied && withImage" class="pointer_red tooltip-realtime"
+                  [ngStyle]="{'left': (each.center.x-8)+'px', 'top': (each.center.y-6)+'px', 'background-color': snapShotData[i].color}">
+                  <span class="tooltiptext-realtime">
+                    <div><span>Spot:&nbsp;</span> <span>{{snapShotData[i].spot_id}}</span></div>
+                    <div><span>Status:&nbsp;</span>
+                      <span *ngIf="snapShotData[i].occupied">Occupied</span>
+                      <span *ngIf="!snapShotData[i].occupied">Available</span>
+                    </div>
+
+                    <div><span>Camera:&nbsp;</span> <span>{{snapShotData[i].camera_id}}</span></div>
+                    <div><span>Duration:&nbsp;</span> <span>{{snapShotData[i].duration | secondsToHours}}</span></div>
+                    <div><span>Since:&nbsp;</span>
+                      <span>{{(snapShotData[i].event_start) * 1000 | date:'fullDate'}}</span></div>
+
+                  </span>
+                </div>
+
+                <div *ngIf="!snapShotData[i].occupied && !withImage" class="pointer_green tooltip-realtime"
+                  [ngStyle]="{'left': (each.point.x-8)+'px', 'top': (each.point.y-6)+'px', 'background-color': snapShotData[i].color}">
+
+                  <span class="tooltiptext-realtime">
+                    <div><span>Spot:&nbsp;</span> <span>{{snapShotData[i].spot_id}}</span></div>
+                    <div><span>Status:&nbsp;</span>
+                      <span *ngIf="snapShotData[i].occupied">Occupied</span>
+                      <span *ngIf="!snapShotData[i].occupied">Available</span>
+                    </div>
+                    <div><span>Camera:&nbsp;</span> <span>{{snapShotData[i].camera_id}}</span></div>
+                  </span>
+                </div>
+
+                <div *ngIf="!snapShotData[i].occupied && withImage" class="pointer_green tooltip-realtime"
+                  [ngStyle]="{'left': (each.center.x-8)+'px', 'top': (each.center.y-6)+'px', 'background-color': snapShotData[i].color}">
+
+                  <span class="tooltiptext-realtime">
+                    <div><span>Spot:&nbsp;</span> <span>{{snapShotData[i].spot_id}}</span></div>
+                    <div><span>Status:&nbsp;</span>
+                      <span *ngIf="snapShotData[i].occupied">Occupied</span>
+                      <span *ngIf="!snapShotData[i].occupied">Available</span>
+                    </div>
+                    <div><span>Camera:&nbsp;</span> <span>{{snapShotData[i].camera_id}}</span></div>
+                  </span>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+        <div class="flex_row_sub margin_top_20">
+          <div class="flex_col_sm_2" *ngFor="let each of durationColors">
+            <div class="pointer_colors" [ngStyle]="{'background-color': each.color}"></div>
+            <div *ngIf="each.end == 0">Available</div>
+            <div *ngIf="each.end == 300">0-5 min</div>
+            <div *ngIf="each.end == 900">5-15 min</div>
+            <div *ngIf="each.end == 3600">15 min-1 hour</div>
+            <div *ngIf="each.end == 10800">1 hour-3 hour</div>
+            <div *ngIf="each.start == 10800">> 3 hour</div>
+
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="toggleNav" class="sidenav" class="flex_col_sm_7" style="background-color: #F8F8F8;">
+
+
+        <div class="flex_row_sub">
+          <div class="white_wrapper" style="width: 100%;">
+            <h6>Parking Slots</h6>
+            <table mat-table [dataSource]="datas" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8">
+              <ng-container matColumnDef="position">
+                <th mat-header-cell *matHeaderCellDef>No.</th>
+                <td mat-cell *matCellDef="let element; let i = index">
+                  {{ getSerialNumber(i + 1) }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> Name</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.name | checkNull }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="phoneNo">
+                <th mat-header-cell *matHeaderCellDef>Phone No.</th>
+                <td mat-cell *matCellDef="let element">
+
+                  {{ element.mobileNo | checkNull }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="camera">
+                <th mat-header-cell *matHeaderCellDef>Camera</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.camera_id | checkNull }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="zone">
+                <th mat-header-cell *matHeaderCellDef>Zone</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.zone_id | checkNull }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="slotNo">
+                <th mat-header-cell *matHeaderCellDef>Spot No.</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.spot_id | checkNull }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="vehicleId">
+                <th mat-header-cell *matHeaderCellDef>Vehicle No.</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.vehicle_id | checkNull }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="duration">
+                <th mat-header-cell *matHeaderCellDef>duration</th>
+                <td mat-cell *matCellDef="let element">
+                  <span *ngIf="element.duration">{{ element.duration | secondsToHours | checkNull }}</span>
+                  <span *ngIf="!element.duration">{{ element.duration | checkNull }}</span>
+
+
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="enteredAt">
+                <th mat-header-cell *matHeaderCellDef>Entered At</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.enteredAt | checkNull }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="exitedAt">
+                <th mat-header-cell *matHeaderCellDef>Exited At</th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element.exitedAt | checkNull }}
+                </td>
+              </ng-container>
+
+             
+
+              <ng-container matColumnDef="image">
+                <th mat-header-cell *matHeaderCellDef>Image</th>
+                <td mat-cell *matCellDef="let element" title="Download Video">
+                  <img width="50" height="50" src="data:image/png;base64,{{element.crop}}" />
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef>Status</th>
+                <td mat-cell *matCellDef="let element">
+                  <span style="cursor: context-menu;" *ngIf="element.occupied == false"
+                    class="pointer_green_status"></span>
+                  <span style="cursor: context-menu;" *ngIf="element.occupied == true"
+                    class="pointer_red_status"></span>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef>Action</th>
+                <td mat-cell *matCellDef="let element">
+                  <button mat-button [matMenuTriggerFor]="menu"
+                    [disabled]="!element.occupied || longHours > element.duration" class="btn-more-menu">
+                    <mat-icon>more_vert</mat-icon>
+                  </button>
+                  <mat-menu #menu="matMenu" xPosition="before">
+
+                    <button mat-menu-item (click)="notify(element)">
+                      <mat-icon matTooltip="Edit">notifications</mat-icon> Notify User
+                    </button>
+
+                  </mat-menu>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+
+            <div class="white_wrapper" *ngIf="total === 0">
+              <h2 class="not-found">No Data Found</h2>
+            </div>
+            <div class="white_wrapper" *ngIf="datas.data.length">
+              <mat-paginator [length]="total" [pageIndex]="page - 1" [pageSize]="pageSize"
+                [pageSizeOptions]="pageOptions" (page)="changePage($event)">
+              </mat-paginator>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    
+  </div>
+</div> -->
+<div class="main-content complete-align">
+
+    <div class="row">
+        <div class="col-sm-8 col-md-6 col-lg-8 col-xl-8">
+          <label  style="font-size: 25px !important;font-weight: 100 !important;">
+          Real Time Duration 
+          </label>
+        </div>
+        <div class="col-sm-4 col-md-6 col-lg-4 col-xl-4">
+            <h5 style="margin-bottom: 0 !important;">{{selectedTime * 1000 | date: 'MMM d, y, h:mm a'}}</h5>
+            <mat-slider style="margin-top: 0 !important;" (change)="sliderData($event)" [disabled]="sliderDisabled" role="slider"
+              [(ngModel)]="sliderValue" color="primary" min="{{previousTimestamp}}" max="{{currentTimestamp}}"></mat-slider>
+
+            <div class="row" style="margin-top: 0 !important;">
+              <div class="">
+                <span>OLDEST</span>
+              </div>
+
+              <div class="alignRight">
+                <span>LATEST</span>
+              </div>
+
+            </div>
+
+          </div>
+      </div>
+
+    <div class="row">
+        <div class="col-12 col-lg-6 col-xl">
+          <div class="mb-2">
+              <label style="margin-bottom: 0;">BUILDING</label>
+            <select [(ngModel)]="selectedBuilding" (change)="getFloors($event.target.value)" class="form-control" data-toggle="select" data-options='{"minimum-results-for-search": -1}'>
+            <option *ngFor="let building of locationsData; let i = index" value="{{i}}">
+            {{building.name}}
+            </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6 col-xl">
+          <div class="mb-2">
+              <label style="margin-bottom: 0;">FLOOR</label>
+            <select name="floor" class="form-control" [(ngModel)]="selectedFloor" (change)="getMapData($event.target.value)" data-toggle="select" data-options='{"minimum-results-for-search": -1}'>
+              <option *ngFor="let floor of floorsData; let i = index" value="{{i}}">
+              {{floor.name}}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6 col-xl">
+          <div class="mb-2">
+              <label style="margin-bottom: 0;">ZONE</label>
+          <select name="zone" class="form-control" [disabled]="disableZone" [(ngModel)]="selectedZone" (change)="getZonesData($event.target.value)" data-toggle="select" data-options='{"minimum-results-for-search": -1}'>
+            <option value="1000">All</option>
+            <option *ngFor="let zone of zonesData; let i = index" value="{{i}}">{{zone.parqueryValue}}
+            </option>
+          </select>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6 col-xl">
+          <div class="mb-2">
+              <label style="margin-bottom: 0;">VIEW</label>
+          <select name="view" class="form-control" [(ngModel)]="selectedMap" (change)="viewChange($event.target.value)" data-toggle="select" data-options='{"minimum-results-for-search": -1}'>
+            <option *ngFor="let each of view; let i = index" value="{{i}}">
+              {{each.viewValue}}
+            </option>
+          </select>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6 col-xl" id="cameras" style="display: none;">
+          <div class="mb-2">
+              <label style="margin-bottom: 0;">CAMERA</label>
+          <select name="camera" class="form-control" [(ngModel)]="selectedCamera" (change)="cameraChange($event.target.value)" data-toggle="select" data-options='{"minimum-results-for-search": -1}'>
+            <option *ngFor="let camera of cameras; let i = index" value="{{i}}">
+              {{camera}}
+            </option>
+          </select>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6 col-xl" id="status">
+          <div class="mb-2">
+              <label style="margin-bottom: 0;">STATUS</label>
+            <select name="duration" class="form-control" [(ngModel)]="status_selected" (change)="statusFilter($event.target.value)" data-toggle="select" data-options='{"minimum-results-for-search": -1}' [ngClass]="selected">
+            <option *ngFor="let each of status" [value]="each.value">
+            {{each.viewValue}}
+            </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6 col-xl" id="duration" style="display: none;">
+          <div class="mb-2">
+              <label style="margin-bottom: 0;">DURATION</label>
+            <select name="duration" class="form-control" [(ngModel)]="duration_selected" (change)="durationFilter($event.target.value)" data-toggle="select" data-options='{"minimum-results-for-search": -1}' [ngClass]="selected">
+            <option *ngFor="let time of duration" value="{{time.value}}">
+              {{time.viewValue}}
+            </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6 col-xl"></div>
+        <div class="col-12 col-lg-6 col-xl"></div>
+
+      </div>
+
+
+  <div class="row" style="margin-top: 2%;">
+    <div class="col-12 col-lg-6 col-xl">
+      <div class="card">
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="col">
+            
+              <h3 class="card-title text-muted mb-3">
+              <b>Total Spots</b>
+              </h3>
+              <span class="h3 mb-0">
+                {{totalSpots}}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-lg-6 col-xl">
+      <div class="card">
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="card-title text-muted mb-3">
+              <b>Available Spots</b>
+              </h3>
+              <span class="h3 mb-0">
+                <span *ngIf="VacantData">{{VacantData}}</span>
+                <span *ngIf="!VacantData">0</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-lg-6 col-xl">
+      <div class="card">
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="card-title text-muted mb-3">
+              <b>Occupied Spots</b>
+              </h3>
+              <span class="h3 mb-0">
+                <span *ngIf="OccupiedData">{{OccupiedData}}</span>
+                <span *ngIf="!OccupiedData">0</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="col-12 col-lg-6 col-xl">
+      <div class="card">
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="col">
+            
+              <h3 class="card-title text-muted mb-3">
+              <b>Parked Bikes</b>
+              </h3>
+              <span class="h3 mb-0">
+                0
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <div class="col-12 col-lg-6 col-xl">
+      <div class="card">
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="card-title text-muted mb-3">
+              <b>Visitors</b>
+              </h3>
+              <span class="h3 mb-0">
+                0
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-lg-6 col-xl">
+      <div class="card">
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="card-title text-muted mb-3">
+              <b>Wrong Parking</b>
+              </h3>
+              <span class="h3 mb-0">
+                0
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-lg-6 col-xl">
+      <div class="card">
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="card-title text-muted mb-3">
+              <b>Long Duration (>{{(longHours/3600) }}hrs)</b>
+              </h3>
+              <span class="h3 mb-0">
+                <span *ngIf="!MedianDuration">0</span>
+                <span *ngIf="MedianDuration">{{longHoursCount}}</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </div>
+  
+
+</div> 
+<div class="row" style="margin-top: 2%; padding-left: 20px;">
+  <div class="col-12 col-lg-6 col-xl">
+    <div class="card">
+      <div class="card-body">
+        <h3 class="card-title mb-4">
+          <b>Floor Map</b>
+        </h3>
+        <div id="imageContainer" (click)="openMapDialog()">
+         
+          <div *ngIf="snapShotData" id="img_container_dash">
+            <!-- For translab keep the multiplication factor as /5*2 for best results -->
+            <img src="{{IMAGE_SRC}}" width="{{imageSize.width}}" height="{{imageSize.height}}" />
+            <div *ngFor="let each of scopeMapData; let i = index;">
+              <div *ngIf="snapShotData[i].occupied && !withImage" class="pointer_red tooltip-realtime"
+              [ngStyle]="{'left': ((each.point.x)-8)+'px', 'top': ((each.point.y)-6)+'px', 'background-color': snapShotData[i].color}">
+
+                <!-- [ngStyle]="{'left': (each.point.x-8)+'px', 'top': (each.point.y-6)+'px', 'background-color': snapShotData[i].color}"> -->
+                <span class="tooltiptext-realtime">
+                  <div><span>Spot:&nbsp;</span> <span>{{snapShotData[i].spot_id}}</span></div>
+                  <div><span>Status:&nbsp;</span>
+                    <span *ngIf="snapShotData[i].occupied">Occupied</span>
+                    <span *ngIf="!snapShotData[i].occupied">Available</span>
+
+                  </div>
+
+                  <div><span>Camera:&nbsp;</span> <span>{{snapShotData[i].camera_id}}</span></div>
+                  <div><span>Duration:&nbsp;</span> <span>{{snapShotData[i].duration | secondsToHours}}</span></div>
+                  <div><span>Since:&nbsp;</span>
+                    <span>{{(snapShotData[i].event_start) * 1000 | date:'fullDate'}}</span></div>
+
+                </span>
+              </div>
+
+              <div *ngIf="snapShotData[i].occupied && withImage" class="pointer_red tooltip-realtime"
+              [ngStyle]="{'left': (each.center.x-8)+'px', 'top': (each.center.y-6)+'px', 'background-color': snapShotData[i].color}">
+
+                <!-- [ngStyle]="{'left': (each.center.x-8)+'px', 'top': (each.center.y-6)+'px', 'background-color': snapShotData[i].color}"> -->
+                <span class="tooltiptext-realtime">
+                  <div><span>Spot:&nbsp;</span> <span>{{snapShotData[i].spot_id}}</span></div>
+                  <div><span>Status:&nbsp;</span>
+                    <span *ngIf="snapShotData[i].occupied">Occupied</span>
+                    <span *ngIf="!snapShotData[i].occupied">Available</span>
+                  </div>
+
+                  <div><span>Camera:&nbsp;</span> <span>{{snapShotData[i].camera_id}}</span></div>
+                  <div><span>Duration:&nbsp;</span> <span>{{snapShotData[i].duration | secondsToHours}}</span></div>
+                  <div><span>Since:&nbsp;</span>
+                    <span>{{(snapShotData[i].event_start) * 1000 | date:'fullDate'}}</span></div>
+
+                </span>
+              </div>
+
+              <div *ngIf="!snapShotData[i].occupied && !withImage" class="pointer_green tooltip-realtime"
+              [ngStyle]="{'left': ((each.point.x)-8)+'px', 'top': ((each.point.y)-6)+'px', 'background-color': snapShotData[i].color}">
+
+                <!-- [ngStyle]="{'left': (each.point.x-8)+'px', 'top': (each.point.y-6)+'px', 'background-color': snapShotData[i].color}"> -->
+
+                <span class="tooltiptext-realtime">
+                  <div><span>Spot:&nbsp;</span> <span>{{snapShotData[i].spot_id}}</span></div>
+                  <div><span>Status:&nbsp;</span>
+                    <span *ngIf="snapShotData[i].occupied">Occupied</span>
+                    <span *ngIf="!snapShotData[i].occupied">Available</span>
+                  </div>
+                  <div><span>Camera:&nbsp;</span> <span>{{snapShotData[i].camera_id}}</span></div>
+                </span>
+              </div>
+
+              <div *ngIf="!snapShotData[i].occupied && withImage" class="pointer_green tooltip-realtime"
+                [ngStyle]="{'left': (each.center.x-8)+'px', 'top': (each.center.y-6)+'px', 'background-color': snapShotData[i].color}">
+                <!-- [ngStyle]="{'left': (each.center.x-8)+'px', 'top': (each.center.y-6)+'px', 'background-color': snapShotData[i].color}"> -->
+
+                <span class="tooltiptext-realtime">
+                  <div><span>Spot:&nbsp;</span> <span>{{snapShotData[i].spot_id}}</span></div>
+                  <div><span>Status:&nbsp;</span>
+                    <span *ngIf="snapShotData[i].occupied">Occupied</span>
+                    <span *ngIf="!snapShotData[i].occupied">Available</span>
+                  </div>
+                  <div><span>Camera:&nbsp;</span> <span>{{snapShotData[i].camera_id}}</span></div>
+                </span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="flex_row_sub margin_top_20">
+        <div class="flex_col_sm_2" *ngFor="let each of durationColors">
+          <div class="pointer_colors" [ngStyle]="{'background-color': each.color}"></div>
+          <div *ngIf="each.end == 0">Available</div>
+          <div *ngIf="each.end == 300">0-5 min</div>
+          <div *ngIf="each.end == 900">5-15 min</div>
+          <div *ngIf="each.end == 3600">15 min-1 hour</div>
+          <div *ngIf="each.end == 10800">1 hour-3 hour</div>
+          <div *ngIf="each.start == 10800">> 3 hour</div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-lg-6 col-xl">
+    <div>
+      <div class="card">
+        <div class="card-body" style="overflow: auto;" >
+          <!-- <h3 class="card-title mb-4">
+            <b>Total Parking - (Entire Floor Map)</b>
+          </h3> -->
+          <table mat-table [dataSource]="datas" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8">
+            <ng-container matColumnDef="position">
+              <th mat-header-cell *matHeaderCellDef>#</th>
+              <td mat-cell *matCellDef="let element; let i = index" [ngStyle]="{'color': !element.occupied || longHours > element.duration ? '': 'red' }">
+                {{ getSerialNumber(i + 1) }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef> NAME</th>
+              <td mat-cell *matCellDef="let element; let i = index" [ngStyle]="{'color': !element.occupied || longHours > element.duration ? '': 'red' }">
+                <!-- {{ element.name | checkNull }} -->
+                <span style="color: black;" *ngIf = 'element.occupied'> {{nameArray[i]}} </span>
+              </td>
+            </ng-container>
+            <!-- <ng-container matColumnDef="phoneNo">
+              <th mat-header-cell *matHeaderCellDef>Phone No.</th>
+              <td mat-cell *matCellDef="let element" [ngStyle]="{'color': !element.occupied || longHours > element.duration ? '': 'red' }">
+
+                {{ element.mobileNo | checkNull }}
+              </td>
+            </ng-container> -->
+
+            <ng-container matColumnDef="camera">
+              <th mat-header-cell *matHeaderCellDef>CAMERA</th>
+              <td mat-cell *matCellDef="let element" [ngStyle]="{'color': !element.occupied || longHours > element.duration ? '': 'red' }">
+                {{ element.camera_id | checkNull }}
+              </td>
+            </ng-container>
+
+            <!-- <ng-container matColumnDef="zone">
+              <th mat-header-cell *matHeaderCellDef>ZONE</th>
+              <td mat-cell *matCellDef="let element" [ngStyle]="{'color': !element.occupied || longHours > element.duration ? '': 'red' }">
+                {{ element.zone_id | checkNull }}
+              </td>
+            </ng-container> -->
+
+            <ng-container matColumnDef="slotNo">
+              <th mat-header-cell *matHeaderCellDef>SLOT</th>
+              <td mat-cell *matCellDef="let element" [ngStyle]="{'color': !element.occupied || longHours > element.duration ? '': 'red' }">
+                {{ element.spot_id | checkNull }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="vehicleId">
+              <th mat-header-cell *matHeaderCellDef>LICENSE PLATE</th>
+              <td mat-cell *matCellDef="let element;let i = index" [ngStyle]="{'color': !element.occupied || longHours > element.duration ? '': 'red' }">
+                <!-- {{ element.vehicle_id | checkNull }} -->
+               <span style="color: black;" *ngIf = 'element.occupied'>KA{{i*i| number:'2.0-0'}}GF{{i*i*i*i| number:'4.0-0'| noComma}}</span> 
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="duration">
+              <th mat-header-cell *matHeaderCellDef>DURATION</th>
+              <td mat-cell *matCellDef="let element" >
+                <span *ngIf="element.duration" [ngStyle]="{'color': !element.occupied || longHours > element.duration ? 'black': 'red' }">{{ element.duration | secondsToHours | checkNull }}</span>
+                <span  *ngIf="!element.duration" [ngStyle]="{'color': !element.occupied || longHours > element.duration ? 'black': 'red' }">{{ element.duration | checkNull }}</span>
+
+
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="event_start">
+              <th mat-header-cell *matHeaderCellDef>PARKED AT</th>
+              <td mat-cell *matCellDef="let element" [ngStyle]="{'color': !element.occupied || longHours > element.duration ? '': 'red' }">
+                {{ element.event_start * 1000 | date:'MMM d h:mm a' | checkNull }}
+              </td>
+            </ng-container>
+
+            <!-- <ng-container matColumnDef="enteredAt">
+              <th mat-header-cell *matHeaderCellDef>IN TIME</th>
+              <td mat-cell *matCellDef="let element" [ngStyle]="{'color': !element.occupied || longHours > element.duration ? '': 'red' }">
+                {{ element.enteredAt | checkNull }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="exitedAt">
+              <th mat-header-cell *matHeaderCellDef>OUT TIME</th>
+              <td mat-cell *matCellDef="let element" [ngStyle]="{'color': !element.occupied || longHours > element.duration ? '': 'red' }">
+                {{ element.exitedAt | checkNull }}
+              </td>
+            </ng-container> -->
+
+           
+
+            <ng-container matColumnDef="image">
+              <th mat-header-cell *matHeaderCellDef>IMAGE</th>
+              <!-- title="Download Video" -->
+              <td mat-cell *matCellDef="let element" >
+                <img id="myImg" (click)="openImageModal(element.crop,element)" width="50" height="50" src="data:image/png;base64,{{element.crop}}" />
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="status" >
+              <th mat-header-cell *matHeaderCellDef>STATUS</th>
+              <td mat-cell *matCellDef="let element">
+                <span style="cursor: context-menu;" *ngIf="element.occupied == false"
+                  class="pointer_green_status"></span>
+                <span style="cursor: context-menu;" *ngIf="element.occupied == true"
+                  class="pointer_red_status"></span>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef>ACTION</th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-button [matMenuTriggerFor]="menu"
+                  [disabled]="!element.occupied || longHours > element.duration" class="btn-more-menu">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu" xPosition="before">
+
+                  <button mat-menu-item (click)="notify(element)">
+                    <mat-icon matTooltip="Edit">notifications</mat-icon> Notify User
+                  </button>
+
+                </mat-menu>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+        </div>
+      </div>
+      <div class="white_wrapper" *ngIf="total === 0">
+        <h2 class="not-found">No Data Found</h2>
+      </div>
+      <div class="white_wrapper" *ngIf="datas.data.length">
+        <mat-paginator [length]="total" [pageIndex]="page - 1" [pageSize]="pageSize"
+          [pageSizeOptions]="pageOptions" (page)="changePage($event)">
+        </mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="myModal" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="img01">
+    <div id="caption"></div>
+  </div>

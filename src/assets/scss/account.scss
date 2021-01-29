@@ -1,0 +1,96 @@
+.app-wrapper {
+    position: relative;
+    min-height: 100%;
+    padding: 20px 40px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background: #f2f9f3;
+}
+
+.inner_wrapper {
+    box-shadow: 0 0 20px #0000001a;
+    width: 100%;
+    height: 70vh;
+    display: flex;
+    align-items: center;
+    background: #fff;
+}
+
+
+.account_card_col {
+    width: 41%;
+    box-shadow: 0 0 20px #0000001a;
+    height: 80vh;
+    background: #ebffed;
+    margin: -34px -1px;
+    padding: 105px;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-flow: column;
+}
+
+.account_form_col {
+    width: 60%;
+    padding: 0 220px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.heading{
+    text-align: center;
+    font-size: 36px;
+    margin: 25px 0;
+    font-weight: 700;
+}
+
+
+.account_para {
+    font-size: 22px;
+    text-align: center;
+    line-height: 1.8;
+    color: #363636;
+}
+
+
+.ticket {
+    position: absolute;
+    right: 39px;
+    top: 50%;
+    width: 75px;
+    height: 75px;
+    transform: translateY(-50%);
+}
+
+
+.ticket img{
+    width: 100%;
+}
+
+
+.spekar {
+    position: absolute;
+    bottom: 15%;
+    left: 78px;
+    width: 75px;
+    height: 75px;
+}
+
+.spekar img{
+    width: 100%;
+}
+
+
+
+.form_fiel_wrapper {
+    width: 100%;
+    margin: 0 0 15px 0;
+}
+

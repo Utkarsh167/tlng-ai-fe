@@ -1,0 +1,221 @@
+<header style="padding: 0 !important;">
+ 
+
+    <!-- <div class="nav_wrapper"> -->
+      <nav class="navbar navbar-expand-lg " style="padding:0 !important; justify-content:space-between !important">
+
+          <!-- <div class="inner_header"> -->
+              <div class="brand-col" >
+                <figure style="margin:0;padding-left: 20px;" class="brand_wrap">
+                  <img style="width: 50%; height: 50%;" src="assets/images/newicon.png" alt="AI Parking" />
+                </figure>
+              </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <!-- <span class="navbar-toggler-icon"></span> -->
+              <span class="navbar-toggler-icon">   
+                  <i class="fas fa-bars" style="color:#fff; font-size:28px;"></i>
+              </span>
+              
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto" *ngIf="adminRole == 'sub'">
+          <ng-template [ngxPermissionsOnly]="['dashboard']">
+          
+          <li class="nav-item active">
+            <a class="nav-link"
+              [routerLink]="'DASHBOARD' | absolutePath"
+              routerLinkActive="active"
+              >Dashboard</a
+            >
+          </li>
+          </ng-template>
+
+          <ng-template [ngxPermissionsOnly]="['realTimeDuration']">
+
+          <li>
+            <a
+            [routerLink]="'REAL_TIME' | absolutePath"
+              routerLinkActive="active"
+              >Real Time Duration</a
+            >
+          </li>
+          </ng-template>
+          <ng-template [ngxPermissionsOnly]="['reports']">
+
+            <li class="nav-item">
+              <a class="nav-link"
+              [routerLink]="'REPORTS' | absolutePath"
+                routerLinkActive="active"
+                >Reports</a
+              >
+            </li>
+            </ng-template>
+          
+          <ng-template [ngxPermissionsOnly]="['emp_vehicle']">
+
+          <li class="nav-item">
+            <a class="nav-link"
+              [routerLink]="'EMPLOYEES' | absolutePath"
+              routerLinkActive="active"
+              >Employees</a
+            >
+          </li>
+
+
+          <li class="nav-item">
+            <a class="nav-link"
+              [routerLink]="'VEHICLE' | absolutePath"
+              routerLinkActive="active"
+              >Vehicle</a
+            >
+          </li>
+          </ng-template>
+         
+          <ng-template [ngxPermissionsOnly]="['entryLog', 'audit', 'guard']">
+
+          <li class="nav-item">
+            <a class="nav-link"  [routerLink]="'DRIVER' | absolutePath"
+            routerLinkActive="active" 
+              >Entry Log</a
+            >
+          </li>
+          </ng-template>
+                
+          <ng-template [ngxPermissionsOnly]="['subadmin']">
+          
+          <li class="nav-item">
+            <a class="nav-link"
+            [routerLink]="'SUBADMIN' | absolutePath"
+            routerLinkActive="active"
+              >Sub Admin</a
+            >
+          </li>
+          </ng-template>
+         
+          
+        </ul>
+
+        <ul class="navbar-nav mr-auto" *ngIf="adminRole == 'super'">
+
+         
+          <li class="nav-item">
+            <a class="nav-link"
+              [routerLink]="'DASHBOARD' | absolutePath"
+              routerLinkActive="active"
+              >Dashboard</a
+            >
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link"
+              [routerLink]="'REAL_TIME' | absolutePath"
+              routerLinkActive="active"
+              >Real Time Duration</a
+            >
+          </li>
+         
+          <li class="nav-item">
+            <a class="nav-link"
+            [routerLink]="'REPORTS' | absolutePath"
+              routerLinkActive="active"
+              >Reports</a
+            >
+          </li>
+
+            <!-- <li class="nav-item">
+              <a class="nav-link"
+              [routerLink]="'REPORTS' | absolutePath"
+                routerLinkActive="active"
+                >Reports</a
+              >
+            </li> -->
+         
+          
+
+          <li class="nav-item">
+            <a class="nav-link"
+              [routerLink]="'EMPLOYEES_LIST' | absolutePath"
+              routerLinkActive="active"
+              >Employees</a
+            >
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link"
+              [routerLink]="'VEHICLE' | absolutePath"
+              routerLinkActive="active"
+              >Vehicle</a
+            >
+          </li>
+
+         
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="'DRIVER' | absolutePath"
+            routerLinkActive="active" 
+              >Entry Log</a
+            >
+          </li>
+
+         
+
+          <li class="nav-item">
+            <a class="nav-link"
+            [routerLink]="'SUBADMIN' | absolutePath"
+            routerLinkActive="active"
+              >Sub Admin</a
+            >
+          </li>
+        </ul>
+
+        <ul class="form-inline">
+
+          <li>
+
+        <ng-template [ngxPermissionsOnly]="['notification']">
+            <div
+              class="setting notification"
+              [routerLink]="'ADMIN_NOTIFICATION' | absolutePath"
+              routerLinkActive="active"
+            >
+              <figure style="margin-top: 15px" class="setting_img">
+                <img src="assets/images/notification.svg" alt="Notification" />
+              </figure>
+            </div>
+          </ng-template>
+      
+                <div
+                class="setting notification"
+                *ngIf="adminRole == 'super'"
+                [routerLink]="'ADMIN_NOTIFICATION' | absolutePath"
+                routerLinkActive="active">
+    
+                <figure style="margin-top: 15px;" class="setting_img">
+                  <img src="assets/images/notification.svg" alt="Notification" />
+                </figure>
+              </div>
+            </li>
+             <li style="padding-right: 20px;">
+                <div class="setting" >
+                    <figure style="margin-top: 15px;" class="setting_img" [matMenuTriggerFor]="menu">
+                      <span>{{ adminName | customName }}</span>
+                    </figure>
+                  </div>
+              
+                  <mat-menu #menu="matMenu">
+                    <button mat-menu-item routerLink="/admin/profile">My Profile</button>
+                    <button mat-menu-item routerLink="/admin/change-password">
+                      Change Password
+                    </button>
+                    <button mat-menu-item (click)="logout()">Logout</button>
+                  </mat-menu>
+             </li>
+          </ul>
+        
+      </div>
+      
+      <!-- </div> -->
+      </nav>
+    <!-- </div> -->
+
+   
+</header>

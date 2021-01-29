@@ -1,0 +1,65 @@
+
+<h1 mat-dialog-title style="text-align: center">Select Date Range</h1>
+<mat-dialog-content>
+  <!-- <div class="modal_message">
+    <p >{{message}} </p>
+    <div *ngIf="showTextBox" mat-dialog-actionst>
+      <h4 style="text-align:center ;margin-top: 20px;">Reason for This Action</h4>
+      <mat-form-field>
+        <textarea matInput placeholder="Type here.." [(ngModel)]="responseData.note" name="note"></textarea>
+      </mat-form-field>
+    </div>
+  </div> -->
+  <div class="row">
+  <div class="col-md-6">
+  <div class="form_filed_wrapper ">
+    <mat-form-field appearance="outline">
+        <mat-label>Valid From</mat-label>
+
+        <!-- <input matInput readonly  [(ngModel)]="responseData.validFrom" [max]="responseData.validTill"  [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2">
+        <owl-date-time  [pickerType]="'calendar'" #dt2></owl-date-time> -->
+
+        <input matInput readonly  [(ngModel)]="responseData.validFrom" (ngModelChange)="onChange($event)" [max]="todayDate"  [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2">
+        <owl-date-time  [pickerType]="'calendar'" #dt2 ></owl-date-time>
+        
+        <!-- <input formControlName="guestValidity" numberOnly matInput /> -->
+        <!-- [readonly]="driverId" -->
+        <!-- <mat-error>{{ getControl("guestValidity") | validate: "Valid Till" }}
+        </mat-error>
+        <mat-error *ngIf="isUniqueMsg">{{ isUniqueMsg }}</mat-error> -->
+    </mat-form-field>
+</div>
+</div>
+<div class="col-md-6">
+<div class="form_filed_wrapper ">
+  <mat-form-field appearance="outline">
+      <mat-label>Valid Till</mat-label>
+
+      <!-- <input matInput readonly  [(ngModel)]="responseData.validTill" [min]="responseData.validFrom" [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1">
+      <owl-date-time  [pickerType]="'calendar'" #dt1></owl-date-time> -->
+
+      <input matInput readonly  [(ngModel)]="responseData.validTill" [min]="validMin" [max]="todayDate" [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1">
+      <owl-date-time  [pickerType]="'calendar'" #dt1></owl-date-time>
+      <!-- <input formControlName="guestValidity" numberOnly matInput /> -->
+      <!-- [readonly]="driverId" -->
+      <!-- <mat-error>{{ getControl("guestValidity") | validate: "Valid Till" }}
+      </mat-error>
+      <mat-error *ngIf="isUniqueMsg">{{ isUniqueMsg }}</mat-error> -->
+  </mat-form-field>
+</div>
+</div>
+</div>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-stroked-button *ngIf="showCancelButton" (click)="onNoClick()" class="modal-btn no">
+    Cancel
+  </button>
+  <button mat-raised-button color="primary" 
+    [disabled]="(!responseData||!responseData.note||responseData.note.trim()=='') && showTextBox"
+    [mat-dialog-close]="responseData" (click)="confirm()" >
+    <!-- cdkFocusInitial -->
+    Done
+  </button>
+</mat-dialog-actions>

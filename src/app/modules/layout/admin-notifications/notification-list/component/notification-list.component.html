@@ -1,0 +1,299 @@
+<!-- <div class="parentWrapper">
+    <div class="white_wrapper">
+        <div class="flex_row">
+            <div class="flex_col_sm_3">
+                <app-search-filter [placeholder]="'Search by notification title'" (setSearch)="setSearch($event)">
+                </app-search-filter>
+            </div>
+            <div class="flex_col_sm_7">
+                <ul class="btn_wrapper text-right">
+                    <li>
+                        <div class="btn filter-count">Total notifications:<span>{{total || 0}}</span> </div>
+                    </li>
+                    <li>
+                        <app-filter-count [filterCount]="appliedFilterCount"></app-filter-count>
+                    </li>
+                    <li> <button mat-raised-button (click)="showFilter=!showFilter" color="primary">
+                            <mat-icon>filter_list</mat-icon> Filter
+                        </button> </li>
+                    <li> <button mat-raised-button color="primary" [routerLink]="'ADD_NOTIFICATION'|absolutePath"
+                            routerLinkActive="active">
+                            <mat-icon>add</mat-icon> Add Notifications
+                        </button> </li>
+                </ul>
+            </div>
+        </div>
+        <div class="flex_row">
+            <ul class="breadcrumb">
+                <li>
+                    <a href="javascript:void(0)">Web Notification</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0)" class="active">List</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="white_wrapper filter_wrapper" [class.filter_wrapper_show]="showFilter">
+        <div class="flex_row">
+            <div class="flex_col_sm_6">
+                <app-date-filter [dateObject]="filterObject.registrationDate">
+                </app-date-filter>
+            </div>
+            <div class="flex_col_sm_6">
+                <app-schedule-date-filter [dateObject]="filterObject.scheduleDate"></app-schedule-date-filter>
+            </div>
+        </div>
+        <div class="flex_row">
+            <div class="flex_col_sm_10 text-center">
+
+                <ul class="btn_wrapper">
+                    <li> <button filter_btn mat-stroked-button [disabled]="disable()" (click)="resetFilter()">
+                            Reset
+                        </button>
+                    </li>
+                    <li>
+                        <button filter_btn mat-raised-button color="primary" [disabled]="disable()" (click)="filter()">
+                            Filter
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="white_wrapper">
+        <table mat-table [dataSource]="notifications" matSort (matSortChange)="sortData($event)"
+            class="mat-elevation-z8">
+
+            <ng-container matColumnDef="position">
+                <th mat-header-cell *matHeaderCellDef> S.No. </th>
+                <td mat-cell *matCellDef="let element;let i=index"> {{getSerialNumber(i+1)}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> Notification Title </th>
+                <td mat-cell *matCellDef="let element"> {{element?.title | checkNull}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="platform">
+                <th mat-header-cell *matHeaderCellDef>Platform type</th>
+                <td mat-cell *matCellDef="let element"> {{element?.audience | checkNull}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="sentto">
+                <th mat-header-cell *matHeaderCellDef> Sent To </th>
+                <td mat-cell *matCellDef="let element">
+                    {{element.sentCount||0}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="created">
+                <th mat-header-cell *matHeaderCellDef><span
+                        [ngClass]="((isFilterApplied) && (filterForm.value.fromDate || filterForm.value.toDate))?'appliedFilter':''">Created
+                        On </span>
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.created | customDate}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="scheduledfor">
+                <th mat-header-cell *matHeaderCellDef> <span
+                        [ngClass]="((isFilterApplied) && (filterForm.value.scheduleFromDate || filterForm.value.scheduleToDate))?'appliedFilter':''">Scheduled
+                        for</span> </th>
+                <td mat-cell *matCellDef="let element"> {{element.scheduleTime | customDate}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef> Status </th>
+                <td mat-cell *matCellDef="let element"> {{element?.status | status | checkNull}} </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef> Action </th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-button [matMenuTriggerFor]="menu" [disabled]="element.longDuration" class="btn-more-menu">
+                        <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu" xPosition="before">
+                        <button mat-menu-item (click)="changeStatus('deleted',element._id)">
+                            <mat-icon matTooltip="Delete">delete</mat-icon> Delete
+                        </button>
+                        <button mat-menu-item [routerLink]="['EDIT_NOTIFICATION'|absolutePath,element._id]">
+                            <mat-icon matTooltip="Edit">edit</mat-icon> Edit
+                        </button>
+                        <button mat-menu-item (click)="changeStatus('send',element._id)">
+                            <mat-icon matTooltip="Send">send</mat-icon> Send
+                        </button>
+
+                    </mat-menu>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+    <div class="white_wrapper" *ngIf="total===0">
+        <h2 class="not-found">No Notification Found</h2>
+    </div>
+    <div class="white_wrapper" *ngIf="notifications.data.length">
+        <mat-paginator [length]="total" [pageIndex]="page-1" [pageSize]="pageSize" [pageSizeOptions]="pageOptions"
+            (page)="changePage($event)">
+        </mat-paginator>
+    </div>
+</div> -->
+<div class="main-content complete-align">
+    <div class="row">
+        <div class="col-12 col-lg-6 col-xl">
+          <ul class="breadcrumb">
+            <li>
+              <a href="#/admin/dashboard">Home</a>
+            </li>
+            <li>
+              <a href="javascript:void(0)" class="active">Notification</a>
+            </li>
+            <li>
+              <a href="javascript:void(0)" class="active">List</a>
+            </li>
+          </ul>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 5px">
+        <div class="col-12 col-lg-6 col-xl">
+            <label  style="font-size: 25px !important;font-weight: 100 !important;">
+              Notifications
+            </label>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 10px">
+        <div class="col-12 col-lg-6 col-xl-9">
+          <div class="row">
+            <div class="col-12 col-lg-6 col-xl-2" >
+              <li>
+                <button mat-raised-button [routerLink]="'ADD_NOTIFICATION'|absolutePath" class="action_menu">
+                  Add Notifications
+                </button>
+              </li>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 20px">
+        <div class="col-12 col-lg-6 col-xl">
+    
+          <div _ngcontent-vmx-c9="" class="white-card" style="padding-top: 2%;">
+            <div class="row">
+              <div class="col-12 col-lg-6 col-xl-3">
+                    <label style="margin-left: 25px;">Registration Date</label>
+                <app-date-filter [dateObject]="filterObject.registrationDate">
+                </app-date-filter>
+              </div>
+              <div class="col-12 col-lg-6 col-xl-3">
+                    <label style="margin-left: 25px;">Sheduled Date</label>
+                <app-schedule-date-filter [dateObject]="filterObject.scheduleDate">
+                </app-schedule-date-filter>
+              </div>
+              <div  style="margin-top: 31px;" class="col-12 col-lg-6 col-xl-1">
+                <button  style="margin-left: 15%;" filter_btn mat-stroked-button [disabled]="disable()" (click)="resetFilter()">
+                  Reset
+                </button>
+              </div>
+              <div style="margin-top: 31px;" class="col-12 col-lg-6 col-xl-1">
+                <button  filter_btn mat-raised-button color="primary" [disabled]="disable()" (click)="filter()">
+                  Filter
+                </button>
+              </div>
+              <div style="margin-top: 31px;" class="col-12 col-lg-6 col-xl-4">
+                <div _ngcontent-vmx-c9="" class="table_search" style=" padding-right: 4%">
+                  <div _ngcontent-vmx-c9="" class="table_search-box" >
+                    <input _ngcontent-vmx-c9="" class="table_search-input" id="workersearch" #searchInput (keyup)="setSearch(searchInput.value)"  placeholder="Search" type="text">
+                    <img _ngcontent-vmx-c9="" alt="search" class="table_search-icon" src="assets/images/search-24.png">
+                  </div>   
+                </div> 
+              </div>
+    
+            </div>
+            <table mat-table [dataSource]="notifications" matSort (matSortChange)="sortData($event)"
+            class="mat-elevation-z8">
+
+            <ng-container matColumnDef="position">
+                <th mat-header-cell *matHeaderCellDef> # </th>
+                <td mat-cell *matCellDef="let element;let i=index"> {{getSerialNumber(i+1)}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> NOTIFICATION TITLE </th>
+                <td mat-cell *matCellDef="let element"> {{element?.title | checkNull}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="platform">
+                <th mat-header-cell *matHeaderCellDef>PLATFORM TYPE</th>
+                <td mat-cell *matCellDef="let element"> {{element?.audience | checkNull}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="sentto">
+                <th mat-header-cell *matHeaderCellDef> SENT TO </th>
+                <td mat-cell *matCellDef="let element">
+                    {{element.sentCount||0}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="created">
+                <th mat-header-cell *matHeaderCellDef><span style="font-size: 10px !important;"
+                        [ngClass]="((isFilterApplied) && (filterForm.value.fromDate || filterForm.value.toDate))?'appliedFilter':''">REGISTRATION DATE </span>
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.created | customDate}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="scheduledfor">
+                <th mat-header-cell *matHeaderCellDef> <span style="font-size: 10px !important;"
+                        [ngClass]="((isFilterApplied) && (filterForm.value.scheduleFromDate || filterForm.value.scheduleToDate))?'appliedFilter':''">SCHEDULED FOR
+                        </span> </th>
+                <td mat-cell *matCellDef="let element"> {{element.scheduleTime | customDate}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef> STATUS </th>
+                <td mat-cell *matCellDef="let element"> {{element?.status | status | checkNull}} </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef> ACTION </th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-button [matMenuTriggerFor]="menu" [disabled]="element.longDuration" class="btn-more-menu">
+                        <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu" xPosition="before">
+                        <button mat-menu-item (click)="changeStatus('deleted',element._id)">
+                            <mat-icon matTooltip="Delete">delete</mat-icon> Delete
+                        </button>
+                        <button mat-menu-item [routerLink]="['EDIT_NOTIFICATION'|absolutePath,element._id]">
+                            <mat-icon matTooltip="Edit">edit</mat-icon> Edit
+                        </button>
+                        <button mat-menu-item (click)="changeStatus('send',element._id)">
+                            <mat-icon matTooltip="Send">send</mat-icon> Send
+                        </button>
+
+                    </mat-menu>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+          </div>
+      
+        <div class="white_wrapper" *ngIf="total === 0">
+          <h2 class="not-found">No Employee Found</h2>
+        </div>
+        <div class="white_wrapper" *ngIf="notifications.data.length">
+          <mat-paginator [length]="total" [pageIndex]="page - 1" [pageSize]="pageSize" [pageSizeOptions]="pageOptions"
+            (page)="changePage($event)">
+          </mat-paginator>
+        </div>
+      </div>
+      </div>
+</div>

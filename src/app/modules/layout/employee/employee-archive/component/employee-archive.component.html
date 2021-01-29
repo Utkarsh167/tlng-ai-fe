@@ -1,0 +1,243 @@
+<!-- <div class="white_wrapper action">
+  <div class="flex_row">
+    <ul class="breadcrumb">
+      <li>
+        <a routerLink="/admin/employees/list">Employee /&nbsp;</a>
+      </li>
+      <li>
+        <a href="javascript:void(0)" class="active">Blocked</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="white_wrapper">
+  <table
+    mat-table
+    [dataSource]="employees"
+    matSort
+    (matSortChange)="sortData($event)"
+    class="mat-elevation-z8"
+  >
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef>No.</th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        {{ getSerialNumber(i + 1) }}
+      </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="empId">
+      <th mat-header-cell *matHeaderCellDef>Employee ID</th>
+      <td mat-cell *matCellDef="let element">
+        <span class="td-text-wrap">{{ element.employeeId | checkNull }}</span>
+      </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Full Name</th>
+      <td mat-cell *matCellDef="let element">
+          {{ element.name|checkNull }}
+
+      </td>
+    </ng-container>
+
+    
+
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef>Email</th>
+      <td mat-cell *matCellDef="let element" title="{{ element.email }}">
+        <span>{{ element.email | checkNull }}</span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="created">
+      <th mat-header-cell *matHeaderCellDef>
+        <span
+          [ngClass]="
+            isFilterApplied && filterForm.value.fromDate ? 'appliedFilter' : ''
+          "
+          >Registration Date
+        </span>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <span matTooltip="Filters applied" matTooltipPosition="below">{{
+          element.created | customDate
+        }}</span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef>Action</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-button [matMenuTriggerFor]="menu" class="btn-more-menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" xPosition="before">
+          
+          <button
+            mat-menu-item
+            [ngClass]="element.status === 'blocked' ? 'ban' : 'noban'"
+            (click)="
+              changeStatus(
+                element.status === 'blocked' ? 'unblocked' : 'blocked',
+                element._id
+              )
+            "
+          >
+            <mat-icon
+              matTooltip="{{
+                element.status === 'blocked' ? 'Unblock' : 'Block'
+              }}"
+            >
+              {{ element.status === "blocked" ? "block" : "block" }}</mat-icon
+            >
+            {{ element.status === "blocked" ? "un-block" : "Block" }}
+          </button>
+        </mat-menu>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+  <div class="white_wrapper" *ngIf="total===0">
+    <h2 class="not-found">No Data Found</h2>
+  </div>
+  <div class="white_wrapper" *ngIf="employees.data.length">
+    <mat-paginator [length]="total" [pageIndex]="page-1" [pageSize]="pageSize" [pageSizeOptions]="pageOptions"
+      (page)="changePage($event)">
+    </mat-paginator>
+  </div>
+</div> -->
+<div class="main-content complete-align">
+  <div class="row">
+    <div class="col-12 col-lg-6 col-xl">
+      <ul class="breadcrumb">
+        <li>
+          <a href="#/admin/dashboard">Home</a>
+        </li>
+        <li>
+          <a href="#/admin/employees/list">Employee</a>
+        </li>
+        <li>
+          <a href="javascript:void(0)" class="active">Blocked</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="row" style="margin-top: 2%">
+    <div class="col-12 col-lg-6 col-xl">
+        <label  style="font-size: 25px !important;font-weight: 100 !important;">
+          Blocked Employees
+        </label>
+    </div>
+  </div>
+  <div class="row" style="margin-top: 2%">
+    <div class="col-12 col-lg-6 col-xl">
+
+      <div _ngcontent-vmx-c9="" class="white-card" style="padding-top: 2%;">
+        <table
+        mat-table
+        [dataSource]="employees"
+        matSort
+        (matSortChange)="sortData($event)"
+        class="mat-elevation-z8"
+      >
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef>#</th>
+          <td mat-cell *matCellDef="let element; let i = index">
+            {{ getSerialNumber(i + 1) }}
+          </td>
+        </ng-container>
+    
+    
+        <ng-container matColumnDef="empId">
+          <th mat-header-cell *matHeaderCellDef>EMPLOYEE ID</th>
+          <td mat-cell *matCellDef="let element">
+            <span class="td-text-wrap">{{ element.employeeId | checkNull }}</span>
+          </td>
+        </ng-container>
+    
+    
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>NAME</th>
+          <td mat-cell *matCellDef="let element">
+              {{ element.name|checkNull }}
+    
+          </td>
+        </ng-container>
+    
+        
+    
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef>EMAIL</th>
+          <td mat-cell *matCellDef="let element" title="{{ element.email }}">
+            <span class="td-text-wrap">{{ element.email | checkNull }}</span>
+          </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="created">
+          <th mat-header-cell *matHeaderCellDef>
+            <span 
+              [ngClass]="
+                isFilterApplied && filterForm.value.fromDate ? 'appliedFilter' : ''
+              "
+              >REGISTRATION DATE
+            </span>
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <span class="td-text-wrap" matTooltip="Filters applied" matTooltipPosition="below">{{
+              element.created | customDate
+            }}</span>
+          </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef>ACTION</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-button [matMenuTriggerFor]="menu" class="btn-more-menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu" xPosition="before">
+              
+              <button
+                mat-menu-item
+                [ngClass]="element.status === 'blocked' ? 'ban' : 'noban'"
+                (click)="
+                  changeStatus(
+                    element.status === 'blocked' ? 'unblocked' : 'blocked',
+                    element._id
+                  )
+                "
+              >
+                <mat-icon
+                  matTooltip="{{
+                    element.status === 'blocked' ? 'Unblock' : 'Block'
+                  }}"
+                >
+                  {{ element.status === "blocked" ? "block" : "block" }}</mat-icon
+                >
+                {{ element.status === "blocked" ? "un-block" : "Block" }}
+              </button>
+            </mat-menu>
+          </td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+      </div>
+  
+    <div class="white_wrapper" *ngIf="total === 0">
+      <h2 class="not-found">No Employee Found</h2>
+    </div>
+    <div class="white_wrapper" *ngIf="employees.data.length">
+      <mat-paginator [length]="total" [pageIndex]="page - 1" [pageSize]="pageSize" [pageSizeOptions]="pageOptions"
+        (page)="changePage($event)">
+      </mat-paginator>
+    </div>
+  </div>
+  </div>
+</div>

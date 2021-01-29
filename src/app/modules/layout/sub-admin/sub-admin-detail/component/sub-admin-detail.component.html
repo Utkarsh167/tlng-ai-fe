@@ -1,0 +1,100 @@
+<div class="custom_container">
+    <div class="white_wrapper">
+        <h2 class="heading">Sub admin Details</h2>
+        <div class="flex_row">
+            <ul class="breadcrumb">
+                <li>
+                    <a routerLink="/admin/sub-admin/list">Subadmin</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0)" class="active">Detail</a>
+                </li>
+            </ul>
+        </div>
+        <div class="form_wrapper">
+            <div class="flex_row">
+                <div class="flex_col_sm_5">
+                    <div class="form_filed_wrapper_details">
+                        <label class="form_label">Sub Admin Name</label>
+                        <span class="show_label">{{subAdmin?.name |checkNull}}</span>
+                    </div>
+                </div>
+
+                <div class="flex_col_sm_5">
+                    <div class="form_filed_wrapper_details">
+                        <label class="form_label">Email ID</label>
+                        <span class="show_label">{{subAdmin?.email |checkNull}}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex_row">
+                <div class="flex_col_sm_5">
+                    <div class="form_filed_wrapper_details">
+                        <label class="form_label">Registered On</label>
+                        <span class="show_label">{{subAdmin?.created |customDate |checkNull}}</span>
+                    </div>
+                </div>
+
+                <div class="flex_col_sm_5">
+                    <div class="form_filed_wrapper_details">
+                        <label class="form_label">Status</label>
+                        <span class="show_label">{{subAdmin?.status |status|titlecase|checkNull}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="flex_row">
+                <div class="flex_col_sm_5">
+                    <div class="form_filed_wrapper_details">
+                        <label class="form_label">Building Location</label>
+                        <span class="show_label">{{subAdmin?.companyLocationName | checkNull}}</span>
+                    </div>
+                </div>
+                
+                <div class="flex_col_sm_5">
+                    <div class="form_filed_wrapper_details">
+                        <label class="form_label">Admin Roles</label>
+                        <div class="permission">
+                            <span class="show_label" *ngFor="let permission of subAdmin?.permission">
+                                <ng-container *ngIf="permission=='rtls'">
+                                    {{'Live Screen'}} management
+                                </ng-container>
+
+                                <ng-container *ngIf="permission!='rtls'">
+                                    {{permission | titlecase}} management
+                                </ng-container>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="flex_row">
+                <div class="flex_col_sm_10">
+                    <div class="form_filed_wrapper_details text-center">
+                        <ul class="btn_wrapper"> 
+                            <li> <button mat-raised-button type="button" color="primary"
+                                    (click)="changeStatus('deleted',subAdminId)">Archive</button> </li>
+                            <li>
+                                <button mat-raised-button color="primary"
+                                    (click)="
+                                    changeStatus(
+                                        subAdmin.status === 'blocked' ? 'unblocked' : 'blocked',
+                                        subAdminId
+                                    )
+                                    ">
+                                  
+                                    {{ subAdmin.status === "blocked" ? "Un-Block" : "Block" }}
+                                </button>
+                            </li>
+                            <li> <button mat-raised-button color="primary"
+                                    [routerLink]="['SUBADMIN_EDIT'|absolutePath,subAdminId]">Edit</button> </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

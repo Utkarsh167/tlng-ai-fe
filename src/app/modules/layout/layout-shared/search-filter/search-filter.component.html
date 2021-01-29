@@ -1,0 +1,31 @@
+<!-- <mat-form-field>
+    <input type="text" matInput [placeholder]="placeholder" (keyup.enter)="searchResult()" [(ngModel)]="search">
+    <button type="button" mat-button *ngIf="search.trim()" matSuffix mat-icon-button aria-label="Clear" (click)="resetSearch()">
+    <mat-icon>close</mat-icon>
+  </button>
+    <button type="button" mat-button (click)="searchResult()" class="search-btn" matSuffix>
+    <img src="./assets/images/search.svg" alt="search">
+  </button>
+</mat-form-field> -->
+
+
+<div class="searchWrapper">
+    <div class="form_filed_wrapper">
+        <mat-form-field appearance="outline">
+            <mat-label>{{placeholder}}</mat-label>
+            <input matInput [placeholder]="placeholder" (keyup)="searchResult()" [(ngModel)]="search">
+            <mat-icon class="clear" *ngIf="search.trim()" (click)="resetSearch()">close</mat-icon>
+        </mat-form-field>
+        <mat-icon class="search">search</mat-icon>
+    </div>
+
+    <!-- <input type="text" [placeholder]="placeholder" (keyup.enter)="searchResult()" [(ngModel)]="search"> -->
+    <!-- <input type="text" [placeholder]="placeholder"  [(ngModel)]="search">
+  <button type="button" class="clear" mat-button *ngIf="search.trim()" matSuffix mat-icon-button aria-label="Clear"
+    (click)="resetSearch()">
+    <mat-icon>close</mat-icon>
+  </button>
+  <button type="button" class="search" (click)="searchResult()">
+    Search
+  </button> -->
+</div>

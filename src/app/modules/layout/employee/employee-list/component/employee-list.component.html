@@ -1,0 +1,487 @@
+<!-- <div class="main-content complete-align">
+  <div class="flex_row">
+    <div class="flex_col_sm_5 rowFilterBox">
+
+    <ul class="breadcrumb">
+      <li>
+        <a href="javascript:void(0)">Home</a>
+      </li>
+      <li>
+        <a href="javascript:void(0)" class="active">Employee</a>
+      </li>
+      <li>
+        <a href="javascript:void(0)" class="active">list</a>
+      </li>
+    </ul>
+    </div>
+  </div>
+  <div class="flex_row">
+    <div class="flex_col_sm_5 rowFilterBox">
+
+    <div class="col-12 col-lg-6 col-xl">
+        <span style="font-size: 25px; font-weight: 100;">
+          Employee
+        </span>
+    </div>
+</div>
+  </div>
+  <div class="flex_row">
+    <div class="flex_col_sm_5 rowFilterBox">
+        <ul class="btn_wrapper text-right">
+         
+          <li>
+            <button mat-raised-button (click)="showFilter = !showFilter" type="button" class="action_menu">
+              <mat-icon>filter_list</mat-icon> Filter
+            </button>
+          </li>
+          <li class="action">
+            <button color="primary" class="action_menu" [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon> Action
+            </button>
+  
+            <ul class="actionmenu">
+              <mat-menu #menu="matMenu">
+                <li>
+                  <a href="assets/xls/EmployeeData.xls" class="csv-product">
+                    <button mat-raised-button color="primary">
+                      <mat-icon>arrow_downward</mat-icon> Download Sample XLS
+                    </button>
+                  </a>
+                </li>
+                <li>
+                  <button mat-raised-button color="primary" class="csv-product upload">
+                    <input type="file" #upload_csv (change)="uploadCSV($event)" accept=".xls," class="fileButton" />
+                    <mat-icon>cloud_upload</mat-icon> Upload XLS
+                  </button>
+                  <div class="uploadData">
+                    <label *ngIf="csvFileName">{{ csvFileName }}
+                      <span title="Remove File" (click)="removeCSV()">
+                        <img alt="Remove" src="assets/images/delete.svg" />
+                      </span>
+                    </label>
+                  </div>
+                </li>
+                <li>
+                  <a href="assets/xls/EmployeeData.xls" class="csv-product upload">
+                    <button mat-raised-button color="primary" (click)="downloadEmployee()">
+                      <mat-icon>cloud_download</mat-icon> Download Report
+                  </button>
+                  </a>
+                </li>
+              </mat-menu>
+  
+            </ul>
+          </li>
+  
+          <li>
+            <button mat-raised-button [routerLink]="'ADD_EMPLOYEE' | absolutePath" class="action_menu">
+              Add Employee
+            </button>
+          </li>
+
+          <li>
+            <button mat-raised-button [routerLink]="'ARCHIVED_EMPLOYEE' | absolutePath" class="action_menu">
+              Blocked
+            </button>
+          </li>
+  
+        
+  
+        </ul>
+    </div>
+  </div>
+ 
+
+  
+  
+</div>
+
+<div class="white_wrapper filter_wrapper" [class.filter_wrapper_show]="showFilter">
+  <div class="flex_row">
+    <div class="flex_col_sm_6">
+      <app-date-filter [dateObject]="filterObject.registrationDate">
+      </app-date-filter>
+    </div>
+    <div class="flex_col_sm_3">
+      <app-dropdown-filter [dropdown]="filterObject.compLocationName"></app-dropdown-filter>
+    </div>
+
+   
+
+   
+  </div>
+  <div class="flex_row">
+    <div class="flex_col_sm_10 text-center">
+      <ul class="btn_wrapper">
+        <li>
+          <button filter_btn mat-stroked-button [disabled]="disable()" (click)="resetFilter()">
+            Reset
+          </button>
+        </li>
+
+        <li>
+          <button filter_btn mat-raised-button color="primary" [disabled]="disable()" (click)="filter()">
+            Filter
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div >
+
+    <div _ngcontent-vmx-c9="" class="table_wrapper white-card">
+      <div _ngcontent-vmx-c9="" class="table_search">
+        <div _ngcontent-vmx-c9="" class="table_search-box">
+    <input _ngcontent-vmx-c9="" class="table_search-input" id="workersearch" #searchInput (keyup)="setSearch(searchInput.value)"  placeholder="Search" type="text">
+    <img _ngcontent-vmx-c9="" alt="search" class="table_search-icon" src="assets/images/search-24.png">
+  </div>   
+  </div> 
+  <table
+    mat-table
+    [dataSource]="employees"
+    matSort
+    (matSortChange)="sortData($event)"
+    class="mat-elevation-z8"
+  >
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef>#</th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        {{ getSerialNumber(i + 1) }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="empId">
+      <th mat-header-cell *matHeaderCellDef>EMPLOYEE ID</th>
+      <td mat-cell class="td-color-font" *matCellDef="let element">
+        <span class="td-text-wrap">{{ element.employeeId | checkNull }}</span>
+      </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>NAME</th>
+      <td mat-cell *matCellDef="let element">
+        <span class="view_details td-text-wrap" [routerLink]="['EMPLOYEES' | absolutePath, element._id]">
+          {{ element.name | checkNull }}
+        </span>
+      </td>
+    </ng-container>
+
+
+
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef>EMAIL</th>
+      <td mat-cell *matCellDef="let element" class="td-color-font" title="{{ element.email }}">
+        <span>{{ element.email | checkNull }}</span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="companyLocationName">
+      <th mat-header-cell *matHeaderCellDef>COMPANY LOCATION</th>
+      <td mat-cell class="td-color-font" *matCellDef="let element">
+        {{ element.companyLocationName | checkNull }}
+      </td>
+    </ng-container>
+
+   
+    <ng-container matColumnDef="vehicles">
+      <th mat-header-cell *matHeaderCellDef>VEHICLES</th>
+      <td mat-cell *matCellDef="let element">
+        <span *ngIf="element.vehicleList.length > 1" class="td-color-font">
+          {{ element.vehicleList[0].modal+" ("+element.vehicleList[0].regNo + ") + "+ (element.vehicleList.length - 1)+"..." | checkNull }}
+        </span>
+        <span *ngIf="element.vehicleList.length == 1" class="td-color-font">
+          {{ element.vehicleList[0].modal+ " ("+element.vehicleList[0].regNo + ") " | checkNull }}
+        </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="created">
+      <th mat-header-cell *matHeaderCellDef>
+        <span [ngClass]="
+            isFilterApplied && filterForm.value.fromDate ? 'appliedFilter' : ''
+          ">REGISTRATION DATE
+        </span>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <span matTooltip="Filters applied" class="td-color-font" matTooltipPosition="below">{{
+          element.created | customDate
+        }}</span>
+      </td>
+    </ng-container>
+
+   
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef>ACTION</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-button [matMenuTriggerFor]="menu" class="btn-more-menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" xPosition="before">
+          <button mat-menu-item [routerLink]="['EDIT_EMPLOYEE' | absolutePath, element._id]">
+            <mat-icon matTooltip="Edit">edit</mat-icon> Edit
+          </button>
+          <button mat-menu-item [ngClass]="element.status === 'blocked' ? 'ban' : 'noban'" (click)="
+              changeStatus(
+                element.status === 'blocked' ? 'unblocked' : 'blocked',
+                element._id
+              )
+            ">
+            <mat-icon matTooltip="{{
+                element.status === 'blocked' ? 'Unblock' : 'Block'
+              }}">
+              {{ element.status === "blocked" ? "block" : "block" }}</mat-icon>
+            {{ element.status === "blocked" ? "un-block" : "Block" }}
+          </button>
+        </mat-menu>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+    </div>
+
+  <div class="white_wrapper" *ngIf="total === 0">
+    <h2 class="not-found">No Employee Found</h2>
+  </div>
+  <div class="white_wrapper" *ngIf="employees.data.length">
+    <mat-paginator [length]="total" [pageIndex]="page - 1" [pageSize]="pageSize" [pageSizeOptions]="pageOptions"
+      (page)="changePage($event)">
+    </mat-paginator>
+  </div>
+</div> -->
+<div class="main-content complete-align">
+  <div class="row">
+    <div class="col-12 col-lg-6 col-xl">
+      <ul class="breadcrumb">
+        <li>
+          <a href="#/admin/dashboard">Home</a>
+        </li>
+        <li>
+          <a href="javascript:void(0)" class="active">Employees</a>
+        </li>
+        <li>
+          <a href="javascript:void(0)" class="active">List</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="row" style="margin-top: 5px">
+    <div class="col-12 col-lg-6 col-xl">
+        <label  style="font-size: 25px !important;font-weight: 100 !important;">
+          Employees
+        </label>
+    </div>
+  </div>
+  <div class="row" style="margin-top: 10px">
+    <div class="col-12 col-lg-6 col-xl-7">
+      <div class="row">
+        <div class="col-12 col-lg-6 col-xl-2" >
+          <li>
+            <button mat-raised-button [routerLink]="'ADD_EMPLOYEE' | absolutePath" class="action_menu">
+              Add Employee
+            </button>
+          </li>
+        </div>
+        <div class="col-12 col-lg-6 col-xl-2" style="margin-left: 30px;" >
+          <li>
+            <button mat-raised-button [routerLink]="'ARCHIVED_EMPLOYEE' | absolutePath" class="action_menu">
+              Blocked
+            </button>
+          </li>
+        </div>
+        <div  class="col-12 col-lg-6 col-xl-3">
+          <li >
+            <button mat-raised-button color="primary" class="action_menu" [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>   Action
+            </button>
+    
+            <ul>
+              <mat-menu #menu="matMenu">
+                <li>
+                  <a href="assets/xls/EmployeeData.xls" class="csv-product">
+                    <button mat-raised-button color="primary">
+                      <mat-icon>arrow_downward</mat-icon> Download Sample XLS
+                    </button>
+                  </a>
+                </li>
+                <li>
+                  <button mat-raised-button color="primary" class="csv-product upload">
+                    <input type="file" #upload_csv (change)="uploadCSV($event)" accept=".xls," class="fileButton" />
+                    <mat-icon>cloud_upload</mat-icon> Upload XLS
+                  </button>
+                  <div class="uploadData">
+                    <label *ngIf="csvFileName">{{ csvFileName }}
+                      <span title="Remove File" (click)="removeCSV()">
+                        <img alt="Remove" src="assets/images/delete.svg" />
+                      </span>
+                    </label>
+                  </div>
+                </li>
+                <li>
+                  <a href="assets/xls/EmployeeData.xls" class="csv-product upload">
+                    <button mat-raised-button color="primary" (click)="downloadEmployee()">
+                      <mat-icon>cloud_download</mat-icon> Download Report
+                  </button>
+                  </a>
+                </li>
+              </mat-menu>
+    
+            </ul>
+          </li>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" style="margin-top: 10px">
+    <div class="col-12 col-lg-6 col-xl">
+
+      <div _ngcontent-vmx-c9="" class="white-card" style="padding-top: 2%;">
+        <div class="row">
+          <div class="col-12 col-lg-6 col-xl-4">
+            <app-date-filter [dateObject]="filterObject.registrationDate">
+            </app-date-filter>
+          </div>
+          <div class="col-12 col-lg-6 col-xl-2">
+            <app-dropdown-filter [dropdown]="filterObject.compLocationName"></app-dropdown-filter>
+          </div>
+          <div  class="col-12 col-lg-6 col-xl-1">
+            <button style="margin-left: 15%;" filter_btn mat-stroked-button [disabled]="disable()" (click)="resetFilter()">
+              Reset
+            </button>
+          </div>
+          <div  class="col-12 col-lg-6 col-xl-1">
+            <button filter_btn mat-raised-button color="primary" [disabled]="disable()" (click)="filter()">
+              Filter
+            </button>
+          </div>
+          <div class="col-12 col-lg-6 col-xl-4">
+            <div _ngcontent-vmx-c9="" class="table_search" style=" padding-right: 4%">
+              <div _ngcontent-vmx-c9="" class="table_search-box" >
+                <input _ngcontent-vmx-c9="" class="table_search-input" id="workersearch" #searchInput (keyup)="setSearch(searchInput.value)"  placeholder="Search" type="text">
+                <img _ngcontent-vmx-c9="" alt="search" class="table_search-icon" src="assets/images/search-24.png">
+              </div>   
+            </div> 
+          </div>
+
+        </div>
+    <table
+      mat-table
+      [dataSource]="employees"
+      matSort
+      (matSortChange)="sortData($event)"
+      class="mat-elevation-z8"
+      >
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef>#</th>
+        <td mat-cell *matCellDef="let element; let i = index">
+          {{ getSerialNumber(i + 1) }}
+        </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="empId">
+        <th mat-header-cell *matHeaderCellDef>EMPLOYEE ID</th>
+        <td mat-cell class="td-color-font" *matCellDef="let element">
+          <span class="td-text-wrap">{{ element.employeeId | checkNull }}</span>
+        </td>
+      </ng-container>
+  
+  
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>NAME</th>
+        <td mat-cell *matCellDef="let element">
+          <span class="view_details_dash td-text-wrap" [routerLink]="['EMPLOYEES' | absolutePath, element._id]">
+            {{ element.name | checkNull }}
+          </span>
+        </td>
+      </ng-container>
+  
+  
+  
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef>EMAIL</th>
+        <td mat-cell *matCellDef="let element" class="td-color-font" title="{{ element.email }}">
+          <span class="td-text-wrap">{{ element.email | checkNull }}</span>
+        </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="companyLocationName">
+        <th mat-header-cell *matHeaderCellDef>COMPANY LOCATION</th>
+        <td mat-cell class="td-color-font" *matCellDef="let element">
+          {{ element.companyLocationName | checkNull }}
+        </td>
+      </ng-container>
+  
+     
+      <ng-container matColumnDef="vehicles">
+        <th mat-header-cell *matHeaderCellDef>VEHICLES</th>
+        <td mat-cell *matCellDef="let element">
+          <span *ngIf="element.vehicleList.length > 1" class="td-color-font">
+            {{ element.vehicleList[0].modal+" ("+element.vehicleList[0].regNo + ") + "+ (element.vehicleList.length - 1)+"..." | checkNull }}
+          </span>
+          <span *ngIf="element.vehicleList.length == 1" class="td-color-font">
+            {{ element.vehicleList[0].modal+ " ("+element.vehicleList[0].regNo + ") " | checkNull }}
+          </span>
+        </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="created">
+        <th mat-header-cell *matHeaderCellDef>
+          <span [ngClass]="
+              isFilterApplied && filterForm.value.fromDate ? 'appliedFilter' : ''
+            ">REGISTRATION DATE
+          </span>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <span matTooltip="Filters applied" class="td-color-font" matTooltipPosition="below">{{
+            element.created | customDate
+          }}</span>
+        </td>
+      </ng-container>
+  
+     
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>ACTION</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-button [matMenuTriggerFor]="menu" class="btn-more-menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu" xPosition="before">
+            <button mat-menu-item [routerLink]="['EDIT_EMPLOYEE' | absolutePath, element._id]">
+              <mat-icon matTooltip="Edit">edit</mat-icon> Edit
+            </button>
+            <button mat-menu-item [ngClass]="element.status === 'blocked' ? 'ban' : 'noban'" (click)="
+                changeStatus(
+                  element.status === 'blocked' ? 'unblocked' : 'blocked',
+                  element._id
+                )
+              ">
+              <mat-icon matTooltip="{{
+                  element.status === 'blocked' ? 'Unblock' : 'Block'
+                }}">
+                {{ element.status === "blocked" ? "block" : "block" }}</mat-icon>
+              {{ element.status === "blocked" ? "un-block" : "Block" }}
+            </button>
+          </mat-menu>
+        </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+      </div>
+  
+    <div class="white_wrapper" *ngIf="total === 0">
+      <h2 class="not-found">No Employee Found</h2>
+    </div>
+    <div class="white_wrapper" *ngIf="employees.data.length">
+      <mat-paginator [length]="total" [pageIndex]="page - 1" [pageSize]="pageSize" [pageSizeOptions]="pageOptions"
+        (page)="changePage($event)">
+      </mat-paginator>
+    </div>
+  </div>
+  </div>
+</div>

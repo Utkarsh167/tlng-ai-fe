@@ -1,0 +1,278 @@
+<div class="header">
+  <h1 class="text-center header_text">ENTRY LOG</h1>
+</div>
+<div class="sub_header" id="regno">
+  <h1 class="text-center font_28px">{{datas.data.data.regNo}}</h1>
+  <hr class="line" />
+</div>
+
+<form [formGroup]="modalForm" #form="ngForm" id="form" (ngSubmit)="addManualEntry()" style="display: none;">
+
+  <div class="form_wrapper">
+
+
+    <div class="row">
+      <div class="row text-center">
+        <!-- <div class="flex_col_sm_5"> -->
+        <div class="form_filed_wrapper">
+          <mat-radio-group matInput aria-label="Select an option">
+            <mat-radio-button value="employee" (change)="radioChange($event)" style="margin-left: 20px;"
+              aria-selected="true">Employee</mat-radio-button>
+            <mat-radio-button value="guest" (change)="radioChange($event)" style="margin-left: 20px;"
+              aria-selected="true">Guest</mat-radio-button>
+
+          </mat-radio-group>
+
+        </div>
+
+
+      </div>
+    </div>
+
+    <div id="guest" style="display: none;">
+      <div class="row">
+
+        <div class="form_filed_wrapper">
+          <mat-form-field appearance="outline">
+            <mat-label>Guest Name</mat-label>
+            <input formControlName="name" matInput />
+            <!-- <mat-error>{{ getControl("name") | validate: "Name" }}
+            </mat-error> -->
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+
+        <div class="form_filed_wrapper">
+          <mat-form-field appearance="outline">
+            <mat-label>Phone Number</mat-label>
+            <input formControlName="mobile" matInput />
+            <!-- <mat-error>{{ getControl("mobile") | validate: "Phone Number" }}
+            </mat-error> -->
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="flex_row">
+
+        <div class="flex_col_sm_5">
+          <div class="form_filed_wrapper">
+            <mat-form-field appearance="outline">
+              <mat-label>Modal</mat-label>
+              <input formControlName="modal" matInput />
+              <!-- <mat-error>{{ getControl("modal") | validate: "Modal" }}
+            </mat-error> -->
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="flex_col_sm_5">
+
+          <div class="form_filed_wrapper">
+            <mat-form-field appearance="outline">
+              <mat-label>Reason For Visit</mat-label>
+              <input formControlName="reason" matInput />
+              <!-- <mat-error>{{ getControl("reason") | validate: "Reason" }}
+              </mat-error> -->
+            </mat-form-field>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="flex_row">
+
+        <div class="flex_col_sm_5">
+          <div class="form_filed_wrapper">
+            <mat-form-field appearance="outline">
+              <mat-label name="labelHolder">Vehicle Type</mat-label>
+              <mat-select name="vehicleType" class="form-control" formControlName="vehicleType"
+                placeholder="Vehicle Type" [ngClass]="selected">
+
+                <mat-option *ngFor="let type of carType" [value]="type.value">
+                  {{type.viewValue}}
+
+                </mat-option>
+              </mat-select>
+              <!-- <mat-error>{{getControl('vehicleType')|validate:'Vehicle Type'}}
+            </mat-error> -->
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="flex_col_sm_5">
+
+          <div class="form_filed_wrapper">
+            <!-- <mat-form-field appearance="outline">
+              <mat-label>Valid Till</mat-label>
+              <input formControlName="validtill" matInput />
+              <mat-error>{{ getControl("validtill") | validate: "Valid Till" }}
+              </mat-error>
+            </mat-form-field>
+          </div> -->
+
+            <mat-form-field appearance="outline">
+              <mat-label>Valid Till</mat-label>
+
+              <input matInput readonly formControlName="guestValidity" [min]="minDate" [owlDateTimeTrigger]="dt2"
+                [owlDateTime]="dt2">
+              <owl-date-time [pickerType]="'both'" [hour12Timer]="true" #dt2></owl-date-time>
+
+              <!-- <mat-error>{{ getControl("guestValidity") | validate: "Valid Till" }}
+            </mat-error> -->
+              <mat-error *ngIf="isUniqueMsg">{{ isUniqueMsg }}</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="flex-col-sm-10">
+        <div class="form_filed_wrapper text-center">
+          <ul class="btn_wrapper">
+            <li>
+              <button class="btn btn-primary" (click)="addManualEntry()" mat-raised-button type="button">
+                Skip
+              </button>
+            </li>
+            <li>
+              <button type="button"  (click)="addManualEntry()" mat-raised-button color="primary">
+                Add
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <div id="employee" style="display: none;">
+
+      <div class="row">
+
+        <div class="form_filed_wrapper">
+          <mat-form-field appearance="outline">
+            <mat-label>Employee ID</mat-label>
+
+            <input type="text" placeholder="Search by Employee ID" aria-label="Number" matInput
+              (ngModelChange)="searchEmp($event)" formControlName="employeeId" (selectionChange)="getData($event)"
+              [matAutocomplete]="auto">
+            <mat-error>{{getControl('employeeId')|validate:'Employee ID'}}</mat-error>
+          </mat-form-field>
+
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let option of employeeSearchData" [value]="option.employeeId">
+              {{option.employeeId}}
+            </mat-option>
+          </mat-autocomplete>
+
+          <span>{{empName?empName:''}}</span>
+
+        </div>
+      </div>
+
+      <div class="flex_row">
+
+        <div class="flex_col_sm_5">
+          
+            <mat-form-field appearance="outline">
+                <mat-label>Vehicle Type</mat-label>
+                <mat-select style="padding: 0% !important;" name="type" formControlName="vehicleType" placeholder="Company Location"
+                    [ngClass]="selected">
+                    <mat-option *ngFor="let type of carType" [value]="type.value">
+                        {{type.viewValue}}
+                    </mat-option>
+                </mat-select>
+                <!-- <mat-error>{{getControl('companyLocationName')|validate:'Company Location'}}
+                </mat-error> -->
+            </mat-form-field>
+
+
+          <!-- <div class="form_filed_wrapper">
+            <mat-form-field appearance="outline">
+              <mat-label name="labelHolder">Vehicle Type</mat-label>
+              <mat-select name="vehicleType" class="form-control" formControlName="vehicleType"
+                placeholder="Vehicle Type" [ngClass]="selected">
+
+                <mat-option *ngFor="let type of carType" [value]="type.value">
+                  {{type.viewValue}}
+
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div> -->
+        </div>
+        <div class="flex_col_sm_5">
+          <!-- <div class="form_filed_wrapper"> -->
+            <mat-form-field appearance="outline">
+              <mat-label>Model</mat-label>
+              <input formControlName="modal" matInput />
+              <!-- <mat-error>{{ getControl("modal") | validate: "Modal" }}
+            </mat-error> -->
+            </mat-form-field>
+          <!-- </div> -->
+        </div>
+
+      </div>
+
+
+
+      <div class="flex-col-sm-10">
+        <div class="form_filed_wrapper text-center">
+          <ul class="btn_wrapper">
+            <li>
+              <button class="btn btn-primary" (click)="addManualEntry()" mat-raised-button type="button">
+                Skip
+              </button>
+            </li>
+            <li>
+              <button type="button"  (click)="addManualEntry()" mat-raised-button color="primary">
+                Add
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</form>
+
+<div class="sub_header confirm_popup" id="done" style="display: none;">
+  <div class="confirm_popup text-center "><span class="font_20px"
+      *ngIf="datas.data.data.name">{{datas.data.data.name}}</span></div>
+  <div class="confirm_popup text-center "><span class="font_20px" *ngIf="datas.data.data.inTime">In Time:
+      {{datas.data.data.inTime}}</span></div>
+
+  <h1 class="text-center">
+    <mat-icon class="done">done</mat-icon>
+  </h1>
+
+  <div *ngIf="datas.data.event == socketEvents[0].value" class="confirm_popup text-center">
+    <h1 class="done_text">Whitelisted</h1>
+  </div>
+  <div *ngIf="datas.data.event != socketEvents[0].value" class="confirm_popup text-center">
+    <h1 class="done_text">{{datas.data.message}}</h1>
+  </div>
+
+</div>
+
+<div class="sub_header confirm_popup" id="cancel" style="display: none;">
+  <div class="confirm_popup text-center "><span class="font_20px"
+      *ngIf="datas.data.data.name">{{datas.data.data.name}}</span></div>
+  <div class="confirm_popup text-center "><span class="font_20px" *ngIf="datas.data.data.inTime">In Time:
+      {{datas.data.data.inTime}}</span></div>
+
+  <h1 class="text-center">
+    <mat-icon class="cancel">cancel</mat-icon>
+  </h1>
+
+  <div *ngIf="datas.data.event == socketEvents[1].value" class="confirm_popup text-center">
+    <h1 class="cancel_text">Blacklisted</h1>
+  </div>
+  <div *ngIf="datas.data.event != socketEvents[1].value" class="confirm_popup text-center">
+    <h1 class="cancel_text">{{datas.data.message}}</h1>
+  </div>
+
+
+</div>

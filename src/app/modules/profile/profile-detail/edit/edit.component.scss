@@ -1,0 +1,57 @@
+.flex_row {
+    flex-wrap: wrap;
+    position: relative;
+    align-items: flex-start;
+    .profileSlot {
+        margin: 10px 0;
+    }
+}
+
+.addMore {
+    right: -10px;
+    top: 10px;
+    cursor: pointer;
+    outline: none;
+    float: right;
+    background-color: #0069FF;
+    position: absolute;
+    padding: 5px 16px;
+    @media(max-width: 1300px) {
+        top: 10px;
+        padding: 5px 5px;
+    }
+}
+
+.form_wrapper {
+    position: relative;
+}
+
+.input-label {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.mat-checkbox {
+    display: block;
+}
+
+:host {
+     ::ng-deep {
+        .mat-expansion-panel-header {
+            .mat-button-wrapper {
+                img {
+                    width: 15px;
+                }
+            }
+        }
+        .mat-checkbox-layout {
+            margin: 5px 0;
+        }
+    }
+}
+
+button.mat-raised-button{
+    box-shadow:none !important;
+    border: 1px solid #0069FF !important;
+    min-width:104px !important;
+}

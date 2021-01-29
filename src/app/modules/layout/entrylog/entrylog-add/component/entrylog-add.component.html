@@ -1,0 +1,172 @@
+<div class="custom_container">
+    <form [formGroup]="driverForm" #form="ngForm" (ngSubmit)="submitForm()">
+        <div class="white_wrapper">
+            <h2 class="heading">Genral Information</h2>
+            <div class="flex_row">
+                <ul class="breadcrumb">
+                    <li>
+                        <a href="javascript:void(0)">Home</a>
+                    </li>
+                    <li>
+                        <a routerLink="/admin/entry-log/list">EntryLog</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" class="active">{{driverId?'Edit':'Add'}}</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="form_wrapper">
+
+
+                <div class="flex_row">
+                    <div class="flex_col_sm_5">
+                        <div class="form_filed_wrapper">
+                            <mat-form-field appearance="outline" [class.disabled]="driverId && formValue.regNo != undefined">
+                                <mat-label>No. Plate</mat-label>
+                                <input formControlName="regNo" matInput  [readonly]="driverId && formValue.regNo != undefined"/>
+                                <mat-error>{{ getControl("regNo") | validate: "No. Plate" }}
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <!-- <div class="flex_col_sm_5">
+                        <div class="form_filed_wrapper">
+                            <mat-form-field appearance="outline" [class.disabled]="driverId && formValue.vehicleType != undefined" >
+                                <mat-label>Vehicle Type</mat-label>
+                                <input formControlName="vehicleType" matInput [readonly]="driverId && formValue.vehicleType != undefined"/>
+                                <mat-error>{{ getControl("vehicleType") | validate: "Type" }}
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                    </div> -->
+
+                    <div class="flex_col_sm_5">
+                        <div class="form_filed_wrapper">
+                            <mat-form-field appearance="outline" [class.disabled]="driverId && formValue.vehicleType != undefined" >
+                                <mat-label name="labelHolder">Vehicle Type</mat-label>
+                                <mat-select name="vehicleType" class="form-control" formControlName="vehicleType" placeholder="Vehicle Type"
+                                    [ngClass]="selected" [disabled]="driverId && formValue.vehicleType != undefined">
+                                  
+                                    <mat-option *ngFor="let type of carType" [value]="type.value">
+                                        {{type.viewValue}}
+                                        
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error>{{getControl('vehicleType')|validate:'Vehicle Type'}}
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="flex_row">
+                    <div class="flex_col_sm_5">
+
+                        <div class="form_filed_wrapper">
+                            <mat-form-field appearance="outline" [class.disabled]="driverId && (formValue.modal != undefined && formValue.modal != '' )">
+                                <mat-label>Model</mat-label>
+                                <input formControlName="modal" matInput [readonly]="driverId && (formValue.modal != undefined && formValue.modal != '' )"/>
+                                <mat-error>{{ getControl("modal") | validate: "Modal" }}
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="flex_col_sm_5">
+                        <div class="form_filed_wrapper">
+                            <mat-form-field appearance="outline" [class.disabled]="driverId && (formValue.name != undefined && formValue.name != '' )">
+                                <mat-label>Username</mat-label>
+                                <input formControlName="name" matInput [readonly]="driverId && (formValue.name != undefined && formValue.name != '' )" />
+                                <mat-error>{{ getControl("Username") | validate: "Username" }}
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex_row" *ngIf="isvehicleId">
+                    <div class="flex_col_sm_5">
+                        <div class="form_filed_wrapper">
+                            <mat-form-field appearance="outline" [class.disabled]="driverId && formValue.visitorId != undefined">
+                                <mat-label>Visitor Id</mat-label>
+                                <input formControlName="visitorId" matInput [readonly]="driverId && formValue.visitorId != undefined" />
+                                <mat-error>{{ getControl("visitorId") | validate: "Visitor ID" }}
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                        <div class="flex_col_sm_5">
+                            <div class="form_filed_wrapper">
+                                <mat-form-field appearance="outline" [class.disabled]="driverId && formValue.purposeOfVisit != undefined">
+                                    <mat-label>Purpose of visit</mat-label>
+                                    <input formControlName="purposeOfVisit" matInput [readonly]="driverId && formValue.purposeOfVisit != undefined" />
+                                    <mat-error>{{ getControl("purposeOfVisit") | validate: "Purpose" }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                </div>
+
+                <div class="flex_row">
+                    <div class="flex_col_sm_5" *ngIf="formValue.guestValidity != undefined || vehicleInfoLength == 3">
+                        <div class="form_filed_wrapper">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Valid Till</mat-label>
+
+                                <input matInput readonly formControlName="guestValidity" [value]="driverForm.controls['guestValidity'].value | date:'medium'" [min]="minDate" [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2">
+                                <owl-date-time [startAt]="startAt"  [pickerType]="'both'" [hour12Timer]="true" #dt2></owl-date-time>
+
+                                <!-- <input formControlName="guestValidity" numberOnly matInput /> -->
+                                <!-- [readonly]="driverId" -->
+                                <mat-error>{{ getControl("guestValidity") | validate: "Valid Till" }}
+                                </mat-error>
+                                <mat-error *ngIf="isUniqueMsg">{{ isUniqueMsg }}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="flex_col_sm_5">
+                        <div class="form_filed_wrapper">
+                            <mat-form-field appearance="outline" [class.disabled]="driverId && formValue.entrytype != undefined">
+                                <mat-label>Entry Type</mat-label>
+                                <input formControlName="entrytype" matInput [readonly]="driverId && formValue.entrytype != undefined"/>
+                                <mat-error>{{ getControl("entrytype") | validate: "Entry Type" }}
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="white_wrapper">
+            <div class="flex-row">
+                <span class="alert-message">All fields are mandatory</span>
+            </div>
+            <div class="flex-row">
+                <div class="flex-col-sm-10">
+                    <div class="form_filed_wrapper text-center">
+                        <ul class="btn_wrapper">
+                            <li>
+                                <button mat-raised-button type="button" [routerLink]="'DRIVER' | absolutePath">
+                                    Cancel
+                                </button>
+                            </li>
+                            <li>
+                                <button mat-raised-button type="submit" color="primary">
+                                    {{ driverId ? "Update" : "Add" }}
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

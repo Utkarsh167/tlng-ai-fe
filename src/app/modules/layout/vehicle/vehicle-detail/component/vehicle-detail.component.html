@@ -1,0 +1,98 @@
+<div class="custom_container">
+    <div class="white_wrapper">
+        <h2 class="heading">Vehicle Detail</h2>
+
+        <div class="flex_row">
+            <ul class="breadcrumb">
+                <!-- <li>
+                    <a href="javascript:void(0)">Home</a>
+                </li> -->
+                <li>
+                    <a routerLink="/admin/vehicle/list">Vehicle /&nbsp;</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0)" class="active">Detail</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="form_wrapper" *ngIf="cab">
+            <div class="flex_row">
+                <div class="flex_col_sm_3">
+                    <div class="form_filed_wrapper_details">
+                        <label class="form_label">Model Name</label>
+                        <span class="show_label">{{cab.modal | checkNull}}</span>
+                    </div>
+                </div>
+
+                <div class="flex_col_sm_3">
+                    <div class="form_filed_wrapper_details">
+                        <label class="form_label">Number Plate</label>
+                        <span class="show_label">{{cab.regNo} | checkNull}</span>
+                    </div>
+                </div>
+
+                <div class="flex_col_sm_3">
+                    <div class="form_filed_wrapper_details">
+                        <label class="form_label">Vehicle Type</label>
+                        <span class="show_label">{{cab.vehicleType | checkNull}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex_row">
+                <div class="flex_col_sm_3">
+                    <div class="form_filed_wrapper_details">
+                        <label class="form_label">User Name</label>
+                        <span class="show_label">{{employee?.name | checkNull}}</span>
+                    </div>
+                </div>
+
+                <div class="flex_col_sm_3">
+                    <div class="form_filed_wrapper_details">
+                        <label class="form_label">User ID</label>
+                        <span class="show_label">{{employee?.employeeId | checkNull}}</span>
+                    </div>
+                </div>
+
+                <div class="flex_col_sm_3">
+                    <div class="form_filed_wrapper_details">
+                        <label class="form_label">Registration Date</label>
+                        <span class="show_label">{{cab.created | customDate | checkNull}}</span>
+                    </div>
+                </div>
+
+            </div>
+
+
+    
+
+
+
+            <div class="flex_row">
+                <div class="flex_col_sm_10">
+                    <div class="form_filed_wrapper_details text-center">
+                        <ul class="btn_wrapper">
+                            <li> 
+                                    <!-- <button mat-raised-button color="primary" (click)="changeStatus('deleted', cab._id, cab.driverMapped.length)">Archive</button> -->
+                                    <button mat-raised-button color="primary"
+                                    (click)="
+                                    changeStatus(
+                                        cab.status === 'blocked' ? 'unblocked' : 'blocked',
+                                        cab._id, cab.assigned?.length
+                                    )
+                                    ">
+                                  
+                                    {{ cab.status === "blocked" ? "un-block" : "Block" }}
+                                  </button>
+                                <button mat-raised-button [routerLink]="['EDIT_CAB'|absolutePath,cab._id]"
+                                    color="primary">Edit</button> 
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

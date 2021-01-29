@@ -1,0 +1,137 @@
+label.attach {
+    position: absolute;
+    right: 0px;
+    top: 10px;
+    z-index: 9;
+    cursor: pointer;
+    background: #fff;
+}
+
+// Added medical cab symbol background - Shivakumar
+.medical_cab_symbol {
+    background:  url("assets/images/medicalCab.png")  left / contain no-repeat;
+    white-space: nowrap;
+    background-position: 90% 50%; 
+  }
+  
+// Added medical_cab_symbol_option style - Shivakumar
+.medical_cab_symbol_option {
+    float: right; 
+    margin-top: 15px;
+}
+
+.upload_img {
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    position: relative;
+    margin: 0 auto;
+}
+
+.upload_img img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.upload-icon {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #606060;
+    padding: 5px 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px 6px 0 0;
+    color: #fff;
+    cursor: pointer;
+}
+
+.flex_row {
+    display: flex;
+    margin: 0 -10px;
+    align-items: center;
+}
+
+.breadcrumb {
+    width: 100%;
+    padding: 5px 15px;
+    li {
+        display: inline-block;
+        a {
+            color: #006CB8;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 400;
+            outline: none;
+            &:before {
+                padding: 0 5px;
+                color: #B7BEC1;
+                content: "/ ";
+            }
+            &:after {
+                content: "/\00a0";
+                padding: 0 2px;
+                color: #A2ABAE;
+            }
+            &.active {
+                color: rgb(38, 44, 45);
+                cursor: default;
+                &:after {
+                    display: none;
+                }
+            }
+        }
+        &:first-child,
+        &:last-child {
+            a {
+                &:before,
+                &:after {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+button.mat-raised-button{
+    box-shadow:none !important;
+    border: 1px solid #0069FF !important;
+    min-width:104px !important;
+}
+
+:host ::ng-deep{
+    .disabled {
+        opacity: 0.5;
+        cursor: initial;
+        .mat-form-field-flex:hover{
+            .mat-form-field-outline-start,
+            .mat-form-field-outline-end,
+            .mat-form-field-outline-gap{
+                border-width: 1px !important;
+                border-color: #e0e0e0 !important;
+            }
+        }
+    }
+}
+
+.sectionHeader {
+    background-color: whitesmoke;
+    margin-bottom: 40px; 
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+}
+
+.alignRight {
+    margin-left: auto;
+}
+
+.flex {
+    display: flex;
+}

@@ -1,0 +1,26 @@
+
+<h1 mat-dialog-title style="text-align: center">{{title}}</h1>
+<mat-dialog-content>
+  <div class="modal_message">
+    <p >{{message}} </p>
+    <div *ngIf="showTextBox" mat-dialog-actionst>
+      <h4 style="text-align:center ;margin-top: 20px;">Reason for This Action</h4>
+      <mat-form-field>
+        <textarea matInput placeholder="Type here.." [(ngModel)]="responseData.note" name="note"></textarea>
+      </mat-form-field>
+    </div>
+  </div>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-stroked-button *ngIf="showCancelButton" (click)="onNoClick()" class="modal-btn no">
+    {{no}}
+  </button>
+  <button mat-raised-button color="primary" 
+    [disabled]="(!responseData||!responseData.note||responseData.note.trim()=='') && showTextBox"
+    [mat-dialog-close]="responseData" (click)="confirm()" >
+    <!-- cdkFocusInitial -->
+    {{yes}}
+  </button>
+</mat-dialog-actions>
